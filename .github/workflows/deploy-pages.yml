@@ -28,6 +28,8 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+          # "off" publishes the first (illustrated) version; remove this line to publish the realistic scenes
+          SIENA_PLATES: "off"
       - run: touch out/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:
