@@ -94,11 +94,12 @@
   "internet": {
     "era": "The internet revolution",
     "year": "2000s",
-    "scene": "A 2000s office at night, same desk position. Floor-to-ceiling glass behind the desk with a city at night beyond, lights stretching to the horizon. On a light laminate desk: a silver flat LCD monitor at the centre showing a clean online store layout (no readable text), a slim keyboard, a silver flip phone on the right, a bank card on the left. Rich digital blue tones, the monitor the brightest light.",
+    "scene": "The same workplace as the attached 1990s image, about ten years later (early 2000s, around 2002–2004), late evening: the office has opened up to the city and the world. Keep the same desk position and seated camera. Architecture: the cubicles are lower and more open; behind the desk, floor-to-ceiling glass windows reveal a dense city at night — office towers with lit windows, streets of car lights, a distant airport beacon, lights stretching to the horizon; the room itself is dim, lit mostly by screens and a warm desk lamp. Left side (keep it darker and calm): a low credenza with a small silver DSL/cable router and network switch with blinking green lights and blue patch cables, a stack of CD-ROMs, a world wall clock row showing several time zones (numbers only, no city names readable). The desk: the same desk position, now a dark wood-veneer desk. In exactly the place where the beige CRT stood: a silver-and-black 17-inch flat LCD monitor on a stand, showing an early-2000s web browser window — a simple online store page with product photos in a grid, a blue header and a shopping cart area (all text illegible), in the style of early-2000s websites, not modern flat design. A second, smaller LCD or silver laptop (early-2000s ThinkPad-style) on the left of it showing an email inbox list. A black optical mouse with a cable, a black keyboard, a silver flip phone and a BlackBerry-style handheld, a printed airline e-ticket and a bank card beside the keyboard, a paper coffee cup. Continuity: the 1970s tape reel is gone; the Rolodex from the 1990s is pushed to the back, half-used. Lighting: cool blue city night outside and blue-white screen glow, one warm desk lamp; realistic, cinematic, period-correct early-2000s, not futuristic, no holograms, no floating graphics.",
     "references": [],
     "aspect": "16:9",
     "size": "2K",
-    "out": "internet.jpg"
+    "out": "internet.jpg",
+    "guide": ""
   },
   "cloud": {
     "era": "The cloud & mobile revolution",

@@ -72,6 +72,14 @@
       "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
       "candidate": "art/plates/candidates/computer-evolution/computer-1985-final.jpg",
       "approvedAt": "2026-09-30T12:54:35.526Z"
+    },
+    "enterprise": {
+      "file": "enterprise.jpg",
+      "era": "The enterprise revolution",
+      "year": "1990s",
+      "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
+      "candidate": "art/plates/candidates/enterprise/enterprise-final.jpg",
+      "approvedAt": "2026-09-30T13:01:12.363Z"
     }
   }
 }
