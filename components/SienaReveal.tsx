@@ -27,7 +27,8 @@ export function SienaReveal({ opening = false }: { opening?: boolean }) {
       const q = gsap.utils.selector(root);
       const portrait = window.matchMedia("(max-aspect-ratio: 1/1)").matches;
       const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
-      gsap.set([q("[data-k1]"), q("[data-k2]"), q("[data-line]"), q("[data-brand] > *"), q("[data-openword] > *")], { autoAlpha: 0 });
+      // one flat list: an empty nested group (no opening wordmark on the story page) breaks gsap.set
+      gsap.set(root.querySelectorAll("[data-k1], [data-k2], [data-line], [data-brand] > *, [data-openword] > *"), { autoAlpha: 0 });
       // opening: the S alone → the full SIENA logo → the S steps back behind "Centuries of business evolution"
       const O = opening ? 1.2 : 0;
       if (opening) {
