@@ -15,6 +15,8 @@ const REGIONS = {
   abbasid: { deskTop: 0.64, arch: { u0: 0.655, v1: 0.64 }, keep: [{ u0: 0.80, u1: 1.0, v0: 0.33, v1: 0.7 }] },
   // c. 1400 ledger room: no open city (the arch is walled in); keep the scales and the small window crisp-ish.
   ledger: { deskTop: 0.64, arch: { u0: 2, v1: 0 }, keep: [{ u0: 0.80, u1: 1.0, v0: 0.33, v1: 0.7 }] },
+  // 1930s paper office: the street through the big window (right) softens; the banker's lamp stays crisp.
+  paper: { deskTop: 0.64, arch: { u0: 0.76, v1: 0.52 }, keep: [{ u0: 0.66, u1: 0.84, v0: 0.3, v1: 0.7 }] },
 };
 
 const args = process.argv.slice(2);

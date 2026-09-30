@@ -32,6 +32,14 @@
       "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
       "candidate": "art/plates/candidates/centuries-accountbook/centuries-accountbook-final.jpg",
       "approvedAt": "2026-09-30T12:14:27.281Z"
+    },
+    "paper": {
+      "file": "paper.jpg",
+      "era": "The paper system",
+      "year": "1920s–1940s",
+      "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
+      "candidate": "art/plates/candidates/paper/paper-final.jpg",
+      "approvedAt": "2026-09-30T12:27:41.297Z"
     }
   }
 }

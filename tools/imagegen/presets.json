@@ -62,11 +62,12 @@
   "mechanical": {
     "era": "The mechanical office",
     "year": "1950s–1960s",
-    "scene": "A 1950s corporate office, same desk position. Venetian blinds on a window, a framed organisation chart on the wall, a wall clock, grey steel filing cabinets, typists at desks in the soft-focus background. On a steel-edged laminate desk: a dark green manual typewriter at the centre with a sheet of typed paper in the platen, a black rotary telephone on the right, an adding machine with a paper roll on the left, a small stack of punch cards. Muted industrial grey and brown, fluorescent office light.",
+    "scene": "The same workplace as the attached 1930s image, about twenty years later (late 1950s): a corporate accounts office in a modern mid-century office building. Keep the same desk position and seated camera. Architecture: the old wood panelling is gone — painted plaster walls in muted sage-grey, an acoustic tile ceiling with fluorescent tube lights; the big window on the right now has horizontal venetian blinds half open, soft daylight in slats; a framed organisation chart and a wall clock on the back wall; through an internal glazed partition in the background, soft-focus rows of typists at desks. Left side (keep it darker and calm): grey steel filing cabinets and a shelf of binders. The desk: the same large desk, now with a steel-edged laminate top in warm grey over the old wooden frame. In exactly the place where the ledger lay: a dark green manual typewriter with a half-typed sheet in the platen (text illegible). Around it: a black bakelite rotary telephone on the right, an adding machine with a paper roll, a small stack of punch cards, carbon-copy forms, an in/out wire tray, a desk lamp. Continuity: one brass object remains from the older eras — the small brass rubber-stamp holder or the brass base of the old lamp, pushed to the back. Lighting: cool fluorescent office light mixed with warm daylight through the blinds; muted grey, green and brown tones, lived-in, slightly worn, not clean.",
     "references": [],
     "aspect": "16:9",
     "size": "2K",
-    "out": "mechanical.jpg"
+    "out": "mechanical.jpg",
+    "guide": ""
   },
   "computer": {
     "era": "The computer revolution",
