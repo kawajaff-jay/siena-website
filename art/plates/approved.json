@@ -24,6 +24,14 @@
       "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
       "candidate": "art/plates/candidates/centuries-ledger/centuries-ledger-final.jpg",
       "approvedAt": "2026-09-30T11:50:23.323Z"
+    },
+    "centuries-accountbook": {
+      "file": "centuries-accountbook.jpg",
+      "era": "Late-Victorian counting office",
+      "year": "c. 1890",
+      "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
+      "candidate": "art/plates/candidates/centuries-accountbook/centuries-accountbook-final.jpg",
+      "approvedAt": "2026-09-30T12:14:27.281Z"
     }
   }
 }
