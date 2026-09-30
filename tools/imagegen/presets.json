@@ -1,0 +1,137 @@
+{
+  "abbasid": {
+    "era": "Abbasid Baghdad",
+    "year": "c. 850 CE",
+    "scene": "A wealthy Abbasid merchant's counting room in Baghdad at dusk, c. 850 CE. In the foreground, a large dark walnut desk with a warm polished sheen, worn edges and fine grain, reflecting candlelight. On the desk: an aged, torn-edged paper account sheet with ruled columns of handwritten Arabic-style entries and figures (abstract, illegible), a reed pen (qalam) beside it, a small dark-glass inkwell, polished brass balance scales standing on a carved wooden box, gold dinars and silver dirhams in small stacks and a scatter, a brass dish of coins, a rolled contract tied with rope, and a beeswax candle on a brass dish giving warm light. Behind the desk: warm limestone and fired-brick walls with carved stucco and a recessed niche of wooden shelves holding glazed ceramic jars, rolled scrolls and leather-bound codices; a pierced-brass lantern glowing on the wall; a carved wooden lattice screen; sacks and bales of trade goods. On the right, a great pointed arch opens onto a terrace and the city: the Tigris river with boats, a lantern-lit market with people, palms, and a skyline of domes and minarets under a violet-to-amber dusk sky. Warm candle and lantern light inside against the cool dusk outside; strong foreground-to-background depth; historically grounded, no fantasy architecture.",
+    "references": [
+      "art/reference/target-abbasid.png"
+    ],
+    "aspect": "16:9",
+    "size": "4K",
+    "out": "abbasid.jpg",
+    "guide": "art/calibration/abbasid-calibration.jpg"
+  },
+  "record": {
+    "era": "Abbasid Baghdad — the scribe's account",
+    "year": "c. 850 CE",
+    "scene": "Same hall, same desk, same framing as the previous image, slightly later in the evening. A scribe's hand in a simple linen sleeve holds a reed pen and is finishing a line of ink on the manuscript; the ink is still wet and glossy. Brass scales, dinars and dirhams, inkwell and candle exactly where they were. The market beyond the arch is quieter, lantern-lit.",
+    "references": [],
+    "aspect": "16:9",
+    "size": "4K",
+    "out": "record.jpg"
+  },
+  "centuries-ledger": {
+    "era": "Late medieval ledger",
+    "year": "c. 1400",
+    "scene": "The same desk position centuries later. The room is now plastered stone with a heavy timber beam; the arch has been partly walled in, leaving a smaller window. On the desk: a large leather-bound ledger lying open with ruled columns and handwritten entries (illegible), a quill, a brass candlestick, a few coins. Warm candlelight, parchment and umber tones.",
+    "references": [],
+    "aspect": "16:9",
+    "size": "2K",
+    "out": "centuries-ledger.jpg"
+  },
+  "centuries-printed": {
+    "era": "Eighteenth-century merchant",
+    "year": "c. 1750",
+    "scene": "The same desk position, eighteenth century. Panelled plaster walls, a multi-pane window with dusk light, a brass oil lamp. On the desk: a single printed merchant's document with blocks of type (illegible), a quill and inkstand, sealing wax, a pocket watch. Warm, soft, candle-and-lamp light.",
+    "references": [],
+    "aspect": "16:9",
+    "size": "2K",
+    "out": "centuries-printed.jpg"
+  },
+  "centuries-accountbook": {
+    "era": "Victorian counting house",
+    "year": "c. 1880",
+    "scene": "The same desk position, late nineteenth century counting house. Wood-panelled wainscot, a tall window, a gas lamp glowing on the wall. On the desk: an open account book with red and blue ruled columns and neat handwritten figures (illegible), a steel dip pen and inkwell, a blotter. Warm gaslight, sepia tones.",
+    "references": [],
+    "aspect": "16:9",
+    "size": "2K",
+    "out": "centuries-accountbook.jpg"
+  },
+  "paper": {
+    "era": "The paper system",
+    "year": "1920s–1940s",
+    "scene": "A 1920s accounts office, same desk position. Plaster wall above dark wood wainscoting, a tall multi-pane window with afternoon light, a wall clock, a wooden door with a frosted glass panel through which the silhouette of a manager in a hat can be seen, a tall wooden filing cabinet on the right with a clerk filing papers. On the oak desk: an open ledger, a green-shaded banker's lamp on the right, a stack of manila folders, invoices on a spike, a rubber stamp and ink pad, a fountain pen, a cash book. Amber, beige and dark-wood tones.",
+    "references": [],
+    "aspect": "16:9",
+    "size": "2K",
+    "out": "paper.jpg"
+  },
+  "mechanical": {
+    "era": "The mechanical office",
+    "year": "1950s–1960s",
+    "scene": "A 1950s corporate office, same desk position. Venetian blinds on a window, a framed organisation chart on the wall, a wall clock, grey steel filing cabinets, typists at desks in the soft-focus background. On a steel-edged laminate desk: a dark green manual typewriter at the centre with a sheet of typed paper in the platen, a black rotary telephone on the right, an adding machine with a paper roll on the left, a small stack of punch cards. Muted industrial grey and brown, fluorescent office light.",
+    "references": [],
+    "aspect": "16:9",
+    "size": "2K",
+    "out": "mechanical.jpg"
+  },
+  "computer": {
+    "era": "The computer revolution",
+    "year": "1970s–1980s",
+    "scene": "A 1970s computer room, same desk position. Behind the desk, a row of mainframe cabinets with reel-to-reel tape drives and small indicator lights; an operator in the background. On a dark laminate desk: a beige CRT terminal at the centre with glowing green text on a black screen, a mechanical keyboard, a stack of green-bar tractor-feed printout on the left, a reel of magnetic tape on the right. Dark industrial tones lit by the green CRT glow.",
+    "references": [
+      "art/reference/target-computer.png"
+    ],
+    "aspect": "16:9",
+    "size": "2K",
+    "out": "computer.jpg"
+  },
+  "enterprise": {
+    "era": "The enterprise revolution",
+    "year": "1990s",
+    "scene": "A 1990s corporate office, same desk position. Fabric cubicle partitions in grey-blue, a suspended ceiling with fluorescent panels, colleagues' heads visible over the partitions. On a grey laminate desk: a beige desktop PC with a CRT monitor at the centre showing a spreadsheet with a line chart, a beige tower on the right, a beige keyboard and ball mouse, a few 3.5-inch floppy disks, a coffee mug. Neutral corporate blue-grey light.",
+    "references": [],
+    "aspect": "16:9",
+    "size": "2K",
+    "out": "enterprise.jpg"
+  },
+  "internet": {
+    "era": "The internet revolution",
+    "year": "2000s",
+    "scene": "A 2000s office at night, same desk position. Floor-to-ceiling glass behind the desk with a city at night beyond, lights stretching to the horizon. On a light laminate desk: a silver flat LCD monitor at the centre showing a clean online store layout (no readable text), a slim keyboard, a silver flip phone on the right, a bank card on the left. Rich digital blue tones, the monitor the brightest light.",
+    "references": [],
+    "aspect": "16:9",
+    "size": "2K",
+    "out": "internet.jpg"
+  },
+  "cloud": {
+    "era": "The cloud & mobile revolution",
+    "year": "2010s",
+    "scene": "A bright modern workspace at blue hour, same desk position. Glass walls and pale wood. On a pale wooden desk: an open aluminium laptop at the centre showing a dashboard with charts (no readable text), a smartphone on the right showing an app, a tablet on the left showing a bar chart, a white coffee cup. Cyan, blue and white tones, soft screen light.",
+    "references": [],
+    "aspect": "16:9",
+    "size": "2K",
+    "out": "cloud.jpg"
+  },
+  "automation": {
+    "era": "The automation revolution",
+    "year": "2020–2025",
+    "scene": "A modern office late at night, same desk position. A dark desk crowded with devices: an open laptop at the centre, a second monitor, a phone with many notifications, sticky notes, cables; several glowing screens around the room showing different dashboards and apps. The feeling is busy and fragmented. Dark digital blue tones, screen-lit.",
+    "references": [],
+    "aspect": "16:9",
+    "size": "2K",
+    "out": "automation.jpg"
+  },
+  "ai": {
+    "era": "The AI revolution (SIENA)",
+    "year": "2026",
+    "scene": "The same desk position in a near-dark, minimal, premium room. The desk is now a single slab of black glass with a thin line of electric-blue light running along its back edge and a soft blue reflection on its surface. Nothing on the desk. Deep navy and black, faint architectural lines in the darkness, a subtle haze. Very minimal, very quiet, high-end technology company.",
+    "references": [
+      "art/reference/target-siena2026.png"
+    ],
+    "aspect": "16:9",
+    "size": "2K",
+    "out": "ai.jpg"
+  },
+  "autonomous": {
+    "era": "The autonomous business",
+    "year": "2030 and beyond",
+    "scene": "The same black glass desk and room, a little more light. A person in a dark, well-cut jacket stands to the right of the desk, seen from behind or in profile, reviewing a thin transparent glass display that glows soft blue; calm, confident, in control. Deep navy, black, electric-blue accents, clean white highlights. Elegant and believable, not sci-fi; no robots, no holograms.",
+    "references": [
+      "art/reference/target-siena2026.png"
+    ],
+    "aspect": "16:9",
+    "size": "2K",
+    "out": "autonomous.jpg"
+  }
+}

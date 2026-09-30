@@ -4,3 +4,12 @@ out
 *.tsbuildinfo
 next-env.d.ts
 .DS_Store
+
+# secrets — API keys live only here, never in the code
+.env
+.env.*
+!.env.example
+
+# image generation: unreviewed candidates and replaced plates stay local
+art/plates/candidates/
+art/plates/_superseded/

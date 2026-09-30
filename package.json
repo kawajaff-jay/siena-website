@@ -9,7 +9,9 @@
     "start": "npx serve out",
     "lint": "tsc --noEmit",
     "assets": "node scripts/build-brand-assets.mjs",
-    "plates": "node scripts/build-plates.mjs"
+    "plates": "node scripts/build-plates.mjs",
+    "imagegen": "node tools/imagegen/generate.mjs",
+    "imagegen:approve": "node tools/imagegen/approve.mjs"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
