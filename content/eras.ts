@@ -175,7 +175,7 @@ export const ERAS: Era[] = [
     title: "The Internet Revolution",
     statement: "Business became global.",
     keywords: ["Websites", "E-commerce", "Online banking", "CRM", "Digital marketing", "Global supply chains"],
-    weight: 1.2,
+    weight: 1.6,
     yearFrom: 2000,
     yearTo: 2009,
     palette: { sky: "#05112c", wall: "#0c2149", desk: "#1a2b4c", deskEdge: "#0a1224", light: "#5b95ff", accent: "#6aa4ff" },

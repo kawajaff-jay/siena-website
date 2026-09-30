@@ -104,11 +104,12 @@
   "cloud": {
     "era": "The cloud & mobile revolution",
     "year": "2010s",
-    "scene": "A bright modern workspace at blue hour, same desk position. Glass walls and pale wood. On a pale wooden desk: an open aluminium laptop at the centre showing a dashboard with charts (no readable text), a smartphone on the right showing an app, a tablet on the left showing a bar chart, a white coffee cup. Cyan, blue and white tones, soft screen light.",
+    "scene": "The same workplace as the attached 2007 image, a few years later (around 2011–2013), at blue hour: a bright, modern open workspace. Keep the same desk position and seated camera. Architecture: the glass wall and city remain behind the desk, now at dusk with a clearer cyan-blue sky; the room is lighter — pale wood, white surfaces, a plant, glass meeting room with colleagues on a video call in soft focus. Left side (keep it darker and calm): a low shelf with a wireless router and a small external cloud backup drive with a soft cyan light. The desk: a pale oak desk in the same position. In the centre where the monitor stood: a thin aluminium laptop open, showing a browser-based SaaS dashboard with simple charts and a sync status indicator (text illegible, early-2010s flat but restrained design, light background, not futuristic). Beside it: a tablet in a stand showing real-time sales charts, a touchscreen smartphone showing a synced calendar/notifications, white earphones, a coffee cup, one notebook — almost no paper. Continuity: the silver 2007 phone is gone; the Rolodex is gone; one small keepsake from earlier eras — the brass rubber stamp — on the shelf. Lighting: brighter cloud blue/cyan daylight at dusk plus clean screen glow; realistic, cinematic, period-correct 2011–2013; not a 2026 AI interface, no holograms.",
     "references": [],
     "aspect": "16:9",
     "size": "2K",
-    "out": "cloud.jpg"
+    "out": "cloud.jpg",
+    "guide": ""
   },
   "automation": {
     "era": "The automation revolution",

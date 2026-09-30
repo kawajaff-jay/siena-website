@@ -18,6 +18,8 @@ const REGIONS = {
   // 1930s paper office: the street through the big window (right) softens; the banker's lamp stays crisp.
   // 1950s mechanical office: slatted window light on the right; keep the lamp, adding machine and phone crisp.
   mechanical: { deskTop: 0.64, arch: { u0: 0.74, v1: 0.55 }, keep: [{ u0: 0.66, u1: 1.0, v0: 0.36, v1: 0.8 }] },
+  // 2000s internet office: city through the glass behind the desk softens; keep the LCD and phones crisp.
+  internet: { deskTop: 0.65, arch: { u0: 0.18, v1: 0.6 }, keep: [{ u0: 0.2, u1: 0.82, v0: 0.36, v1: 0.8 }] },
   paper: { deskTop: 0.64, arch: { u0: 0.76, v1: 0.52 }, keep: [{ u0: 0.66, u1: 0.84, v0: 0.3, v1: 0.7 }] },
 };
 
