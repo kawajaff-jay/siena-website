@@ -3,6 +3,7 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import { PLATES, type Plate } from "@/content/plates";
 import plateThreads from "@/content/plate-threads.json";
+import { asset } from "@/lib/asset";
 
 export type AvailablePlate = Plate & {
   /** main image used on the cinematic stage */
@@ -23,8 +24,8 @@ export function getAvailablePlates(): AvailablePlate[] {
   return PLATES.flatMap((p) => {
     const ext = has(`${p.id}.webp`) ? "webp" : has(`${p.id}.jpg`) ? "jpg" : null;
     if (!ext) return [];
-    const small = has(`${p.id}-1280.${ext}`) ? `/eras/${p.id}-1280.${ext}` : `/eras/${p.id}.${ext}`;
+    const small = has(`${p.id}-1280.${ext}`) ? asset(`/eras/${p.id}-1280.${ext}`) : asset(`/eras/${p.id}.${ext}`);
     const thread = (plateThreads as Record<string, string | undefined>)[p.id];
-    return [{ ...p, src: `/eras/${p.id}.${ext}`, small, avif: has(`${p.id}.avif`) && has(`${p.id}-1280.avif`), thread }];
+    return [{ ...p, src: asset(`/eras/${p.id}.${ext}`), small, avif: has(`${p.id}.avif`) && has(`${p.id}-1280.avif`), thread }];
   });
 }

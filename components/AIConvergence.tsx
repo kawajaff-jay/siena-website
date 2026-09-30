@@ -6,6 +6,7 @@
 import { AI_NODES, LOCKUP, SIENA_BLADE_LOWER, SIENA_BLADE_UPPER, SYMBOL } from "@/lib/geometry";
 import { AI_SYSTEMS } from "@/content/eras";
 import { NodePill } from "./SystemNodes";
+import { asset } from "@/lib/asset";
 
 export function AIConvergenceBackground() {
   return (
@@ -52,7 +53,7 @@ export function SienaLockup() {
     <g data-lockup>
       <g clipPath="url(#clip-lockup)">
         <image
-          href="/brand/siena-lockup.webp"
+          href={asset("/brand/siena-lockup.webp")}
           x={LOCKUP.x}
           y={LOCKUP.y}
           width={LOCKUP.w}

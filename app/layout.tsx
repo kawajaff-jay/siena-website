@@ -4,6 +4,7 @@ import "@fontsource-variable/sora/wght.css";
 import "@fontsource-variable/inter/wght.css";
 import { SITE } from "@/content/site";
 import "./globals.css";
+import { asset } from "@/lib/asset";
 
 
 export const metadata: Metadata = {
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "SIENA — The Evolution of Business Systems",
     description: "From paper. To software. To intelligence.",
-    images: [{ url: "/brand/og.jpg", width: 1200, height: 630, alt: "SIENA — AI Solutions & Systems" }],
+    images: [{ url: asset("/brand/og.jpg"), width: 1200, height: 630, alt: "SIENA — AI Solutions & Systems" }],
     type: "website",
   },
 };
