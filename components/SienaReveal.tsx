@@ -13,7 +13,8 @@ import { Particles } from "./Particles";
 
 const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
-export function SienaReveal() {
+/** opening: used as the first section of the page — starts on the symbol and the first line, with a scroll cue. */
+export function SienaReveal({ opening = false }: { opening?: boolean }) {
   const ref = useRef<HTMLElement>(null);
 
   useIsoLayoutEffect(() => {
@@ -27,8 +28,9 @@ export function SienaReveal() {
       const portrait = window.matchMedia("(max-aspect-ratio: 1/1)").matches;
       const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
       gsap.set([q("[data-k1]"), q("[data-k2]"), q("[data-line]"), q("[data-brand] > *")], { autoAlpha: 0 });
-      tl.fromTo(q("[data-halo]"), { scale: 0.85, autoAlpha: 0 }, { scale: 1, autoAlpha: 0.3, duration: 1 }, 0)
-        .fromTo(q("[data-k1]"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.6 }, 0.3)
+      tl.fromTo(q("[data-halo]"), opening ? { scale: 1, autoAlpha: 0.3 } : { scale: 0.85, autoAlpha: 0 }, { scale: 1, autoAlpha: 0.3, duration: 1 }, 0)
+        .fromTo(q("[data-k1]"), opening ? { autoAlpha: 1, y: 0 } : { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.6 }, 0.3)
+        .to(q("[data-cue]"), { autoAlpha: 0, duration: 0.4 }, 0.2)
         .to(q("[data-k1]"), { autoAlpha: 0, y: -24, duration: 0.5, ease: "power2.in" }, 1.4)
         .fromTo(q("[data-k2]"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.6 }, 1.8)
         .to(q("[data-k2]"), { autoAlpha: 0, y: -24, duration: 0.5, ease: "power2.in" }, 2.9)
@@ -45,10 +47,10 @@ export function SienaReveal() {
       return () => { st.kill(); tl.kill(); delete root.dataset.anim; };
     });
     return () => mm.revert();
-  }, []);
+  }, [opening]);
 
   return (
-    <section className="reveal" ref={ref} aria-labelledby="reveal-heading">
+    <section className="reveal" id={opening ? "top" : undefined} ref={ref} aria-labelledby="reveal-heading">
       <div className="reveal-track">
         <div className="reveal-stage">
           <Particles density={0.8} tone="blue" />
@@ -79,6 +81,12 @@ export function SienaReveal() {
               ))}
             </div>
           </div>
+          {opening && (
+            <div className="hero-cue reveal-cue" data-cue aria-hidden="true">
+              <span>Scroll</span>
+              <span className="hero-cue-line" />
+            </div>
+          )}
         </div>
       </div>
     </section>

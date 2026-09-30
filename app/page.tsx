@@ -1,5 +1,5 @@
 import { Header } from "@/components/Header";
-import { BrandIntro } from "@/components/BrandIntro";
+import { SienaReveal } from "@/components/SienaReveal";
 import { Solutions } from "@/components/Solutions";
 import { ContactCTA, Footer } from "@/components/ContactCTA";
 import { SceneDefs } from "@/components/scenes/common";
@@ -17,7 +17,7 @@ export default function Home() {
       </svg>
       <Header story={false} />
       <main>
-        <BrandIntro />
+        <SienaReveal opening />
         <Solutions />
         <ContactCTA />
       </main>
