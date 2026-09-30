@@ -1,5 +1,5 @@
 import { Header } from "@/components/Header";
-import { Hero } from "@/components/Hero";
+import { BrandIntro } from "@/components/BrandIntro";
 import { Solutions } from "@/components/Solutions";
 import { ContactCTA, Footer } from "@/components/ContactCTA";
 import { SceneDefs } from "@/components/scenes/common";
@@ -17,7 +17,7 @@ export default function Home() {
       </svg>
       <Header story={false} />
       <main>
-        <Hero story={false} />
+        <BrandIntro />
         <Solutions />
         <ContactCTA />
       </main>

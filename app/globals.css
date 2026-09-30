@@ -139,6 +139,16 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   }
 }
 
+/* home opening: logo → FROM PAPER. TO SOFTWARE. TO INTELLIGENCE. (BrandIntro, scroll-scrubbed) */
+.intro { position: relative; }
+.intro-inner { position: relative; display: grid; justify-items: center; gap: clamp(18px, 3vh, 30px); }
+.intro-logo { will-change: transform; }
+.intro-cue { display: none; }
+.intro[data-anim="on"] .intro-track { height: 280vh; height: 280svh; }
+.intro[data-anim="on"] .intro-stage { position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 0; }
+.intro[data-anim="on"] .intro-cue { display: grid; }
+.intro .hero-ctas { animation: none; }
+
 /* ═══════════════════════════════════════════════════════════════
    THE EVOLUTION
    ═══════════════════════════════════════════════════════════════ */
