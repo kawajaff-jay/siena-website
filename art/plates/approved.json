@@ -111,7 +111,23 @@
       "year": "c. 2007",
       "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
       "candidate": "art/plates/candidates/internet-evolution/internet-2007-final.jpg",
-      "approvedAt": "2026-09-30T13:26:30.198Z"
+      "approvedAt": "2026-09-30T13:41:58.874Z"
+    },
+    "cloud": {
+      "file": "cloud.jpg",
+      "era": "The cloud & mobile revolution",
+      "year": "c. 2011–2014",
+      "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
+      "candidate": "art/plates/candidates/cloud-evolution/cloud-final.jpg",
+      "approvedAt": "2026-09-30T13:41:58.925Z"
+    },
+    "cloud-2017": {
+      "file": "cloud-2017.jpg",
+      "era": "The cloud & mobile revolution",
+      "year": "c. 2017",
+      "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
+      "candidate": "art/plates/candidates/cloud-evolution/cloud-2017-final.jpg",
+      "approvedAt": "2026-09-30T13:41:58.964Z"
     }
   }
 }
