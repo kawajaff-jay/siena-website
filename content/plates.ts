@@ -47,8 +47,9 @@ export const PLATES: Plate[] = [
   { id: "internet-2005", era: "internet", at: 0.52, dissolve: 0.25, focus: "58% 55%", alt: "The same desk around 2005: an e-commerce site, online banking and a customer database on screen, a PDA beside the keyboard." },
   { id: "internet-2007", era: "internet", at: 0.74, dissolve: 0.25, focus: "58% 55%", alt: "The same desk around 2007: a slim LCD, laptop and early smartphone, online payments and global connections." },
   // the same desk through the 2010s (shown only once the files exist)
-  { id: "cloud-2014", era: "cloud", at: 0.4, dissolve: 0.25, focus: "58% 60%", alt: "The same desk around 2014: laptop, smartphone and tablet in sync, SaaS dashboards, a video call with remote colleagues." },
-  { id: "cloud-2017", era: "cloud", at: 0.55, dissolve: 0.25, focus: "58% 60%", alt: "The same desk around 2017: a large monitor with real-time analytics, laptop, tablet and phone all synced to the cloud." },
+  { id: "cloud-2012", era: "cloud", at: 0.25, dissolve: 0.22, focus: "58% 60%", alt: "The same desk around 2012: a first tablet and a smartphone beside the laptop, files syncing to cloud storage." },
+  { id: "cloud-2014", era: "cloud", at: 0.5, dissolve: 0.22, focus: "58% 60%", alt: "The same desk around 2014: SaaS apps, shared documents and a video call with remote colleagues across laptop, tablet and phone." },
+  { id: "cloud-2017", era: "cloud", at: 0.75, dissolve: 0.22, focus: "58% 60%", alt: "The same desk around 2017: a large monitor with real-time analytics, laptop, tablet and phone all synced to the cloud." },
   { id: "cloud", era: "cloud", at: 0, dissolve: 0.45, focus: "58% 60%", alt: "A 2010s workspace with a laptop, tablet and smartphone showing cloud dashboards." },
   { id: "automation", era: "automation", at: 0, focus: "58% 60%", alt: "A modern desk crowded with screens and a laptop, lit blue in a dark office." },
   { id: "ai", era: "ai", at: 0, focus: "58% 50%", alt: "A dark, minimal room with a black glass desk edged in electric-blue light." },

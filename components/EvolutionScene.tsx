@@ -12,7 +12,7 @@ import { AccountBook, Ledger, Manuscript, PrintedPage } from "./scenes/DocumentS
 import { PaperBackground, PaperObjects } from "./scenes/PaperArt";
 import { ComputerBackground, ComputerObjects, MechanicalBackground, MechanicalObjects } from "./scenes/MachineArt";
 import {
-  AutomationBackground, AutomationObjects, AutomationWindows, CloudBackground, CloudObjects,
+  AutomationBackground, AutomationObjects, CloudBackground, CloudObjects,
   EnterpriseBackground, EnterpriseObjects, InternetBackground, InternetGlobe, InternetObjects,
 } from "./scenes/DigitalArt";
 import { PLATE_RECT } from "@/content/plates";
@@ -20,6 +20,7 @@ import type { AvailablePlate } from "@/lib/plates.server";
 import { SystemNodes } from "./SystemNodes";
 import { AIConvergence, AIConvergenceBackground } from "./AIConvergence";
 import { FutureWorkflow } from "./FutureWorkflow";
+import { FragmentedSystems } from "./Fragmentation";
 import { Thread } from "./Thread";
 
 type EraId = (typeof ERAS)[number]["id"];
@@ -74,7 +75,7 @@ export const LAYERS: Layer[] = [
   { key: "obj-internet", from: "internet", to: "internet", node: <InternetObjects /> },
   { key: "obj-cloud", from: "cloud", to: "cloud", node: <CloudObjects /> },
   { key: "obj-automation", from: "automation", to: "automation", node: <AutomationObjects /> },
-  { key: "win-automation", from: "automation", to: "ai", custom: true, kind: "ui", vignette: ["automation"], node: <AutomationWindows /> },
+  { key: "win-automation", from: "automation", to: "ai", custom: true, kind: "ui", vignette: ["automation"], node: <FragmentedSystems /> },
   { key: "ai", from: "ai", to: "ai", custom: true, kind: "ui", vignette: ["ai"], node: <AIConvergence /> },
   { key: "flow", from: "autonomous", to: "autonomous", custom: true, kind: "ui", vignette: ["autonomous"], node: <FutureWorkflow /> },
   { key: "qalam", from: "abbasid", to: "record", custom: true, vignette: [], node: <Qalam /> },

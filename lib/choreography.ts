@@ -11,7 +11,7 @@ import { gsap } from "gsap";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import { ERAS, type Era } from "@/content/eras";
 import { AI_NODES, FLOW_NODES, LOCKUP, THREAD_PATHS } from "@/lib/geometry";
-import { WINDOW_LAYOUT } from "@/components/scenes/DigitalArt";
+import { FRAG_WINDOWS, W as FRAG_W, H as FRAG_H } from "@/components/Fragmentation";
 
 gsap.registerPlugin(MotionPathPlugin);
 
@@ -44,7 +44,7 @@ const paletteVars = (e: Era) => ({
 });
 
 /** When (as a fraction of the chapter) the thread morphs into this chapter's shape. */
-const THREAD_AT: Record<string, number> = { ai: 0.36, record: 0 };
+const THREAD_AT: Record<string, number> = { ai: 0.52, record: 0 };
 
 export function buildEvolutionTimeline(root: HTMLElement, { lite = false, plateEras = new Set<string>() }: { lite?: boolean; plateEras?: Set<string> } = {}) {
   const q = (sel: string) => Array.from(root.querySelectorAll(sel));
@@ -372,23 +372,45 @@ const extras: Record<string, (c: Ctx) => void> = {
   },
 
   automation({ tl, one, q, ch }) {
+    // 2020 → 2025: platforms arrive in three waves (≈2021, ≈2023, ≈2025) — each useful alone, together fragmented
+    const s = ch.start;
     const layer = one('[data-layer="win-automation"]');
-    const wins = q("[data-window]");
-    tl.to(layer, { autoAlpha: 1, duration: 0.1 }, ch.start);
-    gsap.set(wins, { autoAlpha: 0 });
+    const wins = q("[data-fwin]") as HTMLElement[];
+    const links = q("[data-frag-links] path") as HTMLElement[];
+    const badges = q("[data-frag] [data-badge]") as HTMLElement[];
+    const alerts = q("[data-alert]") as HTMLElement[];
+    const wave = (els: HTMLElement[], n: number) => els.filter((e) => e.dataset.wave === String(n));
+    gsap.set([...wins, ...links, ...badges, ...alerts], { autoAlpha: 0 });
+    // the windows arrive only once the 2010s plate has fully dissolved (keeps 2019→2020 clean)
+    tl.to(layer, { autoAlpha: 1, duration: 0.05 }, s + 0.22);
+    const pop = (els: HTMLElement[], at: number, stagger: number) =>
+      els.forEach((w, i) =>
+        tl.fromTo(w, { autoAlpha: 0, scale: 0.9, transformOrigin: "50% 50%" }, { autoAlpha: 1, scale: 1, duration: 0.16, ease: "power2.out", immediateRender: false }, at + i * stagger),
+      );
+    const WAVE = [0, s + 0.3, s + 0.78, s + 1.22];
+    pop(wave(wins, 1), WAVE[1], 0.07);
+    pop(wave(wins, 2), WAVE[2], 0.06);
+    tl.to(wave(links, 2), { autoAlpha: 1, duration: 0.2, stagger: 0.04 }, WAVE[2] + 0.2);
+    tl.to(wave(badges, 2), { autoAlpha: 1, duration: 0.12, stagger: 0.03 }, WAVE[2] + 0.28);
+    tl.to(wave(alerts, 2), { autoAlpha: 1, duration: 0.14 }, WAVE[2] + 0.34);
+    pop(wave(wins, 3), WAVE[3], 0.07);
+    tl.to(wave(links, 3), { autoAlpha: 1, duration: 0.18, stagger: 0.04 }, WAVE[3] + 0.12);
+    tl.to(wave(badges, 3), { autoAlpha: 1, duration: 0.12, stagger: 0.03 }, WAVE[3] + 0.18);
+    tl.to(wave(alerts, 3), { autoAlpha: 1, duration: 0.14, stagger: 0.06 }, WAVE[3] + 0.24);
+    // a slight restless drift while the 2025 frame holds
     wins.forEach((w, i) => {
-      tl.fromTo(w, { autoAlpha: 0, scale: 0.86, transformOrigin: "50% 50%" }, { autoAlpha: 1, scale: 1, duration: 0.18, ease: "back.out(1.6)", immediateRender: false }, ch.start + 0.12 + i * 0.07);
-    });
-    // clutter tension: windows drift and jostle
-    wins.forEach((w, i) => {
-      tl.to(w, { x: i % 2 ? 10 : -10, y: i % 3 ? -8 : 8, duration: ch.w * 0.5, ease: "sine.inOut" }, ch.start + ch.w * 0.45);
+      tl.to(w, { x: i % 2 ? 7 : -7, y: i % 3 ? -5 : 5, duration: ch.w - 1.3, ease: "sine.inOut" }, s + 1.3);
     });
   },
-
   ai({ tl, one, q, ch }) {
+    // 2026: the same fragmented windows are cleaned up and converge into one intelligent architecture → SIENA
     const camera = one("[data-camera]");
     const layer = one('[data-layer="ai"]');
-    const wins = q("[data-window]");
+    const wins = q("[data-fwin]") as HTMLElement[];
+    const links = q("[data-frag-links] path") as SVGPathElement[];
+    const noise = q("[data-frag] [data-badge], [data-alert]");
+    const fills = q("[data-frag] [data-accent='fill']");
+    const strokes = q("[data-frag] [data-accent='stroke']");
     const lines = q("[data-ai-lines] path");
     const nodes = q("[data-ai-nodes] [data-node]");
     const blades = one("[data-blades]");
@@ -397,10 +419,12 @@ const extras: Record<string, (c: Ctx) => void> = {
     const core = one("[data-thread]");
     const glow = one("[data-thread-glow]");
     const s = ch.start;
+    const S = s + ch.w * (THREAD_AT.ai ?? 0.5); // the moment the thread begins to trace the SIENA symbol
+    const BLUE = "#2f7bff";
 
     const particles = document.querySelector(".evo-particles");
     gsap.set(particles, { autoAlpha: 0 });
-    tl.to(particles, { autoAlpha: 1, duration: 0.6 }, s + 0.3);
+    tl.to(particles, { autoAlpha: 1, duration: 0.6 }, s + 1.2);
 
     gsap.set(lines, { drawSVG: "0%" });
     gsap.set(nodes, { autoAlpha: 0, scale: 0.6, transformOrigin: "50% 50%" });
@@ -409,29 +433,50 @@ const extras: Record<string, (c: Ctx) => void> = {
     gsap.set(clip, { attr: { height: LOCKUP.wordmarkTop - LOCKUP.y } });
 
     // centre the brand in frame
-    tl.to(camera, { x: -160, duration: 0.6, ease: "power2.inOut" }, s);
-    tl.to(one(".evo-scrim"), { opacity: 0.25, duration: 0.6 }, s);
-    tl.to(layer, { autoAlpha: 1, duration: 0.2 }, s + 0.05);
+    tl.to(camera, { x: -160, duration: 0.8, ease: "power2.inOut" }, s);
+    tl.to(one(".evo-scrim"), { opacity: 0.25, duration: 0.8 }, s);
+    tl.to(layer, { autoAlpha: 1, duration: 0.2 }, s + 0.9);
 
-    // 1 · every separate app flies into its system node
-    wins.forEach((w, i) => {
-      const [x, y] = WINDOW_LAYOUT[i];
-      const n = AI_NODES[i % AI_NODES.length];
-      tl.to(w, { x: n.x - (x + 100), y: n.y - (y + 62), scale: 0.18, autoAlpha: 0, duration: 0.42, ease: "power2.in" }, s + 0.08 + i * 0.025);
+    // 1 · the noise goes: notifications and alerts fade, duplicates disappear
+    tl.to(noise, { autoAlpha: 0, duration: 0.22, stagger: 0.015 }, s + 0.05);
+    wins.forEach((w) => {
+      if (w.dataset.dup === undefined) return;
+      tl.to(w, { autoAlpha: 0, scale: 0.8, duration: 0.3, ease: "power2.in" }, s + 0.12);
     });
-    nodes.forEach((n, i) => tl.to(n, { autoAlpha: 1, scale: 1, duration: 0.2, ease: "back.out(1.7)" }, s + 0.34 + i * 0.03));
+    tl.to(links.filter((l) => l.dataset.broken !== undefined), { autoAlpha: 0, duration: 0.2 }, s + 0.15);
 
-    // 2 · lines converge into one intelligence
-    tl.to(lines, { drawSVG: "100%", duration: 0.34, stagger: 0.035, ease: "power2.inOut" }, s + 0.5);
+    // 2 · workflow lines straighten, colours drain into SIENA blue
+    const good = links.filter((l) => l.dataset.broken === undefined);
+    good.forEach((l, i) => tl.to(l, { morphSVG: l.dataset.straight!, duration: 0.4, ease: "power2.inOut" }, s + 0.2 + i * 0.03));
+    tl.set(good, { attr: { "stroke-dasharray": "none" } }, s + 0.35);
+    tl.to(good, { stroke: BLUE, strokeOpacity: 0.8, duration: 0.3 }, s + 0.3);
+    tl.to(fills, { fill: BLUE, duration: 0.5, ease: "none" }, s + 0.3);
+    tl.to(strokes, { stroke: BLUE, duration: 0.5, ease: "none" }, s + 0.3);
 
-    // 3 · the thread (generic morph at 36%) becomes the SIENA symbol; fill forms; real logo resolves on top
-    tl.to(blades, { autoAlpha: 1, duration: 0.25 }, s + ch.w * 0.36 + 0.5);
-    tl.to(lockup, { autoAlpha: 1, duration: 0.35 }, s + ch.w * 0.36 + 0.62);
-    tl.to(blades, { autoAlpha: 0, duration: 0.25 }, s + ch.w * 0.36 + 0.85);
-    tl.to([core, glow], { opacity: 0, duration: 0.3 }, s + ch.w * 0.36 + 0.8);
-    tl.to([...lines, ...nodes], { opacity: 0.22, duration: 0.3 }, s + ch.w * 0.36 + 0.8);
+    // 3 · each system glides to its department, then folds into it
+    wins.forEach((w, i) => {
+      if (w.dataset.dup !== undefined) return;
+      const f = FRAG_WINDOWS[i];
+      const n = AI_NODES[f.node];
+      const dx = n.x - (f.x + FRAG_W / 2);
+      const dy = n.y - (f.y + FRAG_H / 2);
+      tl.to(w, { x: dx * 0.55, y: dy * 0.55, rotation: 0, scale: 0.62, transformOrigin: "50% 50%", duration: 0.4, ease: "power2.inOut" }, s + 0.55 + i * 0.02);
+      tl.to(w, { x: dx, y: dy, scale: 0.16, autoAlpha: 0, duration: 0.3, ease: "power2.in" }, s + 0.98 + i * 0.02);
+    });
+    tl.to(good, { autoAlpha: 0, duration: 0.25 }, s + 0.95);
+    nodes.forEach((n, i) => tl.to(n, { autoAlpha: 1, scale: 1, duration: 0.2, ease: "back.out(1.7)" }, s + 1.08 + i * 0.03));
 
-    // 4 · SIENA — AI SOLUTIONS & SYSTEMS
+    // 4 · every department feeds one intelligent architecture
+    tl.to(lines, { drawSVG: "100%", duration: 0.36, stagger: 0.035, ease: "power2.inOut" }, s + 1.3);
+
+    // 5 · the lines resolve into the SIENA symbol; the OFFICIAL logo asset takes its place
+    tl.to(blades, { autoAlpha: 1, duration: 0.25 }, S + 0.45);
+    tl.to(lockup, { autoAlpha: 1, duration: 0.35 }, S + 0.58);
+    tl.to(blades, { autoAlpha: 0, duration: 0.25 }, S + 0.85);
+    tl.to([core, glow], { opacity: 0, duration: 0.3 }, S + 0.8);
+    tl.to([...lines, ...nodes], { opacity: 0.22, duration: 0.3 }, S + 0.8);
+
+    // 6 · SIENA — AI SOLUTIONS & SYSTEMS
     tl.to(clip, { attr: { height: LOCKUP.h }, duration: 0.35, ease: "power2.out" }, s + ch.w * 0.8);
   },
 
