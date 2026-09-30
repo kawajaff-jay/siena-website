@@ -135,6 +135,18 @@ export function InternetGlobe() {
           <path d="M-60 120 Q60 20 230 -40" />
           <path d="M40 -160 Q120 -40 90 150" />
         </g>
+        {/* by 2007 the network is denser: more routes light up, and data pulses travel along them */}
+        <g fill="none" stroke="#a9d0ff" strokeWidth="1.3" strokeOpacity="0.75" data-arcs-late>
+          <path d="M-250 -10 Q-120 -200 60 -170" />
+          <path d="M-120 170 Q40 60 250 90" />
+          <path d="M150 -180 Q260 -60 230 -40" />
+          <path d="M-200 -120 Q-60 -40 10 -20" />
+          <path d="M10 -20 Q150 60 90 150" />
+          <path d="M-270 110 Q-150 -10 -60 120" />
+        </g>
+        <g fill="#e2efff" data-pulses>
+          {[0, 1, 2, 3].map((i) => <circle key={i} r="3.5" opacity="0" />)}
+        </g>
         <g fill="#cfe2ff">
           {[[-160, -60], [120, -90], [-220, 60], [200, 40], [-60, 120], [230, -40], [40, -160], [90, 150], [10, -20]].map(([x, y]) => (
             <circle key={`${x}${y}`} cx={x} cy={y} r="4" />

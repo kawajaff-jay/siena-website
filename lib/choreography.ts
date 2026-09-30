@@ -349,6 +349,21 @@ const extras: Record<string, (c: Ctx) => void> = {
     const arcs = q("[data-arcs] path");
     gsap.set(arcs, { drawSVG: "0%" });
     tl.to(arcs, { drawSVG: "100%", duration: 0.4, stagger: 0.12 }, ch.start + 0.3);
+    // c. 2007: the network gets denser — more routes, brighter globe, data pulses along the lines
+    const late = q("[data-arcs-late] path") as SVGPathElement[];
+    const at07 = ch.start + ch.w * 0.72;
+    if (late.length) {
+      gsap.set(late, { drawSVG: "0%" });
+      tl.to(late, { drawSVG: "100%", duration: 0.3, stagger: 0.05, ease: "power1.inOut" }, at07);
+      const globe = one("[data-globe]")?.parentElement;
+      if (globe) tl.to(globe, { opacity: 0.8, duration: 0.3 }, at07);
+      const pulses = q("[data-pulses] circle");
+      pulses.forEach((c, i) => {
+        const path = late[i % late.length];
+        tl.set(c, { opacity: 1 }, at07 + 0.25);
+        tl.to(c, { motionPath: { path, align: path, alignOrigin: [0.5, 0.5] }, duration: ch.w * 0.2, ease: "none" }, at07 + 0.25 + i * 0.03);
+      });
+    }
   },
 
   cloud({ tl, q, ch }) {

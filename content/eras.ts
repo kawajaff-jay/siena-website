@@ -190,7 +190,7 @@ export const ERAS: Era[] = [
     title: "The Cloud & Mobile Revolution",
     statement: "Business became connected everywhere.",
     keywords: ["Smartphones", "SaaS", "Cloud storage", "APIs", "Real-time analytics"],
-    weight: 1.1,
+    weight: 1.5,
     yearFrom: 2010,
     yearTo: 2019,
     palette: { sky: "#051a2b", wall: "#0b2f47", desk: "#172c3e", deskEdge: "#08131d", light: "#95ecff", accent: "#7fe3ff" },
