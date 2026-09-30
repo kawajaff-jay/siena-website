@@ -1,7 +1,7 @@
 import { NAV } from "@/content/site";
 import { BrandLogo } from "./BrandLogo";
 
-export function Header() {
+export function Header({ story = true }: { story?: boolean }) {
   return (
     <header className="site-header">
       <a href="#top" className="site-brand" aria-label="SIENA — back to top">
@@ -10,7 +10,7 @@ export function Header() {
       </a>
       <nav aria-label="Primary">
         <ul className="site-nav">
-          {NAV.map((n) => (
+          {NAV.filter((n) => story || n.href !== "#evolution").map((n) => (
             <li key={n.href}>
               <a href={n.href}>{n.label}</a>
             </li>

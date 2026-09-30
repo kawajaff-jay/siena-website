@@ -102,6 +102,9 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   font-size: clamp(1.9rem, 4.6vw, 4.4rem); line-height: 1.04; letter-spacing: 0.06em; color: var(--white);
   max-width: 16ch; text-wrap: balance;
 }
+.hero-title--lines { display: grid; justify-items: center; max-width: none; }
+.hero-title--lines .reveal-hl { color: var(--blue, #2f7bff); font-weight: 400; }
+.hero-ctas { margin-top: 10px; animation: rise 1.4s 0.5s var(--ease) both; }
 .hero-lead { font-size: clamp(1rem, 1.4vw, 1.2rem); color: var(--blue-soft); letter-spacing: 0.02em; }
 .hero-cue {
   position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
