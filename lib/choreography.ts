@@ -106,7 +106,20 @@ export function buildEvolutionTimeline(root: HTMLElement, { lite = false, plateE
     if (!prev) { if (st.el) gsap.set(st.el, { autoAlpha: 1 }); return; }
     if (prev.el === st.el) return;
     const at = Math.max(0, st.t - st.d / 2);
-    if (st.el) tl.fromTo(st.el, { autoAlpha: 0 }, { autoAlpha: 1, duration: st.d, ease: "power1.inOut", immediateRender: false }, at);
+    if (st.el && st.el.dataset.reveal === "top-down") {
+      // a soft band travels down the frame: the room changes first, the desk objects last
+      const a = st.el.querySelector("[data-reveal-a]");
+      const b = st.el.querySelector("[data-reveal-b]");
+      const BAND = 0.42;
+      const band = { p: -BAND };
+      const apply = () => {
+        a?.setAttribute("offset", String(Math.min(1, Math.max(0, band.p))));
+        b?.setAttribute("offset", String(Math.min(1, Math.max(0, band.p + BAND))));
+      };
+      apply();
+      tl.set(st.el, { autoAlpha: 1 }, at);
+      tl.fromTo(band, { p: -BAND }, { p: 1, duration: st.d, ease: "sine.inOut", immediateRender: false, onUpdate: apply }, at);
+    } else if (st.el) tl.fromTo(st.el, { autoAlpha: 0 }, { autoAlpha: 1, duration: st.d, ease: "power1.inOut", immediateRender: false }, at);
     if (prev.el) {
       if (st.el) tl.set(prev.el, { autoAlpha: 0 }, at + st.d);
       else tl.to(prev.el, { autoAlpha: 0, duration: st.d, ease: "power1.inOut" }, at);
@@ -150,7 +163,7 @@ export function buildEvolutionTimeline(root: HTMLElement, { lite = false, plateE
     tl.from(kws, { autoAlpha: 0, y: 12, stagger: 0.035, duration: 0.2, ease: "power2.out", immediateRender: false }, inAt + 0.14);
     if (lead) tl.from(lead, { autoAlpha: 0, duration: 0.25, immediateRender: false }, inAt + 0.2);
     beats.forEach((b, i) => {
-      const at = c.start + c.w * (0.5 + i * 0.15);
+      const at = c.start + c.w * (c.era.beatAt?.[i] ?? 0.5 + i * 0.15);
       tl.to(statement, { autoAlpha: 0.28, duration: 0.2 }, at);
       tl.to(b, { autoAlpha: 1, y: 0, duration: 0.28, ease: "power2.out" }, at + 0.06);
     });
@@ -172,7 +185,10 @@ export function buildEvolutionTimeline(root: HTMLElement, { lite = false, plateE
       const d = plateThread(p);
       const at = Number(p.dataset.at);
       if (!d) { if (k === 0) targets.push(fallback); return; }
-      targets.push({ t: c.start + (at === 0 ? c.w * 0.04 : at * c.w), d, dur: 0.4 });
+      // the line re-forms as the desk part of the plate arrives (late in a slow dissolve)
+      const dis = Number(p.dataset.dissolve) || 0.35;
+      const slow = p.dataset.reveal === "top-down";
+      targets.push({ t: c.start + (at === 0 ? c.w * 0.04 : at * c.w + (slow ? dis * 0.1 : 0)), d, dur: slow ? dis * 0.45 : 0.4 });
     });
   });
   if (targets[0]?.d) { core.setAttribute("d", targets[0].d); glow.setAttribute("d", targets[0].d); }
@@ -204,7 +220,13 @@ export function buildEvolutionTimeline(root: HTMLElement, { lite = false, plateE
   const counter = { y: ERAS[0].yearFrom };
   CH.forEach((c) => {
     tl.set(counter, { y: c.era.yearFrom }, c.start);
-    if (c.era.yearTo !== c.era.yearFrom) tl.to(counter, { y: c.era.yearTo, duration: c.w, ease: c.era.id === "centuries" ? "power2.in" : "none" }, c.start);
+    const keys = c.era.yearKeys;
+    if (keys?.length) {
+      keys.slice(1).forEach(([f, y], i) => {
+        const [f0, y0] = keys[i];
+        if (y !== y0) tl.to(counter, { y, duration: (f - f0) * c.w, ease: "sine.inOut" }, c.start + f0 * c.w);
+      });
+    } else if (c.era.yearTo !== c.era.yearFrom) tl.to(counter, { y: c.era.yearTo, duration: c.w, ease: "none" }, c.start);
   });
   let lastYear = -1;
   let lastActive = -1;

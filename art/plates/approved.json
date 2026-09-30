@@ -16,6 +16,14 @@
       "candidate": "art/plates/candidates/abbasid/abbasid-final.jpg",
       "approvedAt": "2026-09-30T11:11:23.230Z",
       "note": "Same approved image as abbasid: the scribe's-account chapter stays in the same room while the ink line is written."
+    },
+    "centuries-ledger": {
+      "file": "centuries-ledger.jpg",
+      "era": "Late Medieval Ledger System",
+      "year": "c. 1400",
+      "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
+      "candidate": "art/plates/candidates/centuries-ledger/centuries-ledger-final.jpg",
+      "approvedAt": "2026-09-30T11:50:23.323Z"
     }
   }
 }

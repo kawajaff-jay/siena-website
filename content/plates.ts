@@ -18,6 +18,9 @@ export type Plate = {
   at: number;
   /** cross-dissolve length in chapter-weight units (default 0.35) */
   dissolve?: number;
+  /** "top-down": the new plate is revealed through a soft band moving down the frame, so the room
+   *  changes first and the desk objects last (the previous plate's desk stays visible a little longer) */
+  reveal?: "top-down";
   /** long edge the optimiser outputs (the prologue needs more pixels because the camera starts zoomed in) */
   width?: number;
   /** object-position used when the plate is cropped for mobile */
@@ -28,9 +31,9 @@ export type Plate = {
 export const PLATES: Plate[] = [
   { id: "abbasid", era: "abbasid", at: 0, width: 3840, focus: "60% 60%", alt: "A scribe’s desk in an Abbasid-era hall at dusk; through a pointed arch, a Baghdad market and a caravan on the horizon." },
   { id: "record", era: "record", at: 0.12, width: 3840, focus: "58% 75%", alt: "A reed pen completes a line of ink on a paper manuscript beside brass scales, dinars and dirhams, lit by a candle." },
-  { id: "centuries-ledger", era: "centuries", at: 0.08, dissolve: 0.3, focus: "58% 72%", alt: "The same desk centuries later: a bound ledger lit by candlelight in a plastered room." },
-  { id: "centuries-printed", era: "centuries", at: 0.36, dissolve: 0.3, focus: "58% 72%", alt: "An eighteenth-century merchant’s desk with a printed document and an oil lamp." },
-  { id: "centuries-accountbook", era: "centuries", at: 0.64, dissolve: 0.3, focus: "58% 72%", alt: "A nineteenth-century counting-house desk with an open account book and a gas lamp." },
+  { id: "centuries-ledger", era: "centuries", at: 0.22, dissolve: 0.7, reveal: "top-down", focus: "58% 72%", alt: "The same desk centuries later: a bound ledger lit by candlelight in a plastered room." },
+  { id: "centuries-printed", era: "centuries", at: 0.68, dissolve: 0.3, focus: "58% 72%", alt: "An eighteenth-century merchant’s desk with a printed document and an oil lamp." },
+  { id: "centuries-accountbook", era: "centuries", at: 0.87, dissolve: 0.35, focus: "58% 72%", alt: "An 1890s counting office: printed account books, invoices and receipts, a steel-nib pen and inkstand, filing shelves and a gas lamp." },
   { id: "paper", era: "paper", at: 0, focus: "58% 70%", alt: "A 1920s accounts office: open ledger, banker’s lamp, folders, filing cabinets and a frosted-glass door." },
   { id: "mechanical", era: "mechanical", at: 0, focus: "58% 68%", alt: "A 1950s office desk with a typewriter, rotary telephone, adding machine and punch cards." },
   { id: "computer", era: "computer", at: 0, focus: "58% 55%", alt: "A 1970s computer room: a CRT terminal glowing green in front of mainframe tape drives." },

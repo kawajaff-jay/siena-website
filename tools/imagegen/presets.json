@@ -40,22 +40,24 @@
     "out": "centuries-printed.jpg"
   },
   "centuries-accountbook": {
-    "era": "Victorian counting house",
-    "year": "c. 1880",
-    "scene": "The same desk position, late nineteenth century counting house. Wood-panelled wainscot, a tall window, a gas lamp glowing on the wall. On the desk: an open account book with red and blue ruled columns and neat handwritten figures (illegible), a steel dip pen and inkwell, a blotter. Warm gaslight, sepia tones.",
+    "era": "Late-Victorian counting office",
+    "year": "c. 1890",
+    "scene": "The same workplace as the attached c. 1400 image, about five centuries later (c. 1890): the same room reached through the same doorway of time, now a busy late-Victorian counting office in a merchant house. Keep the same desk position and seated camera; the desk is the same kind of dark walnut writing desk, now with a worn green leather writing inset and brass corner fittings. Architecture: the old stone walls are plastered and panelled in dark varnished wood; the small arched window on the right has become a tall sash window with slightly dirty panes and a half-drawn roller blind, grey late-afternoon light outside; a brass gas lamp with a frosted glass shade glows on the wall. Left side (keep it darker and calm): tall wooden filing shelves and pigeonholes packed with bound ledgers, labelled document boxes and bundles of receipts tied with red tape; a tall clerk's stool. On the desk, in exactly the place where the medieval ledger lay: a large open printed account book with pre-printed ruled columns and headings, filled in with neat handwritten figures (all writing abstract and illegible); the bottom ruled line is being filled in. Around it: a steel-nib dip pen resting on a glass and brass inkstand with two wells, a rocker blotter, a spike file of paid invoices and receipts, a small pile of printed invoices with a rubber stamp and ink pad, a few coins and banknotes, a brass letter scale. Continuity: the same brass balance scales from the earlier eras still stand on the right, now an old heirloom pushed to the back of the desk. Period accounting equipment: a heavy iron copying press on a side table in soft focus, a wooden cash box. Lighting: warm gaslight plus cool grey window light, some haze and dust, lived-in and slightly untidy, not polished; restrained brown, bottle green, ivory paper and brass tones.",
     "references": [],
     "aspect": "16:9",
     "size": "2K",
-    "out": "centuries-accountbook.jpg"
+    "out": "centuries-accountbook.jpg",
+    "guide": ""
   },
   "paper": {
     "era": "The paper system",
     "year": "1920s–1940s",
-    "scene": "A 1920s accounts office, same desk position. Plaster wall above dark wood wainscoting, a tall multi-pane window with afternoon light, a wall clock, a wooden door with a frosted glass panel through which the silhouette of a manager in a hat can be seen, a tall wooden filing cabinet on the right with a clerk filing papers. On the oak desk: an open ledger, a green-shaded banker's lamp on the right, a stack of manila folders, invoices on a spike, a rubber stamp and ink pad, a fountain pen, a cash book. Amber, beige and dark-wood tones.",
+    "scene": "The same workplace as the attached c. 1890 image, a few decades later (1930s): a company accounts office in an office building. Keep the same desk position and seated camera. Architecture: plaster walls above dark wood wainscoting; the sash window on the right is now a large steel-framed multi-pane window with afternoon light and a city street beyond; a wall clock; a door with a frosted glass panel through which a manager's silhouette is faintly visible; tall wooden and early steel filing cabinets on the left (kept dark and calm). On the same desk: in exactly the place where the account book lay, a large open ruled ledger with typed and handwritten entries (illegible); a green-shaded brass banker's lamp on the right glowing warmly; a stack of manila folders and carbon copies; invoices on a spike; a rubber stamp and ink pad; a fountain pen; a candlestick telephone at the back; a paper-roll adding machine at the side. Continuity: the old brass balance scales are gone; one brass object remains — the brass inkstand from 1890. Lighting: afternoon window light and the banker's lamp, soft haze; amber, beige and dark-wood tones, lived-in, not clean.",
     "references": [],
     "aspect": "16:9",
     "size": "2K",
-    "out": "paper.jpg"
+    "out": "paper.jpg",
+    "guide": ""
   },
   "mechanical": {
     "era": "The mechanical office",

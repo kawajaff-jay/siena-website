@@ -117,9 +117,20 @@ export function EvolutionStageScene({ plates = [] }: { plates?: AvailablePlate[]
         {art.map(renderLayer)}
         <g data-plates>
           {plates.map((p) => (
-            <g key={p.id} data-plate={p.id} data-era={p.era} data-at={p.at} data-dissolve={p.dissolve ?? 0.35} data-thread-d={p.thread}>
+            <g key={p.id} data-plate={p.id} data-era={p.era} data-at={p.at} data-dissolve={p.dissolve ?? 0.35} data-thread-d={p.thread} data-reveal={p.reveal}>
+              {p.reveal && (
+                <defs>
+                  <linearGradient id={`reveal-g-${p.id}`} x1="0" y1="0" x2="0" y2="1">
+                    <stop data-reveal-a offset="0" stopColor="#fff" />
+                    <stop data-reveal-b offset="0" stopColor="#000" />
+                  </linearGradient>
+                  <mask id={`reveal-m-${p.id}`} maskUnits="userSpaceOnUse" x={PLATE_RECT.x} y={PLATE_RECT.y} width={PLATE_RECT.w} height={PLATE_RECT.h}>
+                    <rect x={PLATE_RECT.x} y={PLATE_RECT.y} width={PLATE_RECT.w} height={PLATE_RECT.h} fill={`url(#reveal-g-${p.id})`} />
+                  </mask>
+                </defs>
+              )}
               {/* href is assigned just before the plate is needed (see choreography), so photos load progressively */}
-              <image data-src={p.src} x={PLATE_RECT.x} y={PLATE_RECT.y} width={PLATE_RECT.w} height={PLATE_RECT.h} preserveAspectRatio="xMidYMid slice" />
+              <image data-src={p.src} x={PLATE_RECT.x} y={PLATE_RECT.y} width={PLATE_RECT.w} height={PLATE_RECT.h} preserveAspectRatio="xMidYMid slice" mask={p.reveal ? `url(#reveal-m-${p.id})` : undefined} />
             </g>
           ))}
         </g>

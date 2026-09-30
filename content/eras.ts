@@ -40,6 +40,10 @@ export type Era = {
   /** Year counter range while this chapter plays */
   yearFrom: number;
   yearTo: number;
+  /** Optional year keyframes as [fraction of the chapter, year]; equal neighbours hold the year */
+  /** Optional per-beat reveal times (fraction of the chapter); default 0.5, 0.65, … */
+  beatAt?: number[];
+  yearKeys?: [number, number][];
   palette: Palette;
   /** Shape of the recurring line in this chapter */
   thread: ThreadKey;
@@ -92,9 +96,13 @@ export const ERAS: Era[] = [
     statement: "For centuries, business depended on records, people and process.",
     beats: ["The industrial age changed the speed of business."],
     keywords: ["Manuscript", "Ledger", "Printed page", "Account book"],
-    weight: 1.7,
+    weight: 2.2,
     yearFrom: 1258,
     yearTo: 1919,
+    // centuries visibly pass: 1258 → 1300 → 1340 → 1370 → c. 1400 (ledger), a hold, then the printed age
+    yearKeys: [[0, 1258], [0.1, 1300], [0.2, 1340], [0.29, 1370], [0.38, 1400], [0.58, 1400], [0.7, 1750], [0.76, 1800], [0.88, 1890], [1, 1919]],
+    // the industrial-age line arrives around 1790–1800
+    beatAt: [0.75],
     palette: { sky: "#1c140b", wall: "#3a2917", desk: "#4f341c", deskEdge: "#20150b", light: "#f4c27c", accent: "#d9b37b" },
     thread: "ledger",
     threadColor: "#1f2233",
