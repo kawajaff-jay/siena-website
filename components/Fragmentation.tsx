@@ -24,6 +24,13 @@ export type FragWindow = {
   y: number;
   r: number;
   badge?: number;
+  /** where the window emerges from: a physical screen on the plate, or (duplicates) the window it copies */
+  src: string;
+};
+
+/** Screens on the 2020s plate (stage space) that software windows emerge from */
+export const SOURCES: Record<string, readonly [number, number]> = {
+  monL: [621, 416], monR: [1068, 416], laptop: [412, 571], tablet: [1082, 613], phone: [1319, 669],
 };
 
 export const W = 214;
@@ -31,19 +38,19 @@ export const H = 132;
 
 export const FRAG_WINDOWS: FragWindow[] = [
   // 2021 — several business platforms
-  { id: "finance", label: "Finance · Invoices", kind: "ledger", accent: "#3fcf94", node: 0, wave: 1, x: 640, y: 118, r: -2, badge: 3 },
-  { id: "crm", label: "CRM · Sales pipeline", kind: "pipeline", accent: "#ff9f43", node: 1, wave: 1, x: 905, y: 64, r: 1.5, badge: 7 },
-  { id: "comms", label: "Team chat", kind: "chat", accent: "#8a9dff", node: 2, wave: 1, x: 1172, y: 104, r: 2, badge: 12 },
-  { id: "ops", label: "Operations", kind: "ops", accent: "#4fd1ff", node: 3, wave: 1, x: 1318, y: 292, r: -2, badge: 2 },
+  { id: "finance", label: "Finance · Invoices", kind: "ledger", accent: "#3fcf94", node: 0, wave: 1, x: 640, y: 118, r: -2, badge: 3, src: "monL" },
+  { id: "crm", label: "CRM · Sales pipeline", kind: "pipeline", accent: "#ff9f43", node: 1, wave: 1, x: 905, y: 64, r: 1.5, badge: 7, src: "monR" },
+  { id: "comms", label: "Team chat", kind: "chat", accent: "#8a9dff", node: 2, wave: 1, x: 1172, y: 104, r: 2, badge: 12, src: "laptop" },
+  { id: "ops", label: "Operations", kind: "ops", accent: "#4fd1ff", node: 3, wave: 1, x: 1290, y: 292, r: -2, badge: 2, src: "tablet" },
   // 2023 — more integrations and dashboards
-  { id: "marketing", label: "Marketing · Campaigns", kind: "campaign", accent: "#e667d6", node: 4, wave: 2, x: 598, y: 322, r: 2, badge: 4 },
-  { id: "service", label: "Customer Service", kind: "tickets", accent: "#ffd166", node: 2, wave: 2, x: 842, y: 286, r: -2.5, badge: 9 },
-  { id: "analytics", label: "Analytics", kind: "chart", accent: "#ff7a85", node: 5, wave: 2, x: 1080, y: 250, r: -1.5, badge: 1 },
-  { id: "inventory", label: "Inventory", kind: "stock", accent: "#a88bff", node: 3, wave: 2, x: 1236, y: 452, r: -2.5, badge: 5 },
+  { id: "marketing", label: "Marketing · Campaigns", kind: "campaign", accent: "#e667d6", node: 4, wave: 2, x: 598, y: 322, r: 2, badge: 4, src: "laptop" },
+  { id: "service", label: "Customer Service", kind: "tickets", accent: "#ffd166", node: 2, wave: 2, x: 842, y: 286, r: -2.5, badge: 9, src: "phone" },
+  { id: "analytics", label: "Analytics", kind: "chart", accent: "#ff7a85", node: 5, wave: 2, x: 1080, y: 250, r: -1.5, badge: 1, src: "monR" },
+  { id: "inventory", label: "Inventory", kind: "stock", accent: "#a88bff", node: 3, wave: 2, x: 1236, y: 452, r: -2.5, badge: 5, src: "tablet" },
   // 2025 — maximum fragmentation: duplicated data, exports, copies
-  { id: "dup-customers", label: "Customers (copy)", kind: "sheet", accent: "#ff9f43", node: -1, wave: 3, x: 756, y: 468, r: 3.5 },
-  { id: "dup-report", label: "sales_report_v7_FINAL.xlsx", kind: "sheet", accent: "#3fcf94", node: -1, wave: 3, x: 1004, y: 432, r: -3 },
-  { id: "dup-leads", label: "Leads — Marketing export", kind: "sheet", accent: "#e667d6", node: -1, wave: 3, x: 1372, y: 30, r: 4 },
+  { id: "dup-customers", label: "Customers (copy)", kind: "sheet", accent: "#ff9f43", node: -1, wave: 3, x: 756, y: 468, r: 3.5, src: "crm" },
+  { id: "dup-report", label: "sales_report_v7_FINAL.xlsx", kind: "sheet", accent: "#3fcf94", node: -1, wave: 3, x: 1004, y: 432, r: -3, src: "finance" },
+  { id: "dup-leads", label: "Leads — Marketing export", kind: "sheet", accent: "#e667d6", node: -1, wave: 3, x: 1312, y: 40, r: 4, src: "marketing" },
 ];
 
 const center = (w: FragWindow) => [w.x + W / 2, w.y + H / 2] as const;
@@ -120,7 +127,7 @@ function Body({ w }: { w: FragWindow }): ReactNode {
     case "campaign":
       return (
         <g>
-          <path d="M12 112 L48 96 L84 102 L120 70 L156 76 L200 44" fill="none" stroke={a} data-accent="stroke" strokeWidth="2.2" />
+          <path d="M12 112 L48 96 L84 102 L120 70 L156 76 L200 44" fill="none" stroke={a} data-accent="stroke" strokeWidth="2.2" data-draw />
           <path d="M12 112 L48 96 L84 102 L120 70 L156 76 L200 44 L200 120 L12 120 Z" fill={a} data-accent="fill" opacity="0.14" />
           {[0, 1, 2].map((i) => (
             <rect key={i} x={12 + i * 64} y="32" width="56" height="16" rx="4" fill="#132245" />
@@ -149,21 +156,21 @@ function Body({ w }: { w: FragWindow }): ReactNode {
             </g>
           ))}
           <rect x="16" y="98" width="182" height="8" rx="4" fill="#1d3261" />
-          <rect x="16" y="98" width="118" height="8" rx="4" fill={a} data-accent="fill" opacity="0.8" />
+          <rect x="16" y="98" width="118" height="8" rx="4" fill={a} data-accent="fill" opacity="0.8" data-grow-x />
         </g>
       );
     case "stock":
       return (
         <g>
           {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
-            <rect key={i} x={14 + i * 24} y={120 - (18 + ((i * 37) % 70))} width="16" height={18 + ((i * 37) % 70)} rx="3" fill={a} data-accent="fill" opacity={i === 5 ? 0.95 : 0.45} />
+            <rect key={i} x={14 + i * 24} y={120 - (18 + ((i * 37) % 70))} width="16" height={18 + ((i * 37) % 70)} rx="3" fill={a} data-accent="fill" opacity={i === 5 ? 0.95 : 0.45} data-grow />
           ))}
         </g>
       );
     case "chart":
       return (
         <g>
-          <path d="M12 108 C40 100 56 70 84 78 C112 86 124 50 152 46 C172 43 186 58 202 36" fill="none" stroke={a} data-accent="stroke" strokeWidth="2.2" />
+          <path d="M12 108 C40 100 56 70 84 78 C112 86 124 50 152 46 C172 43 186 58 202 36" fill="none" stroke={a} data-accent="stroke" strokeWidth="2.2" data-draw />
           <path d="M12 116 C44 112 70 96 100 100 C130 104 160 84 202 80" fill="none" stroke={soft} strokeOpacity="0.45" strokeWidth="1.6" strokeDasharray="4 4" />
           {[0, 1, 2].map((i) => (
             <rect key={i} x={12 + i * 64} y="32" width="56" height="12" rx="3" fill={a} data-accent="fill" opacity="0.25" />
@@ -210,6 +217,8 @@ export function FragWindowView({ w }: { w: FragWindow }) {
 export function FragmentedSystems() {
   return (
     <g data-frag>
+      {/* the room light shifts towards SIENA blue as the decade advances */}
+      <rect x="-300" y="-200" width="2200" height="1300" fill="#0a2a80" opacity="0" data-frag-tint />
       {/* integrations: tangled point-to-point connections, some broken */}
       <g fill="none" strokeWidth="1.5" strokeLinecap="round" data-frag-links>
         {FRAG_LINKS.map((l, i) => {
@@ -223,14 +232,16 @@ export function FragmentedSystems() {
               data-straight={p.straight}
               data-broken={l.broken ? "" : undefined}
               stroke={l.broken ? "#ff6b7a" : "#8fb0ff"}
-              strokeOpacity={l.broken ? 0.75 : 0.55}
-              strokeDasharray={l.broken ? "6 7" : "3 5"}
+              strokeOpacity={l.broken ? 0.75 : 0.5}
+              strokeWidth={l.broken ? 1.5 : 1.2}
+              strokeDasharray={l.broken ? "6 7" : undefined}
             />
           );
         })}
       </g>
       {FRAG_WINDOWS.map((w, i) => (
-        <g key={w.id} data-fwin={i} data-wave={w.wave} data-target={w.node} data-dup={w.node < 0 ? "" : undefined} transform={`rotate(${w.r} ${w.x + W / 2} ${w.y + H / 2})`}>
+        <g key={w.id} data-fwin={i} data-wave={w.wave} data-target={w.node} data-dup={w.node < 0 ? "" : undefined}>
+         <g transform={`rotate(${w.r} ${w.x + W / 2} ${w.y + H / 2})`}>
           <FragWindowView w={w} />
           {w.badge !== undefined && (
             <g transform={`translate(${w.x + W - 4} ${w.y - 4})`} data-badge data-wave={w.wave === 1 ? 2 : 3}>
@@ -238,6 +249,7 @@ export function FragmentedSystems() {
               <text y="4" textAnchor="middle" fontSize="10.5" fill="#fff" fontFamily="var(--font-text), sans-serif">{w.badge}</text>
             </g>
           )}
+         </g>
         </g>
       ))}
       {/* alerts */}

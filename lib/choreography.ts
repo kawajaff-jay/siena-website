@@ -11,7 +11,7 @@ import { gsap } from "gsap";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import { ERAS, type Era } from "@/content/eras";
 import { AI_NODES, FLOW_NODES, LOCKUP, THREAD_PATHS } from "@/lib/geometry";
-import { FRAG_WINDOWS, W as FRAG_W, H as FRAG_H } from "@/components/Fragmentation";
+import { FRAG_WINDOWS, SOURCES, W as FRAG_W, H as FRAG_H } from "@/components/Fragmentation";
 
 gsap.registerPlugin(MotionPathPlugin);
 
@@ -24,6 +24,17 @@ type Ctx = {
   ch: Chapter;
   lite: boolean;
 };
+
+/** Fraction of a chapter at which its year counter reaches `year` (uses yearKeys when present). */
+function yearFrac(era: Era, year: number) {
+  const keys = era.yearKeys ?? [[0, era.yearFrom], [1, era.yearTo]];
+  for (let i = 1; i < keys.length; i++) {
+    const [f0, y0] = keys[i - 1];
+    const [f1, y1] = keys[i];
+    if (year <= y1 && y1 !== y0) return f0 + ((year - y0) / (y1 - y0)) * (f1 - f0);
+  }
+  return 1;
+}
 
 export function chapters(): Chapter[] {
   let t = 0;
@@ -44,7 +55,7 @@ const paletteVars = (e: Era) => ({
 });
 
 /** When (as a fraction of the chapter) the thread morphs into this chapter's shape. */
-const THREAD_AT: Record<string, number> = { ai: 0.52, record: 0 };
+const THREAD_AT: Record<string, number> = { ai: 0.66, record: 0 };
 
 export function buildEvolutionTimeline(root: HTMLElement, { lite = false, plateEras = new Set<string>() }: { lite?: boolean; plateEras?: Set<string> } = {}) {
   const q = (sel: string) => Array.from(root.querySelectorAll(sel));
@@ -142,7 +153,7 @@ export function buildEvolutionTimeline(root: HTMLElement, { lite = false, plateE
 
   /* ── camera: every chapter settles with a gentle push-in ── */
   const camera = one("[data-camera]");
-  const PUSH = new Set(["paper", "mechanical", "computer", "enterprise", "internet", "cloud", "automation"]);
+  const PUSH = new Set(["paper", "mechanical", "computer", "enterprise", "internet", "cloud"]);
   CH.forEach((c) => {
     if (!PUSH.has(c.era.id)) return;
     tl.fromTo(camera, { scale: 1.035, svgOrigin: "960 520" }, { scale: 1, svgOrigin: "960 520", duration: c.w * 0.6, ease: "power1.out", immediateRender: false }, c.start);
@@ -167,7 +178,7 @@ export function buildEvolutionTimeline(root: HTMLElement, { lite = false, plateE
       tl.to(statement, { autoAlpha: 0.28, duration: 0.2 }, at);
       tl.to(b, { autoAlpha: 1, y: 0, duration: 0.28, ease: "power2.out" }, at + 0.06);
     });
-    const outAt = c.era.id === "ai" ? c.start + c.w * 0.66 : c.end - 0.26;
+    const outAt = c.era.id === "ai" ? c.start + c.w * 0.7 : c.end - 0.26;
     if (c.index < CH.length - 1) tl.to(el, { autoAlpha: 0, y: -28, duration: 0.24, ease: "power2.in" }, outAt);
   });
 
@@ -179,7 +190,7 @@ export function buildEvolutionTimeline(root: HTMLElement, { lite = false, plateE
   const targets: { t: number; d: string; dur: number }[] = [];
   CH.forEach((c) => {
     const ps = plateEls.filter((p) => p.dataset.era === c.era.id).sort((a, b) => Number(a.dataset.at) - Number(b.dataset.at));
-    const fallback = { t: c.start + c.w * (THREAD_AT[c.era.id] ?? 0.04), d: THREAD_PATHS[c.era.thread] as string, dur: c.era.id === "ai" ? 0.55 : 0.45 };
+    const fallback = { t: c.start + c.w * (THREAD_AT[c.era.id] ?? 0.04), d: THREAD_PATHS[c.era.thread] as string, dur: c.era.id === "ai" ? 0.45 : 0.45 };
     if (!ps.length) { targets.push(fallback); return; }
     ps.forEach((p, k) => {
       const d = plateThread(p);
@@ -372,112 +383,174 @@ const extras: Record<string, (c: Ctx) => void> = {
   },
 
   automation({ tl, one, q, ch }) {
-    // 2020 → 2025: platforms arrive in three waves (≈2021, ≈2023, ≈2025) — each useful alone, together fragmented
+    // 2020 → 2025, fully scroll-driven: software pours out of the physical screens, rises into layers,
+    // spreads outward and multiplies until the 2025 frame holds at maximum complexity.
     const s = ch.start;
+    const t = (year: number) => s + ch.w * yearFrac(ch.era, year); // scroll position of a year
     const layer = one('[data-layer="win-automation"]');
-    const wins = q("[data-fwin]") as HTMLElement[];
-    const links = q("[data-frag-links] path") as HTMLElement[];
-    const badges = q("[data-frag] [data-badge]") as HTMLElement[];
-    const alerts = q("[data-alert]") as HTMLElement[];
-    const wave = (els: HTMLElement[], n: number) => els.filter((e) => e.dataset.wave === String(n));
-    gsap.set([...wins, ...links, ...badges, ...alerts], { autoAlpha: 0 });
-    // the windows arrive only once the 2010s plate has fully dissolved (keeps 2019→2020 clean)
-    tl.to(layer, { autoAlpha: 1, duration: 0.05 }, s + 0.22);
-    const pop = (els: HTMLElement[], at: number, stagger: number) =>
-      els.forEach((w, i) =>
-        tl.fromTo(w, { autoAlpha: 0, scale: 0.9, transformOrigin: "50% 50%" }, { autoAlpha: 1, scale: 1, duration: 0.16, ease: "power2.out", immediateRender: false }, at + i * stagger),
-      );
-    const WAVE = [0, s + 0.3, s + 0.78, s + 1.22];
-    pop(wave(wins, 1), WAVE[1], 0.07);
-    pop(wave(wins, 2), WAVE[2], 0.06);
-    tl.to(wave(links, 2), { autoAlpha: 1, duration: 0.2, stagger: 0.04 }, WAVE[2] + 0.2);
-    tl.to(wave(badges, 2), { autoAlpha: 1, duration: 0.12, stagger: 0.03 }, WAVE[2] + 0.28);
-    tl.to(wave(alerts, 2), { autoAlpha: 1, duration: 0.14 }, WAVE[2] + 0.34);
-    pop(wave(wins, 3), WAVE[3], 0.07);
-    tl.to(wave(links, 3), { autoAlpha: 1, duration: 0.18, stagger: 0.04 }, WAVE[3] + 0.12);
-    tl.to(wave(badges, 3), { autoAlpha: 1, duration: 0.12, stagger: 0.03 }, WAVE[3] + 0.18);
-    tl.to(wave(alerts, 3), { autoAlpha: 1, duration: 0.14, stagger: 0.06 }, WAVE[3] + 0.24);
-    // a slight restless drift while the 2025 frame holds
-    wins.forEach((w, i) => {
-      tl.to(w, { x: i % 2 ? 7 : -7, y: i % 3 ? -5 : 5, duration: ch.w - 1.3, ease: "sine.inOut" }, s + 1.3);
-    });
-  },
-  ai({ tl, one, q, ch }) {
-    // 2026: the same fragmented windows are cleaned up and converge into one intelligent architecture → SIENA
     const camera = one("[data-camera]");
-    const layer = one('[data-layer="ai"]');
+    const tint = one("[data-frag-tint]");
     const wins = q("[data-fwin]") as HTMLElement[];
     const links = q("[data-frag-links] path") as SVGPathElement[];
-    const noise = q("[data-frag] [data-badge], [data-alert]");
+    const badges = q("[data-frag] [data-badge]") as HTMLElement[];
+    const alerts = q("[data-alert]") as HTMLElement[];
+    const byWave = (n: number) => wins.filter((w) => w.dataset.wave === String(n));
+    gsap.set(layer, { autoAlpha: 0 });
+    gsap.set([...badges, ...alerts], { autoAlpha: 0, scale: 0.4, transformOrigin: "50% 50%" });
+    gsap.set(links.filter((l) => l.dataset.broken === undefined), { drawSVG: "0%" });
+    gsap.set(links.filter((l) => l.dataset.broken !== undefined), { autoAlpha: 0 });
+    tl.to(layer, { autoAlpha: 1, duration: 0.02 }, s + 0.02);
+
+    // camera: neutral at the start of the decade → slight push-in by 2021 → closest at 2025
+    tl.fromTo(camera, { scale: 1, svgOrigin: "960 520" }, { scale: 1.02, svgOrigin: "960 520", duration: t(2021) - s, ease: "sine.in", immediateRender: false }, s);
+    tl.to(camera, { scale: 1.05, svgOrigin: "960 520", duration: t(2025) - t(2021), ease: "none" }, t(2021));
+    tl.to(camera, { scale: 1.055, svgOrigin: "960 520", duration: ch.end - t(2025), ease: "none" }, t(2025));
+    // light drifts towards SIENA blue
+    tl.fromTo(tint, { opacity: 0 }, { opacity: 0.16, duration: t(2025) - s + 0.3, ease: "none", immediateRender: false }, s - 0.3);
+
+    // each window emerges from the screen (or window) it comes from and travels to its place
+    const emerge = (w: HTMLElement, at: number, dur: number) => {
+      const f = FRAG_WINDOWS[Number(w.dataset.fwin)];
+      const origin = f.node < 0 ? FRAG_WINDOWS.find((o) => o.id === f.src)! : null;
+      const [sx, sy] = origin ? [origin.x + FRAG_W / 2, origin.y + FRAG_H / 2] : SOURCES[f.src];
+      const dx = sx - (f.x + FRAG_W / 2);
+      const dy = sy - (f.y + FRAG_H / 2);
+      tl.fromTo(w, { x: dx, y: dy, scale: origin ? 0.9 : 0.12, autoAlpha: 0, transformOrigin: "50% 50%" },
+        { x: 0, y: 0, scale: 1, autoAlpha: 1, duration: dur, ease: "power2.out", immediateRender: true }, at);
+      // charts inside the window draw themselves as it settles
+      const draws = Array.from(w.querySelectorAll("[data-draw]"));
+      const grows = Array.from(w.querySelectorAll("[data-grow]"));
+      const growX = Array.from(w.querySelectorAll("[data-grow-x]"));
+      if (draws.length) tl.fromTo(draws, { drawSVG: "0%" }, { drawSVG: "100%", duration: dur * 1.3, ease: "none", immediateRender: true }, at + dur * 0.4);
+      if (grows.length) tl.fromTo(grows, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: dur * 1.2, stagger: 0.02, ease: "power1.out", immediateRender: true }, at + dur * 0.4);
+      if (growX.length) tl.fromTo(growX, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: dur * 1.2, ease: "none", immediateRender: true }, at + dur * 0.4);
+    };
+    byWave(1).forEach((w, i) => emerge(w, s + 0.04 + i * 0.03, 0.3));
+    byWave(2).forEach((w, i) => emerge(w, t(2021) + 0.05 + i * 0.06, 0.28));
+    byWave(3).forEach((w, i) => emerge(w, t(2023) + 0.05 + i * 0.07, 0.3));
+
+    // 2021 → 2023: panels rise into layers (the earlier the platform, the higher it floats)
+    byWave(1).forEach((w, i) => tl.to(w, { y: `-=${16 + i * 5}`, duration: t(2023) - t(2021), ease: "none" }, t(2021)));
+    // 2023 → 2025: dashboards spread outward from the centre of the desk
+    wins.forEach((w) => {
+      const f = FRAG_WINDOWS[Number(w.dataset.fwin)];
+      if (f.wave === 3) return;
+      const cx = f.x + FRAG_W / 2 - 960;
+      const cy = f.y + FRAG_H / 2 - 330;
+      tl.to(w, { x: `+=${(cx * 0.06).toFixed(1)}`, y: `+=${(cy * 0.06).toFixed(1)}`, duration: t(2025) - t(2023), ease: "none" }, t(2023));
+    });
+    // restless drift while 2025 holds
+    wins.forEach((w, i) => tl.to(w, { x: `+=${i % 2 ? 5 : -5}`, y: `+=${i % 3 ? -4 : 4}`, duration: ch.end - t(2025), ease: "sine.inOut" }, t(2025)));
+
+    // integrations draw themselves between the platforms; later ones overlap, some break
+    const solid = links.filter((l) => l.dataset.broken === undefined);
+    solid.filter((l) => l.dataset.wave === "2").forEach((l, i) => tl.to(l, { drawSVG: "100%", duration: 0.3, ease: "none" }, t(2021) + 0.4 + i * 0.1));
+    solid.filter((l) => l.dataset.wave === "3").forEach((l, i) => tl.to(l, { drawSVG: "100%", duration: 0.3, ease: "none" }, t(2023) + 0.2 + i * 0.12));
+    links.filter((l) => l.dataset.broken !== undefined).forEach((l, i) => tl.to(l, { autoAlpha: 1, duration: 0.2 }, t(2023) + 0.35 + i * 0.12));
+
+    // notifications and alerts accumulate progressively from 2021 to 2025
+    const noise = [...badges, ...alerts].sort((a, b) => Number(a.dataset.wave) - Number(b.dataset.wave));
+    const span = t(2025) - (t(2021) + 0.3);
+    noise.forEach((n, i) => tl.to(n, { autoAlpha: 1, scale: 1, duration: 0.12, ease: "back.out(2)" }, t(2021) + 0.3 + (span * i) / noise.length));
+  },
+  ai({ tl, one, q, ch }) {
+    // 2026, fully scroll-driven: SIENA visibly organises the complexity, then the lines become the symbol
+    const camera = one("[data-camera]");
+    const layer = one('[data-layer="ai"]');
+    const tint = one("[data-frag-tint]");
+    const wins = q("[data-fwin]") as HTMLElement[];
+    const links = q("[data-frag-links] path") as SVGPathElement[];
+    const badges = q("[data-frag] [data-badge]") as HTMLElement[];
+    const alerts = q("[data-alert]") as HTMLElement[];
     const fills = q("[data-frag] [data-accent='fill']");
     const strokes = q("[data-frag] [data-accent='stroke']");
-    const lines = q("[data-ai-lines] path");
+    const lines = q("[data-ai-lines] path") as SVGPathElement[];
+    const wraps = q("[data-node-wrap]");
     const nodes = q("[data-ai-nodes] [data-node]");
+    const coreGlow = one("[data-ai-core]");
     const blades = one("[data-blades]");
     const lockup = one("[data-lockup]");
     const clip = document.querySelector("[data-lockup-clip]");
     const core = one("[data-thread]");
     const glow = one("[data-thread-glow]");
     const s = ch.start;
-    const S = s + ch.w * (THREAD_AT.ai ?? 0.5); // the moment the thread begins to trace the SIENA symbol
+    const S = s + ch.w * (THREAD_AT.ai ?? 0.5); // the thread starts tracing the SIENA symbol
     const BLUE = "#2f7bff";
 
     const particles = document.querySelector(".evo-particles");
     gsap.set(particles, { autoAlpha: 0 });
-    tl.to(particles, { autoAlpha: 1, duration: 0.6 }, s + 1.2);
-
+    tl.to(particles, { autoAlpha: 1, duration: 0.6 }, s + 1.3);
     gsap.set(lines, { drawSVG: "0%" });
-    gsap.set(nodes, { autoAlpha: 0, scale: 0.6, transformOrigin: "50% 50%" });
+    gsap.set(nodes, { autoAlpha: 0, scale: 0.5, transformOrigin: "50% 50%" });
     gsap.set(blades, { autoAlpha: 0 });
     gsap.set(lockup, { autoAlpha: 0 });
+    gsap.set(coreGlow, { opacity: 0.15, scale: 1.25, transformOrigin: "50% 50%" });
     gsap.set(clip, { attr: { height: LOCKUP.wordmarkTop - LOCKUP.y } });
 
-    // centre the brand in frame
-    tl.to(camera, { x: -160, duration: 0.8, ease: "power2.inOut" }, s);
-    tl.to(one(".evo-scrim"), { opacity: 0.25, duration: 0.8 }, s);
-    tl.to(layer, { autoAlpha: 1, duration: 0.2 }, s + 0.9);
+    // camera: slow pull back as the complexity disappears, then it settles completely
+    tl.to(camera, { scale: 1, x: -160, svgOrigin: "960 520", duration: 1.5, ease: "sine.inOut" }, s);
+    tl.to(one(".evo-scrim"), { opacity: 0.25, duration: 1.2 }, s);
+    tl.to(layer, { autoAlpha: 1, duration: 0.3 }, s + 0.9);
+    tl.to(tint, { opacity: 0, duration: 1 }, s + 0.4);
 
-    // 1 · the noise goes: notifications and alerts fade, duplicates disappear
-    tl.to(noise, { autoAlpha: 0, duration: 0.22, stagger: 0.015 }, s + 0.05);
+    // 1 · duplicates slide onto the windows they copy and merge into them
     wins.forEach((w) => {
-      if (w.dataset.dup === undefined) return;
-      tl.to(w, { autoAlpha: 0, scale: 0.8, duration: 0.3, ease: "power2.in" }, s + 0.12);
+      const f = FRAG_WINDOWS[Number(w.dataset.fwin)];
+      if (f.node >= 0) return;
+      const o = FRAG_WINDOWS.find((x) => x.id === f.src)!;
+      const ow = wins[FRAG_WINDOWS.indexOf(o)];
+      tl.to(w, { x: o.x - f.x, y: o.y - f.y, rotation: o.r - f.r, scale: 0.96, duration: 0.42, ease: "power2.inOut" }, s + 0.04);
+      tl.to(w, { autoAlpha: 0, scale: 0.9, duration: 0.14 }, s + 0.4);
+      tl.fromTo(ow, { scale: 1 }, { scale: 1.05, duration: 0.07, yoyo: true, repeat: 1, immediateRender: false }, s + 0.42);
     });
-    tl.to(links.filter((l) => l.dataset.broken !== undefined), { autoAlpha: 0, duration: 0.2 }, s + 0.15);
+    // 2 · alerts resolve one by one (slide back into their windows), notifications clear
+    alerts.forEach((a, i) => tl.to(a, { y: "-=18", scale: 0.4, autoAlpha: 0, duration: 0.18, ease: "power2.in" }, s + 0.08 + i * 0.07));
+    badges.forEach((b, i) => tl.to(b, { scale: 0, autoAlpha: 0, duration: 0.12 }, s + 0.12 + i * 0.03));
+    tl.to(links.filter((l) => l.dataset.broken !== undefined), { autoAlpha: 0, duration: 0.2, stagger: 0.08 }, s + 0.2);
 
-    // 2 · workflow lines straighten, colours drain into SIENA blue
+    // 3 · tangled integrations straighten; colours simplify into SIENA blue
     const good = links.filter((l) => l.dataset.broken === undefined);
-    good.forEach((l, i) => tl.to(l, { morphSVG: l.dataset.straight!, duration: 0.4, ease: "power2.inOut" }, s + 0.2 + i * 0.03));
-    tl.set(good, { attr: { "stroke-dasharray": "none" } }, s + 0.35);
-    tl.to(good, { stroke: BLUE, strokeOpacity: 0.8, duration: 0.3 }, s + 0.3);
-    tl.to(fills, { fill: BLUE, duration: 0.5, ease: "none" }, s + 0.3);
-    tl.to(strokes, { stroke: BLUE, duration: 0.5, ease: "none" }, s + 0.3);
+    good.forEach((l, i) => tl.to(l, { morphSVG: l.dataset.straight!, stroke: BLUE, strokeOpacity: 0.85, duration: 0.5, ease: "power2.inOut" }, s + 0.22 + i * 0.04));
+    tl.to(fills, { fill: BLUE, duration: 0.7, ease: "none", stagger: { amount: 0.25 } }, s + 0.3);
+    tl.to(strokes, { stroke: BLUE, duration: 0.7, ease: "none", stagger: { amount: 0.25 } }, s + 0.3);
 
-    // 3 · each system glides to its department, then folds into it
+    // 4 · each platform glides towards its department and folds into it; the node takes its place
     wins.forEach((w, i) => {
-      if (w.dataset.dup !== undefined) return;
       const f = FRAG_WINDOWS[i];
+      if (f.node < 0) return;
       const n = AI_NODES[f.node];
       const dx = n.x - (f.x + FRAG_W / 2);
       const dy = n.y - (f.y + FRAG_H / 2);
-      tl.to(w, { x: dx * 0.55, y: dy * 0.55, rotation: 0, scale: 0.62, transformOrigin: "50% 50%", duration: 0.4, ease: "power2.inOut" }, s + 0.55 + i * 0.02);
-      tl.to(w, { x: dx, y: dy, scale: 0.16, autoAlpha: 0, duration: 0.3, ease: "power2.in" }, s + 0.98 + i * 0.02);
+      tl.to(w, { x: dx * 0.6, y: dy * 0.6, rotation: -f.r, scale: 0.6, duration: 0.5, ease: "power1.inOut" }, s + 0.55 + i * 0.03);
+      tl.to(w, { x: dx, y: dy, scale: 0.14, autoAlpha: 0, duration: 0.32, ease: "power2.in" }, s + 1.02 + i * 0.03);
     });
-    tl.to(good, { autoAlpha: 0, duration: 0.25 }, s + 0.95);
-    nodes.forEach((n, i) => tl.to(n, { autoAlpha: 1, scale: 1, duration: 0.2, ease: "back.out(1.7)" }, s + 1.08 + i * 0.03));
+    tl.to(good, { autoAlpha: 0, duration: 0.3 }, s + 1.0);
+    // nodes appear where the windows folded (slightly inward) and move out to their final positions
+    wraps.forEach((g, i) => {
+      const n = AI_NODES[i];
+      tl.fromTo(g, { x: (960 - n.x) * 0.18, y: (400 - n.y) * 0.18 }, { x: 0, y: 0, duration: 0.45, ease: "power2.out", immediateRender: false }, s + 1.12 + i * 0.03);
+    });
+    tl.to(nodes, { autoAlpha: 1, scale: 1, duration: 0.3, ease: "back.out(1.5)", stagger: 0.03 }, s + 1.12);
 
-    // 4 · every department feeds one intelligent architecture
-    tl.to(lines, { drawSVG: "100%", duration: 0.36, stagger: 0.035, ease: "power2.inOut" }, s + 1.3);
+    // 5 · lines draw from every department toward the centre…
+    tl.to(lines, { drawSVG: "100%", duration: 0.45, stagger: 0.04, ease: "power1.inOut" }, s + 1.35);
+    // …straighten…
+    lines.forEach((l, i) => tl.to(l, { morphSVG: l.dataset.straight!, duration: 0.3, ease: "sine.inOut" }, s + 1.85 + i * 0.02));
+    // …begin curving inward onto the symbol while blue energy concentrates at the centre
+    lines.forEach((l, i) => tl.to(l, { morphSVG: l.dataset.inward!, duration: 0.4, ease: "sine.inOut" }, S - 0.02 + i * 0.02));
+    tl.to(coreGlow, { opacity: 0.9, scale: 0.55, duration: 0.6, ease: "power1.in" }, s + 1.9);
 
-    // 5 · the lines resolve into the SIENA symbol; the OFFICIAL logo asset takes its place
-    tl.to(blades, { autoAlpha: 1, duration: 0.25 }, S + 0.45);
-    tl.to(lockup, { autoAlpha: 1, duration: 0.35 }, S + 0.58);
-    tl.to(blades, { autoAlpha: 0, duration: 0.25 }, S + 0.85);
-    tl.to([core, glow], { opacity: 0, duration: 0.3 }, S + 0.8);
-    tl.to([...lines, ...nodes], { opacity: 0.22, duration: 0.3 }, S + 0.8);
+    // 6 · the geometry resembles the symbol, excess lines fade, the OFFICIAL symbol resolves
+    tl.to(blades, { autoAlpha: 1, duration: 0.3 }, S + 0.3);
+    tl.to(lines, { opacity: 0, duration: 0.3, stagger: 0.03 }, S + 0.4);
+    tl.to(lockup, { autoAlpha: 1, duration: 0.3 }, S + 0.52);
+    tl.to(blades, { autoAlpha: 0, duration: 0.25 }, S + 0.75);
+    tl.to([core, glow], { opacity: 0, duration: 0.3 }, S + 0.7);
+    tl.to(coreGlow, { opacity: 0.35, scale: 1, duration: 0.4 }, S + 0.6);
+    tl.to(nodes, { opacity: 0.22, duration: 0.3 }, S + 0.7);
 
-    // 6 · SIENA — AI SOLUTIONS & SYSTEMS
-    tl.to(clip, { attr: { height: LOCKUP.h }, duration: 0.35, ease: "power2.out" }, s + ch.w * 0.8);
+    // 7 · SIENA — AI SOLUTIONS & SYSTEMS
+    tl.to(clip, { attr: { height: LOCKUP.h }, duration: 0.35, ease: "power2.out" }, s + ch.w * 0.86);
   },
 
   autonomous({ tl, one, q, ch, lite }) {

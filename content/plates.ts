@@ -52,7 +52,7 @@ export const PLATES: Plate[] = [
   { id: "cloud-2017", era: "cloud", at: 0.75, dissolve: 0.22, focus: "58% 60%", alt: "The same desk around 2017: a large monitor with real-time analytics, laptop, tablet and phone all synced to the cloud." },
   { id: "cloud", era: "cloud", at: 0, dissolve: 0.45, focus: "58% 60%", alt: "A 2010s workspace with a laptop, tablet and smartphone showing cloud dashboards." },
   { id: "automation", era: "automation", at: 0, focus: "58% 60%", alt: "A modern desk crowded with screens and a laptop, lit blue in a dark office." },
-  { id: "ai", era: "ai", at: 0, focus: "58% 50%", alt: "A dark, minimal room with a black glass desk edged in electric-blue light." },
+  { id: "ai", era: "ai", at: 0.25, dissolve: 0.9, focus: "58% 50%", alt: "A dark, minimal room with a black glass desk edged in electric-blue light." },
   { id: "autonomous", era: "autonomous", at: 0, focus: "58% 50%", alt: "A calm, near-dark executive space; a person reviews a glowing glass display at the same desk." },
 ];
 
