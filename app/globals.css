@@ -154,10 +154,10 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
    ═══════════════════════════════════════════════════════════════ */
 .evo { position: relative; background: var(--bg); }
 .evo-track { display: none; }
-.evo[data-mode="cinematic"] .evo-track { display: block; position: relative; height: calc(var(--track) * 50vh + 100vh); }
+.evo[data-mode="cinematic"] .evo-track { display: block; position: relative; height: calc(var(--track) * 35vh + 100vh); }
 .evo[data-mode="cinematic"] .chronicle { display: none; }
 @media (max-width: 1199px) {
-  .evo[data-mode="cinematic"] .evo-track { height: calc(var(--track) * 42vh + 100vh); }
+  .evo[data-mode="cinematic"] .evo-track { height: calc(var(--track) * 29vh + 100vh); }
 }
 
 .evo-stage {
@@ -252,7 +252,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
    the year sits just below it and the story text fills the rest of the screen. */
 @media (max-aspect-ratio: 1/1) {
   .evo-stage { --scene-top: 76px; --scene-h: calc(100vw * 9 / 16); --below: calc(var(--scene-top) + var(--scene-h)); background: var(--bg); }
-  .evo[data-mode="cinematic"] .evo-track { height: calc(var(--track) * 36svh + 100svh); }
+  .evo[data-mode="cinematic"] .evo-track { height: calc(var(--track) * 25svh + 100svh); }
   .evo-stage .scene { top: var(--scene-top); bottom: auto; height: var(--scene-h); }
   .evo-particles { top: var(--scene-top); bottom: auto; height: var(--scene-h); }
   .evo-scrim {
@@ -336,7 +336,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .reveal-support { color: var(--text); font-size: clamp(1rem, 1.3vw, 1.15rem); }
 .reveal-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
 
-.reveal[data-anim="on"] .reveal-track { height: 300vh; }
+.reveal[data-anim="on"] .reveal-track { height: 210vh; }
 .reveal[data-anim="on"] .reveal-stage { position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 0; padding: 0; display: block; }
 .reveal[data-anim="on"] .reveal-halo,
 .reveal[data-anim="on"] .reveal-kicker,
