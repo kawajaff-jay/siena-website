@@ -80,6 +80,38 @@
       "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
       "candidate": "art/plates/candidates/enterprise/enterprise-final.jpg",
       "approvedAt": "2026-09-30T13:01:12.363Z"
+    },
+    "internet": {
+      "file": "internet.jpg",
+      "era": "The internet revolution",
+      "year": "c. 2000",
+      "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
+      "candidate": "art/plates/candidates/internet-evolution/internet-2000-final.jpg",
+      "approvedAt": "2026-09-30T13:26:30.073Z"
+    },
+    "internet-2003": {
+      "file": "internet-2003.jpg",
+      "era": "The internet revolution",
+      "year": "c. 2003",
+      "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
+      "candidate": "art/plates/candidates/internet-evolution/internet-2003-final.jpg",
+      "approvedAt": "2026-09-30T13:26:30.114Z"
+    },
+    "internet-2005": {
+      "file": "internet-2005.jpg",
+      "era": "The internet revolution",
+      "year": "c. 2005",
+      "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
+      "candidate": "art/plates/candidates/internet-evolution/internet-2005-final.jpg",
+      "approvedAt": "2026-09-30T13:26:30.159Z"
+    },
+    "internet-2007": {
+      "file": "internet-2007.jpg",
+      "era": "The internet revolution",
+      "year": "c. 2007",
+      "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
+      "candidate": "art/plates/candidates/internet-evolution/internet-2007-final.jpg",
+      "approvedAt": "2026-09-30T13:26:30.198Z"
     }
   }
 }
