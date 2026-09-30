@@ -140,6 +140,13 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 }
 
 .reveal-cue { display: none; }
+.reveal-openword { display: none; }
+.reveal[data-anim="on"] .reveal-openword {
+  display: grid; justify-items: center; gap: 14px; position: absolute; left: 50%; translate: -50% 0;
+  top: calc(50% + min(48vh, 440px) * 0.33); width: min(44vh, 300px); pointer-events: none;
+}
+.reveal-openword .brand { width: 100%; }
+.reveal-openword-tag { font-size: clamp(0.62rem, 0.9vw, 0.78rem); letter-spacing: 0.5em; text-transform: uppercase; color: var(--text); white-space: nowrap; margin-right: -0.5em; }
 .reveal[data-anim="on"] .reveal-cue { display: grid; }
 
 /* ═══════════════════════════════════════════════════════════════

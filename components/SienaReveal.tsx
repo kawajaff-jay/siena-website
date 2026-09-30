@@ -27,20 +27,30 @@ export function SienaReveal({ opening = false }: { opening?: boolean }) {
       const q = gsap.utils.selector(root);
       const portrait = window.matchMedia("(max-aspect-ratio: 1/1)").matches;
       const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
-      gsap.set([q("[data-k1]"), q("[data-k2]"), q("[data-line]"), q("[data-brand] > *")], { autoAlpha: 0 });
-      tl.fromTo(q("[data-halo]"), opening ? { scale: 1, autoAlpha: 0.3 } : { scale: 0.85, autoAlpha: 0 }, { scale: 1, autoAlpha: 0.3, duration: 1 }, 0)
-        .fromTo(q("[data-k1]"), opening ? { autoAlpha: 1, y: 0 } : { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.6 }, 0.3)
-        .to(q("[data-cue]"), { autoAlpha: 0, duration: 0.4 }, 0.2)
-        .to(q("[data-k1]"), { autoAlpha: 0, y: -24, duration: 0.5, ease: "power2.in" }, 1.4)
-        .fromTo(q("[data-k2]"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.6 }, 1.8)
-        .to(q("[data-k2]"), { autoAlpha: 0, y: -24, duration: 0.5, ease: "power2.in" }, 2.9)
-        .to(q("[data-halo]"), { autoAlpha: 0.12, duration: 0.6 }, 3.1)
-        .fromTo(q("[data-line]"), { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.45 }, 3.3)
-        .fromTo(q(".reveal-hl"), { textShadow: "0 0 0px rgba(47,123,255,0)" }, { textShadow: "0 0 36px rgba(47,123,255,0.65)", duration: 0.6 }, 4.4)
+      gsap.set([q("[data-k1]"), q("[data-k2]"), q("[data-line]"), q("[data-brand] > *"), q("[data-openword] > *")], { autoAlpha: 0 });
+      // opening: the S alone → the full SIENA logo → the S steps back behind "Centuries of business evolution"
+      const O = opening ? 1.2 : 0;
+      if (opening) {
+        tl.fromTo(q("[data-halo]"), { scale: 0.6, autoAlpha: 1 }, { scale: 0.6, autoAlpha: 1, duration: 0.01 }, 0)
+          .to(q("[data-cue]"), { autoAlpha: 0, duration: 0.3 }, 0.05)
+          .fromTo(q("[data-openword] > *"), { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.45, stagger: 0.15 }, 0.15)
+          .to(q("[data-openword] > *"), { autoAlpha: 0, y: -12, duration: 0.4, ease: "power2.in" }, 1.05)
+          .to(q("[data-halo]"), { scale: 1, autoAlpha: 0.3, duration: 0.7, ease: "power2.inOut" }, 1.1)
+          .fromTo(q("[data-k1]"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.6 }, 1.5);
+      } else {
+        tl.fromTo(q("[data-halo]"), { scale: 0.85, autoAlpha: 0 }, { scale: 1, autoAlpha: 0.3, duration: 1 }, 0)
+          .fromTo(q("[data-k1]"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.6 }, 0.3);
+      }
+      tl.to(q("[data-k1]"), { autoAlpha: 0, y: -24, duration: 0.5, ease: "power2.in" }, 1.4 + O + (opening ? 0.4 : 0))
+        .fromTo(q("[data-k2]"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.6 }, 1.8 + O + 0.4 * +opening)
+        .to(q("[data-k2]"), { autoAlpha: 0, y: -24, duration: 0.5, ease: "power2.in" }, 2.9 + O + 0.4 * +opening)
+        .to(q("[data-halo]"), { autoAlpha: 0.12, duration: 0.6 }, 3.1 + O + 0.4 * +opening)
+        .fromTo(q("[data-line]"), { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.45 }, 3.3 + O + 0.4 * +opening)
+        .fromTo(q(".reveal-hl"), { textShadow: "0 0 0px rgba(47,123,255,0)" }, { textShadow: "0 0 36px rgba(47,123,255,0.65)", duration: 0.6 }, 4.4 + O + 0.4 * +opening)
         // wide screens: the statement shrinks above the brand; tall/narrow screens have no room, so it gives way
-        .to(q("[data-lines]"), portrait ? { autoAlpha: 0, y: -40, duration: 0.7, ease: "power2.in" } : { scale: 0.46, yPercent: -118, duration: 0.9, ease: "power2.inOut" }, 5.4)
-        .to(q("[data-halo]"), { autoAlpha: 0, duration: 0.6 }, 5.4)
-        .fromTo(q("[data-brand] > *"), { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.18 }, 5.9)
+        .to(q("[data-lines]"), portrait ? { autoAlpha: 0, y: -40, duration: 0.7, ease: "power2.in" } : { scale: 0.46, yPercent: -118, duration: 0.9, ease: "power2.inOut" }, 5.4 + O + 0.4 * +opening)
+        .to(q("[data-halo]"), { autoAlpha: 0, duration: 0.6 }, 5.4 + O + 0.4 * +opening)
+        .fromTo(q("[data-brand] > *"), { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.18 }, 5.9 + O + 0.4 * +opening)
         .to({}, { duration: 0.8 });
       const st = ScrollTrigger.create({ trigger: q(".reveal-track")[0], start: "top top", end: "bottom bottom", scrub: 0.8, animation: tl });
       ScrollTrigger.refresh();
@@ -61,6 +71,12 @@ export function SienaReveal({ opening = false }: { opening?: boolean }) {
           <div className="reveal-halo" data-halo aria-hidden="true">
             <BrandLogo variant="symbol" alt="" sizes="(max-width: 700px) 60vw, 520px" />
           </div>
+          {opening && (
+            <div className="reveal-openword" data-openword>
+              <BrandLogo variant="wordmark" alt="SIENA" sizes="(max-width: 700px) 56vw, 300px" priority feather={false} />
+              <span className="reveal-openword-tag">AI Solutions &amp; Systems</span>
+            </div>
+          )}
           <p className="reveal-kicker" data-k1>{REVEAL.kicker1}</p>
           <p className="reveal-kicker" data-k2>{REVEAL.kicker2}</p>
           <h2 className="reveal-lines" id="reveal-heading" data-lines>
