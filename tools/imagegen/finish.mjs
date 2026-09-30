@@ -13,6 +13,8 @@ import path from "node:path";
 const REGIONS = {
   // Abbasid: desk back edge ≈ 64% down; arch opening right of 65.5%; scales column on the far right.
   abbasid: { deskTop: 0.64, arch: { u0: 0.655, v1: 0.64 }, keep: [{ u0: 0.80, u1: 1.0, v0: 0.33, v1: 0.7 }] },
+  // c. 1400 ledger room: no open city (the arch is walled in); keep the scales and the small window crisp-ish.
+  ledger: { deskTop: 0.64, arch: { u0: 2, v1: 0 }, keep: [{ u0: 0.80, u1: 1.0, v0: 0.33, v1: 0.7 }] },
 };
 
 const args = process.argv.slice(2);
