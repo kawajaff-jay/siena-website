@@ -48,6 +48,14 @@
       "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
       "candidate": "art/plates/candidates/mechanical/mechanical-final.jpg",
       "approvedAt": "2026-09-30T12:36:13.806Z"
+    },
+    "computer": {
+      "file": "computer.jpg",
+      "era": "The computer revolution",
+      "year": "1970s–1980s",
+      "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
+      "candidate": "art/plates/candidates/computer/computer-final.jpg",
+      "approvedAt": "2026-09-30T12:41:31.658Z"
     }
   }
 }

@@ -84,11 +84,12 @@
   "enterprise": {
     "era": "The enterprise revolution",
     "year": "1990s",
-    "scene": "A 1990s corporate office, same desk position. Fabric cubicle partitions in grey-blue, a suspended ceiling with fluorescent panels, colleagues' heads visible over the partitions. On a grey laminate desk: a beige desktop PC with a CRT monitor at the centre showing a spreadsheet with a line chart, a beige tower on the right, a beige keyboard and ball mouse, a few 3.5-inch floppy disks, a coffee mug. Neutral corporate blue-grey light.",
+    "scene": "The same workplace as the attached late-1970s image, about fifteen years later (mid 1990s): a corporate finance department in an open-plan office. Keep the same desk position and seated camera. Architecture: the glass wall and machine room are gone; behind the desk, rows of grey-blue fabric cubicle partitions with colleagues' heads and shoulders visible above them (soft focus), each cubicle lit by the glow of a beige CRT monitor; a suspended ceiling with recessed fluorescent panels; the venetian-blind window on the right remains, early evening, city lights starting beyond. Left side (keep it darker and calm): the side of a cubicle partition with pinned printouts, a grey filing pedestal and a shelf of ring binders. The desk: a light grey laminate cubicle desk in the same position. In exactly the place where the green-screen terminal stood: a beige desktop PC with a 15-inch beige CRT monitor showing a spreadsheet with a rising line chart and grid of numbers (abstract, illegible), a beige keyboard and a ball mouse on a mouse mat, a beige tower beside it on the right. Around it: a few 3.5-inch floppy disks and a floppy box, a printed report with a bar chart, a coffee mug, a desk phone with many line buttons, a Rolodex, a network cable running to the wall. Continuity: the reel of magnetic tape from the 1970s now sits on the shelf as a keepsake. Lighting: cool fluorescent office light and the glow of many CRT screens, a warm desk lamp; muted blue-grey and beige tones, lived-in, a little untidy, not glossy.",
     "references": [],
     "aspect": "16:9",
     "size": "2K",
-    "out": "enterprise.jpg"
+    "out": "enterprise.jpg",
+    "guide": ""
   },
   "internet": {
     "era": "The internet revolution",
