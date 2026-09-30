@@ -128,6 +128,14 @@
       "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
       "candidate": "art/plates/candidates/cloud-evolution/cloud-2017-final.jpg",
       "approvedAt": "2026-09-30T13:41:58.964Z"
+    },
+    "automation": {
+      "file": "automation.jpg",
+      "era": "The automation revolution",
+      "year": "2020–2025",
+      "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
+      "candidate": "art/plates/candidates/automation/automation-final.jpg",
+      "approvedAt": "2026-09-30T14:03:38.181Z"
     }
   }
 }
