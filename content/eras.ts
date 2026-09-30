@@ -145,7 +145,7 @@ export const ERAS: Era[] = [
     title: "The Computer Revolution",
     statement: "Information became digital.",
     keywords: ["Mainframes", "CRT terminals", "Electronic payroll", "Databases", "Computerized inventory"],
-    weight: 1.1,
+    weight: 1.5,
     yearFrom: 1970,
     yearTo: 1989,
     palette: { sky: "#060808", wall: "#131718", desk: "#1d2121", deskEdge: "#0a0c0c", light: "#3dff8e", accent: "#62f5a0" },

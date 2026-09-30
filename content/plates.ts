@@ -36,8 +36,11 @@ export const PLATES: Plate[] = [
   { id: "centuries-accountbook", era: "centuries", at: 0.87, dissolve: 0.35, focus: "58% 72%", alt: "An 1890s counting office: printed account books, invoices and receipts, a steel-nib pen and inkstand, filing shelves and a gas lamp." },
   { id: "paper", era: "paper", at: 0, focus: "58% 70%", alt: "A 1920s accounts office: open ledger, banker’s lamp, folders, filing cabinets and a frosted-glass door." },
   { id: "mechanical", era: "mechanical", at: 0, focus: "58% 68%", alt: "A 1950s office desk with a typewriter, rotary telephone, adding machine and punch cards." },
-  { id: "computer", era: "computer", at: 0, focus: "58% 55%", alt: "A 1970s computer room: a CRT terminal glowing green in front of mainframe tape drives." },
-  { id: "enterprise", era: "enterprise", at: 0, focus: "58% 55%", alt: "A 1990s corporate desk with a beige desktop PC showing a spreadsheet, keyboard, mouse and floppy disks." },
+  { id: "computer", era: "computer", at: 0, focus: "58% 55%", alt: "An early-1970s office beside the machine room: a bulky green-text terminal, punched cards and continuous-feed printout in front of mainframe tape drives." },
+  // the same desk as computing moves from the mainframe toward the personal computer (shown only once the files exist)
+  { id: "computer-1979", era: "computer", at: 0.4, dissolve: 0.3, focus: "58% 55%", alt: "The same desk around 1979: a cleaner CRT terminal with more controls, less paper, more of the records on screen." },
+  { id: "computer-1985", era: "computer", at: 0.72, dissolve: 0.3, focus: "58% 55%", alt: "The same desk around 1985: an early business personal computer with a detached keyboard, floppy drives and a spreadsheet on screen." },
+  { id: "enterprise", era: "enterprise", at: 0, dissolve: 0.45, focus: "58% 55%", alt: "A 1990s corporate desk with a beige desktop PC showing a spreadsheet, keyboard, mouse and floppy disks." },
   { id: "internet", era: "internet", at: 0, focus: "58% 55%", alt: "A 2000s office at night with a flat LCD monitor showing an online store and a city beyond the glass." },
   { id: "cloud", era: "cloud", at: 0, focus: "58% 60%", alt: "A 2010s workspace with a laptop, tablet and smartphone showing cloud dashboards." },
   { id: "automation", era: "automation", at: 0, focus: "58% 60%", alt: "A modern desk crowded with screens and a laptop, lit blue in a dark office." },
