@@ -21,13 +21,14 @@
     "out": "record.jpg"
   },
   "centuries-ledger": {
-    "era": "Late medieval ledger",
+    "era": "Late Medieval Ledger System",
     "year": "c. 1400",
-    "scene": "The same desk position centuries later. The room is now plastered stone with a heavy timber beam; the arch has been partly walled in, leaving a smaller window. On the desk: a large leather-bound ledger lying open with ruled columns and handwritten entries (illegible), a quill, a brass candlestick, a few coins. Warm candlelight, parchment and umber tones.",
+    "scene": "The same workplace as the attached c. 850 image, about five and a half centuries later (c. 1400): the same room and the same desk, aged, quieter and more enclosed — a merchant's counting room. Architecture: the great pointed arch on the right has been walled in with newer, slightly different stone, leaving a smaller deep-set arched window with a carved wooden lattice; warm late-afternoon light falls through it in soft dusty shafts; only a hint of weathered rooftops is visible beyond. No market, no river, no sunset glow. Left side (keep it darker and calm): the old niche now holds worn wooden shelves of leather-bound ledgers, record books and tied bundles of documents; an iron-bound wooden storage chest stands low against the left wall; the old lantern bracket remains, dim. The same dark walnut desk, now older: deeper patina, fine scratches, faded ink stains, worn edges. On the desk, in exactly the place where the loose account sheet lay: a large open bound merchant ledger with thick cream pages, ruled in faded red and brown ink into neat columns of dated transactions, amounts and totals in handwritten script (abstract, illegible); the lowest ruled line is half written in fresh, glossy ink. Beside it: an ink pot and a quill resting against it, plus the old reed pen; a few worn coins; two folded contracts tied with cord and sealed with dark red wax. Continuity: the same brass balance scales stand on the right exactly where they were, now secondary, their brass darkened with age; a single short beeswax candle on a brass dish at the far left edge of the desk, burned low. Lighting: warm late-afternoon window light plus candlelight, deeper shadows, a still and quiet interior atmosphere; restrained brown, walnut, parchment and aged-brass tones.",
     "references": [],
     "aspect": "16:9",
     "size": "2K",
-    "out": "centuries-ledger.jpg"
+    "out": "centuries-ledger.jpg",
+    "guide": ""
   },
   "centuries-printed": {
     "era": "Eighteenth-century merchant",
