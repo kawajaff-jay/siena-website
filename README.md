@@ -1,0 +1,40 @@
+# SIENA — The Evolution of Business Systems
+
+Official homepage for **SIENA — AI Solutions & Systems**.
+*One desk. One business. Centuries of evolution.*
+
+## Run it
+
+```bash
+npm install
+npm run dev        # http://localhost:3000
+npm run build      # static export → ./out  (deploy the folder to any CDN / Vercel / Netlify)
+```
+
+Requires Node 20+.
+
+## Where to edit
+
+| What | File |
+|---|---|
+| Era copy, years, keywords, palettes, scroll length, thread colour | `content/eras.ts` |
+| Hero, reveal lines, CTAs, solutions, contact email, domain | `content/site.ts` |
+| Realistic era images (3D renders; replaceable by photos) | `art/plates/<id>.jpg` → `npm run plates` · list in `content/plates.ts` · renderer in `tools/render/` · photo prompts in `docs/PHOTO-PROMPTS.md` |
+| Scene art for each era (layered SVG, used where no photo exists) | `components/scenes/*` |
+| Which layers show in which era | `LAYERS` in `components/EvolutionScene.tsx` |
+| Scroll choreography (generic rules + per-chapter extras) | `lib/choreography.ts` |
+| The thread shapes and SIENA symbol trace | `lib/geometry.ts` |
+| Design tokens and layout | `app/globals.css` |
+
+**Before launch:** set `SITE.url` and `SITE.contactEmail` in `content/site.ts` (placeholders are `example.com`).
+
+## Brand assets
+
+`brand/SIENA logo.JPG` is the single source of truth. `npm run assets` crops it, turns its dark background into transparency and writes AVIF/WebP files to `public/brand/`. The mark and wordmark are never redrawn. If you get a vector or transparent master, replace the file and run the script again.
+
+## Modes
+
+- **Cinematic** (≥ 900 px wide, motion allowed): a sticky stage with one scroll-scrubbed GSAP timeline.
+- **Chronicle** (mobile, portrait tablet, `prefers-reduced-motion`, or no JavaScript): the same eras as a linear story with static vignettes.
+
+See `docs/ARCHITECTURE.md` for the full architecture.

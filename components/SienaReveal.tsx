@@ -1,0 +1,84 @@
+"use client";
+/**
+ * SienaReveal — the final statement.
+ * Centuries of business evolution → 100 years of acceleration → FROM PAPER. TO SOFTWARE. TO INTELLIGENCE.
+ * → SIENA · AI SOLUTIONS & SYSTEMS → CTAs.
+ */
+import { useEffect, useLayoutEffect, useRef } from "react";
+import { REVEAL } from "@/content/site";
+import { registerGsap, gsap, ScrollTrigger } from "@/lib/gsap";
+import { CINEMATIC_QUERY } from "@/lib/mode";
+import { BrandLogo } from "./BrandLogo";
+import { Particles } from "./Particles";
+
+const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+export function SienaReveal() {
+  const ref = useRef<HTMLElement>(null);
+
+  useIsoLayoutEffect(() => {
+    if (!ref.current) return;
+    registerGsap();
+    const mm = gsap.matchMedia(ref.current);
+    mm.add(CINEMATIC_QUERY, () => {
+      const root = ref.current!;
+      root.dataset.anim = "on";
+      const q = gsap.utils.selector(root);
+      const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+      gsap.set([q("[data-k1]"), q("[data-k2]"), q("[data-line]"), q("[data-brand] > *")], { autoAlpha: 0 });
+      tl.fromTo(q("[data-halo]"), { scale: 0.85, autoAlpha: 0 }, { scale: 1, autoAlpha: 0.3, duration: 1 }, 0)
+        .fromTo(q("[data-k1]"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.6 }, 0.3)
+        .to(q("[data-k1]"), { autoAlpha: 0, y: -24, duration: 0.5, ease: "power2.in" }, 1.4)
+        .fromTo(q("[data-k2]"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.6 }, 1.8)
+        .to(q("[data-k2]"), { autoAlpha: 0, y: -24, duration: 0.5, ease: "power2.in" }, 2.9)
+        .to(q("[data-halo]"), { autoAlpha: 0.12, duration: 0.6 }, 3.1)
+        .fromTo(q("[data-line]"), { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.45 }, 3.3)
+        .fromTo(q(".reveal-hl"), { textShadow: "0 0 0px rgba(47,123,255,0)" }, { textShadow: "0 0 36px rgba(47,123,255,0.65)", duration: 0.6 }, 4.4)
+        .to(q("[data-lines]"), { scale: 0.46, yPercent: -118, duration: 0.9, ease: "power2.inOut" }, 5.4)
+        .to(q("[data-halo]"), { autoAlpha: 0, duration: 0.6 }, 5.4)
+        .fromTo(q("[data-brand] > *"), { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.18 }, 5.9)
+        .to({}, { duration: 0.8 });
+      const st = ScrollTrigger.create({ trigger: q(".reveal-track")[0], start: "top top", end: "bottom bottom", scrub: 0.8, animation: tl });
+      ScrollTrigger.refresh();
+      return () => { st.kill(); tl.kill(); delete root.dataset.anim; };
+    });
+    return () => mm.revert();
+  }, []);
+
+  return (
+    <section className="reveal" ref={ref} aria-labelledby="reveal-heading">
+      <div className="reveal-track">
+        <div className="reveal-stage">
+          <Particles density={0.8} tone="blue" />
+          <svg className="reveal-traces" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <path d="M-50 720 C 400 640 700 780 1650 560" />
+            <path d="M-50 180 C 500 260 1100 120 1650 240" />
+          </svg>
+          <div className="reveal-halo" data-halo aria-hidden="true">
+            <BrandLogo variant="symbol" alt="" sizes="(max-width: 700px) 60vw, 520px" />
+          </div>
+          <p className="reveal-kicker" data-k1>{REVEAL.kicker1}</p>
+          <p className="reveal-kicker" data-k2>{REVEAL.kicker2}</p>
+          <h2 className="reveal-lines" id="reveal-heading" data-lines>
+            {REVEAL.lines.map((l) => (
+              <span key={l.text} data-line className={l.highlight ? "reveal-hl" : undefined}>
+                {l.text}
+              </span>
+            ))}
+          </h2>
+          <div className="reveal-brand" data-brand>
+            <BrandLogo variant="lockup" sizes="(max-width: 700px) 64vw, 340px" />
+            <p className="reveal-support">{REVEAL.support}</p>
+            <div className="reveal-ctas">
+              {REVEAL.ctas.map((c) => (
+                <a key={c.label} href={c.href} className={`btn btn--${c.variant}`}>
+                  {c.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
