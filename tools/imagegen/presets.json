@@ -72,13 +72,14 @@
   "computer": {
     "era": "The computer revolution",
     "year": "1970s–1980s",
-    "scene": "A 1970s computer room, same desk position. Behind the desk, a row of mainframe cabinets with reel-to-reel tape drives and small indicator lights; an operator in the background. On a dark laminate desk: a beige CRT terminal at the centre with glowing green text on a black screen, a mechanical keyboard, a stack of green-bar tractor-feed printout on the left, a reel of magnetic tape on the right. Dark industrial tones lit by the green CRT glow.",
+    "scene": "The same workplace as the attached 1950s image, about twenty years later (late 1970s): the accounts office has become part of a corporate computer department. Keep the same desk position and seated camera. Architecture: behind the desk, where the glazed partition and typing pool were, a large glass wall now opens onto a cool, raised-floor machine room: a long row of tall mainframe cabinets and reel-to-reel magnetic tape drives with spinning reels and small amber and green indicator lights, a line printer, and one operator in shirtsleeves in soft focus; cold fluorescent light in the machine room. In the office foreground: the venetian-blind window on the right remains, now dusk outside; acoustic ceiling tiles; beige steel filing cabinets and a shelf of fat binders of green-bar printouts on the left (keep this left third darker and calm). The desk: the same large desk, with a dark wood-grain laminate top. In exactly the place where the typewriter stood: a beige CRT computer terminal with a bulging glass screen glowing phosphor green with columns of figures (abstract, illegible) and a heavy mechanical keyboard in front of it. Around it: a stack of continuous-feed green-bar tractor-feed printout folding onto the desk on the left, a reel of magnetic tape in its case, a few punched cards, a push-button desk telephone, a coffee mug, a warm incandescent desk lamp. Continuity: the black rotary telephone and the old adding machine from the 1950s pushed to the back corner of the desk. Lighting: warm desk lamp and green CRT glow in the foreground against the cold blue-white fluorescent machine room behind the glass; believable equipment scale and depth; lived-in, not clean; muted beige, brown, green and steel-blue tones.",
     "references": [
       "art/reference/target-computer.png"
     ],
     "aspect": "16:9",
     "size": "2K",
-    "out": "computer.jpg"
+    "out": "computer.jpg",
+    "guide": ""
   },
   "enterprise": {
     "era": "The enterprise revolution",

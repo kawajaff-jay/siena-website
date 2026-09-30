@@ -40,6 +40,14 @@
       "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
       "candidate": "art/plates/candidates/paper/paper-final.jpg",
       "approvedAt": "2026-09-30T12:27:41.297Z"
+    },
+    "mechanical": {
+      "file": "mechanical.jpg",
+      "era": "The mechanical office",
+      "year": "1950s–1960s",
+      "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
+      "candidate": "art/plates/candidates/mechanical/mechanical-final.jpg",
+      "approvedAt": "2026-09-30T12:36:13.806Z"
     }
   }
 }

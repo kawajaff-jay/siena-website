@@ -16,6 +16,8 @@ const REGIONS = {
   // c. 1400 ledger room: no open city (the arch is walled in); keep the scales and the small window crisp-ish.
   ledger: { deskTop: 0.64, arch: { u0: 2, v1: 0 }, keep: [{ u0: 0.80, u1: 1.0, v0: 0.33, v1: 0.7 }] },
   // 1930s paper office: the street through the big window (right) softens; the banker's lamp stays crisp.
+  // 1950s mechanical office: slatted window light on the right; keep the lamp, adding machine and phone crisp.
+  mechanical: { deskTop: 0.64, arch: { u0: 0.74, v1: 0.55 }, keep: [{ u0: 0.66, u1: 1.0, v0: 0.36, v1: 0.8 }] },
   paper: { deskTop: 0.64, arch: { u0: 0.76, v1: 0.52 }, keep: [{ u0: 0.66, u1: 0.84, v0: 0.3, v1: 0.7 }] },
 };
 
