@@ -24,6 +24,7 @@ export function SienaReveal() {
       const root = ref.current!;
       root.dataset.anim = "on";
       const q = gsap.utils.selector(root);
+      const portrait = window.matchMedia("(max-aspect-ratio: 1/1)").matches;
       const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
       gsap.set([q("[data-k1]"), q("[data-k2]"), q("[data-line]"), q("[data-brand] > *")], { autoAlpha: 0 });
       tl.fromTo(q("[data-halo]"), { scale: 0.85, autoAlpha: 0 }, { scale: 1, autoAlpha: 0.3, duration: 1 }, 0)
@@ -34,7 +35,8 @@ export function SienaReveal() {
         .to(q("[data-halo]"), { autoAlpha: 0.12, duration: 0.6 }, 3.1)
         .fromTo(q("[data-line]"), { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.45 }, 3.3)
         .fromTo(q(".reveal-hl"), { textShadow: "0 0 0px rgba(47,123,255,0)" }, { textShadow: "0 0 36px rgba(47,123,255,0.65)", duration: 0.6 }, 4.4)
-        .to(q("[data-lines]"), { scale: 0.46, yPercent: -118, duration: 0.9, ease: "power2.inOut" }, 5.4)
+        // wide screens: the statement shrinks above the brand; tall/narrow screens have no room, so it gives way
+        .to(q("[data-lines]"), portrait ? { autoAlpha: 0, y: -40, duration: 0.7, ease: "power2.in" } : { scale: 0.46, yPercent: -118, duration: 0.9, ease: "power2.inOut" }, 5.4)
         .to(q("[data-halo]"), { autoAlpha: 0, duration: 0.6 }, 5.4)
         .fromTo(q("[data-brand] > *"), { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.18 }, 5.9)
         .to({}, { duration: 0.8 });

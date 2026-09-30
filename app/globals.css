@@ -21,7 +21,7 @@
 }
 
 /* cinematic mode media query (mirrors lib/mode.ts CINEMATIC_QUERY) */
-/* @media (min-width: 900px) and (min-height: 560px) and (prefers-reduced-motion: no-preference) */
+/* @media (prefers-reduced-motion: no-preference) */
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: auto; }
@@ -233,6 +233,34 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .progress-rail button[aria-current] { color: var(--white); }
 .progress-rail button[aria-current] .progress-dot { background: var(--accent); border-color: var(--accent); transform: scale(1.15); }
 @media (max-height: 700px) { .progress-rail button { padding: 2px 0; } .progress-label { display: none; } }
+
+/* ─── cinematic on portrait screens (phones, portrait tablets) ───
+   The scene fills the top of the screen; the story text sits in a panel below it. */
+@media (max-aspect-ratio: 1/1) {
+  .evo[data-mode="cinematic"] .evo-track { height: calc(var(--track) * 70svh + 100svh); }
+  .evo-stage { background: var(--bg); }
+  .evo-stage .scene { height: 62%; top: 0; bottom: auto; }
+  .evo-scrim {
+    background:
+      linear-gradient(180deg, rgba(2,4,10,0.55) 0%, rgba(2,4,10,0) 16%),
+      linear-gradient(0deg, var(--bg) 0%, var(--bg) 36%, rgba(2,4,10,0.7) 42%, rgba(2,4,10,0) 52%);
+  }
+  .era-label--stage, .era-label--stage.era-label--bottom {
+    left: 0; right: 0; top: auto; bottom: 0; width: auto; margin: 0;
+    padding: 0 22px calc(22px + env(safe-area-inset-bottom));
+    min-height: 40%; justify-content: flex-start; align-items: flex-start; text-align: left; gap: 10px;
+  }
+  .era-label--stage .era-statement, .era-label--bottom .era-statement { font-size: clamp(1.3rem, 6.2vw, 2rem); line-height: 1.1; }
+  .era-label--stage .era-lead { font-size: 0.9rem; line-height: 1.45; }
+  .era-label--stage .era-years { font-size: 0.7rem; }
+  .era-label--stage .era-name { font-size: 0.66rem; }
+  .era-label--stage .era-keywords { gap: 6px; justify-content: flex-start; }
+  .era-label--stage .era-keywords li { font-size: 0.56rem; padding: 5px 9px; letter-spacing: 0.14em; }
+  .era-label--stage .era-keywords li:nth-child(n+5) { display: none; }
+  .progress { top: 76px; bottom: auto; right: 16px; justify-content: flex-start; gap: 0; }
+  .progress-year { font-size: 1.5rem; }
+  .progress-rail { display: none; }
+}
 
 /* ─── chronicle (mobile · portrait tablet · reduced motion · no-JS) ─── */
 .chronicle { position: relative; }
