@@ -52,10 +52,26 @@
     "computer": {
       "file": "computer.jpg",
       "era": "The computer revolution",
-      "year": "1970s–1980s",
+      "year": "c. 1974",
       "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
-      "candidate": "art/plates/candidates/computer/computer-final.jpg",
-      "approvedAt": "2026-09-30T12:41:31.658Z"
+      "candidate": "art/plates/candidates/computer-evolution/computer-1974-final.jpg",
+      "approvedAt": "2026-09-30T12:54:35.459Z"
+    },
+    "computer-1979": {
+      "file": "computer-1979.jpg",
+      "era": "The computer revolution",
+      "year": "c. 1979",
+      "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
+      "candidate": "art/plates/candidates/computer-evolution/computer-1979-final.jpg",
+      "approvedAt": "2026-09-30T12:54:35.492Z"
+    },
+    "computer-1985": {
+      "file": "computer-1985.jpg",
+      "era": "The computer revolution",
+      "year": "c. 1985",
+      "model": "gemini-3-pro-image (Nano Banana Pro, Gemini app)",
+      "candidate": "art/plates/candidates/computer-evolution/computer-1985-final.jpg",
+      "approvedAt": "2026-09-30T12:54:35.526Z"
     }
   }
 }
