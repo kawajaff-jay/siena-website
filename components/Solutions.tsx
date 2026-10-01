@@ -15,7 +15,7 @@ import { CINEMATIC_QUERY, REDUCED_QUERY } from "@/lib/mode";
 import { Particles } from "./Particles";
 import { SolutionVisual } from "./SolutionVisual";
 import { SolutionDrawer } from "./SolutionDrawer";
-import { SOLUTIONS_ARRIVE_EVENT, type SolutionsArrive } from "@/lib/story";
+import { SOLUTIONS_ARRIVE_EVENT, STORY_OPENED_EVENT, type SolutionsArrive } from "@/lib/story";
 
 const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 const ITEMS = SOLUTIONS.items;
@@ -63,7 +63,7 @@ export function Solutions() {
       set(`.sol-path[data-i="${i}"]`, `M${hx} ${hy} H${x} V${y}`);
     });
     svg.querySelectorAll(".sol-hub, .sol-hub-ring").forEach((c) => { c.setAttribute("cx", String(hx)); c.setAttribute("cy", String(hy)); });
-    const core = field.querySelector<HTMLElement>(".sol-core");
+    const core = field.querySelector<HTMLElement>(".sol-core-wrap");
     if (core) { core.style.left = `${hx}px`; core.style.top = `${hy}px`; }
   }, []);
 
@@ -92,9 +92,12 @@ export function Solutions() {
         .fromTo(q(".sol-hub"), { autoAlpha: 0, scale: 0.2, transformOrigin: "50% 50%" }, { autoAlpha: 1, scale: 1, duration: 0.12, ease: "back.out(2)" }, 0.5)
         .fromTo(q(".sol-hub-ring"), { autoAlpha: 0.7, scale: 1, transformOrigin: "50% 50%" }, { autoAlpha: 0, scale: 9, duration: 0.3, ease: "power2.out" }, 0.52)
         // the system powers on: the network and the central bloom brighten, then settle to a whisper
-        .fromTo(fieldRef.current, { "--base": 0, "--boost": 0 }, { "--base": 1, "--boost": 1, duration: 0.16, ease: "sine.out" }, 0.3)
-        .to(fieldRef.current, { "--boost": 0, duration: 0.34, ease: "sine.inOut" }, 0.78)
-        .fromTo(q(".sol-core"), { scale: 0.6 }, { scale: 1, duration: 0.2 }, 0.5)
+        .fromTo(q(".sol-base-in"), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.08, ease: "none" }, 0.3)
+        .fromTo(q(".sol-base--boost"), { opacity: 0 }, { opacity: 1, duration: 0.16, ease: "sine.out" }, 0.3)
+        .to(q(".sol-base--boost"), { opacity: 0, duration: 0.34, ease: "sine.inOut" }, 0.78)
+        .fromTo(q(".sol-core-wrap"), { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.2 }, 0.5)
+        .fromTo(q(".sol-core--boost"), { opacity: 0 }, { opacity: 1, duration: 0.18, ease: "sine.out" }, 0.5)
+        .to(q(".sol-core--boost"), { opacity: 0, duration: 0.34, ease: "sine.inOut" }, 0.78)
         .fromTo(q(".sol-stub"), { drawSVG: "0%" }, { drawSVG: "100%", duration: 0.14, ease: "none", stagger: { each: 0.02, from: "center" } }, 0.56)
         .fromTo(q(".sol-card"), { autoAlpha: 0, y: 30, scale: 0.93 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.36, stagger: grid }, 0.6)
         .fromTo(q(".sol-card-bloom"), { opacity: 0 }, { opacity: 1, duration: 0.14, stagger: grid, ease: "sine.out" }, 0.66)
@@ -196,21 +199,46 @@ export function Solutions() {
 
   useEffect(() => () => { pulseTl.current?.kill(); }, []);
 
+  /** the network lights up once (used by the Story → Solutions hand-off) */
+  const networkMoment = useCallback(() => {
+    const field = fieldRef.current, svg = svgRef.current;
+    if (!field || !svg || !geo.current) return;
+    field.classList.add("net-on");
+    gsap.fromTo(svg.querySelector(".sol-hub-ring"), { autoAlpha: 0.7, scale: 1, transformOrigin: "50% 50%" }, { autoAlpha: 0, scale: 9, duration: 1.1, ease: "power2.out" });
+  }, []);
+
   /* ── Story → Solutions: the six function chips unfold into their modules ──────────────
      Full version (wide screens with headroom): the chips float over the page while it glides here,
      then fly into their modules and become them; Automation and AI Workflows bloom in last and the
      network lights up once. Simpler version (phones, tablets, low-power devices): fade + scroll +
-     the modules bloom in turn. Reduced motion: nothing extra — the section is simply there. */
+     the modules bloom in turn. Reduced motion: nothing extra — the section is simply there.
+     Anything that interrupts it (reopening the story, resizing, scrolling during the glide, leaving
+     the page) ends it cleanly: ghosts removed, timeline killed, modules shown, network back to idle. */
+  const handoff = useRef<{ tl: gsap.core.Timeline | null; cancelled: boolean } | null>(null);
+
+  const endHandoff = useCallback(() => {
+    const h = handoff.current;
+    handoff.current = null;
+    if (h) { h.cancelled = true; h.tl?.kill(); }
+    document.querySelectorAll(".sol-ghost").forEach((g) => g.remove());
+    ref.current?.querySelectorAll(".sol-card").forEach((c) => c.classList.remove("sol-await", "sol-arrive"));
+    const field = fieldRef.current;
+    if (field && !field.querySelector(".is-active")) field.classList.remove("net-on");
+    const ring = svgRef.current?.querySelector(".sol-hub-ring");
+    if (ring) { gsap.killTweensOf(ring); gsap.set(ring, { autoAlpha: 0 }); }
+  }, []);
+
   useEffect(() => {
     const lowPower = () =>
       (navigator.hardwareConcurrency ?? 8) <= 4 || ((navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 8) <= 4;
 
     // wait until the story has closed and the page has finished gliding to Solutions
-    const settled = () =>
+    const settled = (h: { cancelled: boolean }) =>
       new Promise<void>((resolve) => {
         const t0 = performance.now();
         let last = -1, still = 0;
         const tick = () => {
+          if (h.cancelled) return resolve();
           const y = window.scrollY;
           const open = document.documentElement.classList.contains("story-open");
           still = !open && Math.abs(y - last) < 0.5 ? still + 1 : 0;
@@ -224,23 +252,17 @@ export function Solutions() {
     const reveal = (card: HTMLElement) => {
       card.classList.remove("sol-await");
       card.classList.add("sol-arrive");
-      window.setTimeout(() => card.classList.remove("sol-arrive"), 1600);
-    };
-
-    const networkMoment = () => {
-      const field = fieldRef.current, svg = svgRef.current;
-      if (!field || !svg || !geo.current) return;
-      field.classList.add("net-on");
-      gsap.fromTo(svg.querySelector(".sol-hub-ring"), { autoAlpha: 0.7, scale: 1, transformOrigin: "50% 50%" }, { autoAlpha: 0, scale: 9, duration: 1.1, ease: "power2.out" });
-      window.setTimeout(() => { if (!field.querySelector(".is-active")) field.classList.remove("net-on"); }, 1700);
     };
 
     const onArrive = async (e: Event) => {
+      endHandoff();
       const root = ref.current;
       if (!root || window.matchMedia(REDUCED_QUERY).matches) return;
       const { chips } = (e as CustomEvent<SolutionsArrive>).detail;
       const cards = Array.from(root.querySelectorAll<HTMLElement>(".sol-card"));
       const full = window.matchMedia(WIDE).matches && !lowPower() && chips.length > 0 && chips.every((c) => c.rect.w > 0);
+      const h = { tl: null as gsap.core.Timeline | null, cancelled: false };
+      handoff.current = h;
       cards.forEach((c) => c.classList.add("sol-await"));
 
       // full: ghosts of the chips, exactly where they were in the story
@@ -257,15 +279,17 @@ export function Solutions() {
           })
         : [];
 
-      await settled();
+      await settled(h);
+      if (h.cancelled || handoff.current !== h) return;
 
+      const tl = gsap.timeline({ onComplete: () => { if (handoff.current === h) endHandoff(); } });
+      h.tl = tl;
       if (!full) {
-        cards.forEach((c, k) => window.setTimeout(() => reveal(c), 120 + k * 80));
-        window.setTimeout(networkMoment, 400);
+        cards.forEach((c, k) => tl.call(() => reveal(c), undefined, 0.12 + k * 0.08));
+        tl.call(networkMoment, undefined, 0.4);
+        tl.to({}, { duration: 1.7 }); // let the blooms finish before tidying up
         return;
       }
-
-      const tl = gsap.timeline({ onComplete: () => ghosts.forEach((g) => g.remove()) });
       ghosts.forEach((g, k) => {
         const card = cards[INDEX[g.dataset.id!]];
         if (!card) return;
@@ -277,13 +301,43 @@ export function Solutions() {
           .to(g, { autoAlpha: 0, duration: 0.35, ease: "power1.out" }, at + 0.74);
       });
       // the modules that weren't in the story bloom in last, and the network lights up once
-      const rest = cards.filter((c) => !ghosts.some((g) => cards[INDEX[g.dataset.id!]] === c));
-      tl.call(() => { rest.forEach((c, k) => window.setTimeout(() => reveal(c), k * 120)); networkMoment(); }, undefined, ">-0.2");
+      const fromStory = new Set(ghosts.map((g) => INDEX[g.dataset.id!]));
+      const rest = cards.filter((_, i) => !fromStory.has(i));
+      const restAt = tl.duration() - 0.2;
+      rest.forEach((c, k) => tl.call(() => reveal(c), undefined, restAt + k * 0.12));
+      tl.call(networkMoment, undefined, restAt);
+      tl.to({}, { duration: 1.7 }, restAt); // blooms finish, then everything is tidied
     };
 
+    // interruptions end the hand-off cleanly
+    const onInterrupt = () => { if (handoff.current) endHandoff(); };
+    const onInput = onInterrupt; // the visitor scrolls or types mid-hand-off: they take over
+    let width = window.innerWidth;
+    const onResize = () => { // phones resize the viewport height while scrolling — only a real width change counts
+      if (window.innerWidth !== width) { width = window.innerWidth; onInterrupt(); }
+    };
+    const onVisibility = () => { if (document.hidden) onInterrupt(); };
+
     window.addEventListener(SOLUTIONS_ARRIVE_EVENT, onArrive);
-    return () => window.removeEventListener(SOLUTIONS_ARRIVE_EVENT, onArrive);
-  }, []);
+    window.addEventListener(STORY_OPENED_EVENT, onInterrupt);
+    window.addEventListener("resize", onResize);
+    window.addEventListener("pagehide", onInterrupt);
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("wheel", onInput, { passive: true });
+    window.addEventListener("touchstart", onInput, { passive: true });
+    window.addEventListener("keydown", onInput);
+    return () => {
+      window.removeEventListener(SOLUTIONS_ARRIVE_EVENT, onArrive);
+      window.removeEventListener(STORY_OPENED_EVENT, onInterrupt);
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("pagehide", onInterrupt);
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("wheel", onInput);
+      window.removeEventListener("touchstart", onInput);
+      window.removeEventListener("keydown", onInput);
+      endHandoff();
+    };
+  }, [endHandoff, networkMoment]);
 
   /* ── the drawer ─────────────────────────────────────────────────────────────── */
   const openModule = (i: number, btn: HTMLButtonElement) => { opener.current = btn; deactivate(); setOpen(i); };
@@ -327,12 +381,20 @@ export function Solutions() {
 
         <div className="sol-field" ref={fieldRef}>
           {/* the network the modules sit on (wide screens) — paths are measured from the real layout */}
-          <span className="sol-core" aria-hidden="true" />
+          <span className="sol-core-wrap" aria-hidden="true">
+            <span className="sol-core" />
+            <span className="sol-core sol-core--boost" />
+          </span>
           <svg className="sol-net" ref={svgRef} aria-hidden="true" focusable="false">
-            <g className="sol-base">
-              <path className="sol-bus sol-bus--l" />
-              <path className="sol-bus sol-bus--r" />
-              {ITEMS.map((s, i) => <path key={`s${s.id}`} className="sol-stub" data-i={i} />)}
+            {/* base network: idle = a whisper (CSS), .net-on = full (CSS); the boost copy only flashes on power-on (GSAP) */}
+            <g className="sol-base-in">
+              {(["sol-base", "sol-base sol-base--boost"] as const).map((cls) => (
+                <g key={cls} className={cls}>
+                  <path className="sol-bus sol-bus--l" />
+                  <path className="sol-bus sol-bus--r" />
+                  {ITEMS.map((s, i) => <path key={`s${s.id}`} className="sol-stub" data-i={i} />)}
+                </g>
+              ))}
             </g>
             {ITEMS.map((s, i) => <path key={`p${s.id}`} className="sol-path" data-i={i} />)}
             {[0, 1, 2, 3].map((k) => <path key={`u${k}`} className="sol-pulse" />)}

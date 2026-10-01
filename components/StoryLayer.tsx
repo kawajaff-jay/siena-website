@@ -13,7 +13,7 @@ import { EvolutionTimeline, type TimelineApi } from "./EvolutionTimeline";
 import { SienaReveal } from "./SienaReveal";
 import { BrandLogo } from "./BrandLogo";
 import { ERAS } from "@/content/eras";
-import { SOLUTIONS_ARRIVE_EVENT, STORY_HASH, STORY_OPEN_EVENT, type FnChip } from "@/lib/story";
+import { SOLUTIONS_ARRIVE_EVENT, STORY_HASH, STORY_OPEN_EVENT, STORY_OPENED_EVENT, type FnChip } from "@/lib/story";
 import { REDUCED_QUERY } from "@/lib/mode";
 import { useChapterSettle } from "@/lib/useChapterSettle";
 import type { AvailablePlate } from "@/lib/plates.server";
@@ -111,6 +111,7 @@ export function StoryLayer({ plates }: { plates: AvailablePlate[] }) {
     if (phase === "closed") return;
     document.documentElement.classList.add("story-open");
     if (phase !== "open") return;
+    window.dispatchEvent(new CustomEvent(STORY_OPENED_EVENT));
     closeBtn.current?.focus({ preventScroll: true });
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") { e.preventDefault(); close(); return; }

@@ -17,3 +17,6 @@ export function openStory() {
 export const SOLUTIONS_ARRIVE_EVENT = "siena:solutions-arrive";
 export type FnChip = { id: string; label: string; rect: { x: number; y: number; w: number; h: number } };
 export type SolutionsArrive = { chips: FnChip[] };
+
+/** fired whenever the story layer opens (anything in progress on the page, e.g. the hand-off, ends) */
+export const STORY_OPENED_EVENT = "siena:story-opened";
