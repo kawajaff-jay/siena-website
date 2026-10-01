@@ -99,6 +99,18 @@ export function SolutionDrawer({
     return () => window.removeEventListener("keydown", onKey);
   }, [phase, requestClose]);
 
+  // iOS Safari: touches on the backdrop or the sheet's frame must never scroll the page behind
+  const rootRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el || phase === "closed") return;
+    const block = (e: TouchEvent) => {
+      if (!(e.target as Element).closest(".sol-drawer-scroll")) e.preventDefault();
+    };
+    el.addEventListener("touchmove", block, { passive: false });
+    return () => el.removeEventListener("touchmove", block);
+  }, [phase]);
+
   // phones: swipe the sheet down by its top edge to close
   const drag = useRef<{ y0: number; dy: number } | null>(null);
   const onTouchStart = (e: React.TouchEvent) => { drag.current = { y0: e.touches[0].clientY, dy: 0 }; };
@@ -122,7 +134,7 @@ export function SolutionDrawer({
   if (!mounted) return null;
   // rendered at the end of <body> so it sits above the site header and outside the section's layers
   return createPortal(
-    <div id="solution-drawer" className="sol-drawer" data-phase={phase} hidden={phase === "closed"}>
+    <div id="solution-drawer" ref={rootRef} className="sol-drawer" data-phase={phase} hidden={phase === "closed"}>
       <div className="sol-drawer-backdrop" onClick={() => requestClose()} aria-hidden="true" />
       <div ref={panelRef} className="sol-drawer-panel" role="dialog" aria-modal="true" aria-labelledby="sol-drawer-title">
         <div className="sol-drawer-head" onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>

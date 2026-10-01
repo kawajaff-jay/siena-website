@@ -90,8 +90,10 @@ export function Solutions() {
         .fromTo(q(".sol-bus"), { drawSVG: "0%" }, { drawSVG: "100%", duration: 0.34, ease: "power1.inOut" }, 0.3)
         .fromTo(q(".sol-hub"), { autoAlpha: 0, scale: 0.2, transformOrigin: "50% 50%" }, { autoAlpha: 1, scale: 1, duration: 0.12, ease: "back.out(2)" }, 0.5)
         .fromTo(q(".sol-hub-ring"), { autoAlpha: 0.7, scale: 1, transformOrigin: "50% 50%" }, { autoAlpha: 0, scale: 9, duration: 0.3, ease: "power2.out" }, 0.52)
-        .fromTo(q(".sol-core"), { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.18 }, 0.5)
-        .to(q(".sol-core"), { autoAlpha: 0.4, duration: 0.3, ease: "sine.inOut" }, 0.72)
+        // the system powers on: the network and the central bloom brighten, then settle to a whisper
+        .fromTo(fieldRef.current, { "--base": 0, "--boost": 0 }, { "--base": 1, "--boost": 1, duration: 0.16, ease: "sine.out" }, 0.3)
+        .to(fieldRef.current, { "--boost": 0, duration: 0.34, ease: "sine.inOut" }, 0.78)
+        .fromTo(q(".sol-core"), { scale: 0.6 }, { scale: 1, duration: 0.2 }, 0.5)
         .fromTo(q(".sol-stub"), { drawSVG: "0%" }, { drawSVG: "100%", duration: 0.14, ease: "none", stagger: { each: 0.02, from: "center" } }, 0.56)
         .fromTo(q(".sol-card"), { autoAlpha: 0, y: 30, scale: 0.93 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.36, stagger: grid }, 0.6)
         .fromTo(q(".sol-card-bloom"), { opacity: 0 }, { opacity: 1, duration: 0.14, stagger: grid, ease: "sine.out" }, 0.66)
@@ -154,6 +156,7 @@ export function Solutions() {
     if (!root) return;
     pulseTl.current?.kill();
     pulseTl.current = null;
+    fieldRef.current?.classList.remove("net-on");
     root.querySelectorAll(".is-active, .is-related, .is-lit, .is-soft").forEach((el) => el.classList.remove("is-active", "is-related", "is-lit", "is-soft"));
     root.querySelectorAll<SVGPathElement>(".sol-pulse").forEach((p) => { p.style.opacity = "0"; });
   }, []);
@@ -171,6 +174,7 @@ export function Solutions() {
     svg.querySelector(`.sol-path[data-i="${i}"]`)?.classList.add("is-lit");
     related.forEach((j) => svg.querySelector(`.sol-path[data-i="${j}"]`)?.classList.add("is-soft"));
     svg.querySelector(".sol-hub")?.classList.add("is-lit");
+    fieldRef.current?.classList.add("net-on"); // the network becomes the star for this moment
 
     // pulses: module → centre, then centre → each related module (a calm loop while hovered)
     const [hx, hy] = g.hub;
@@ -235,9 +239,11 @@ export function Solutions() {
           {/* the network the modules sit on (wide screens) — paths are measured from the real layout */}
           <span className="sol-core" aria-hidden="true" />
           <svg className="sol-net" ref={svgRef} aria-hidden="true" focusable="false">
-            <path className="sol-bus sol-bus--l" />
-            <path className="sol-bus sol-bus--r" />
-            {ITEMS.map((s, i) => <path key={`s${s.id}`} className="sol-stub" data-i={i} />)}
+            <g className="sol-base">
+              <path className="sol-bus sol-bus--l" />
+              <path className="sol-bus sol-bus--r" />
+              {ITEMS.map((s, i) => <path key={`s${s.id}`} className="sol-stub" data-i={i} />)}
+            </g>
             {ITEMS.map((s, i) => <path key={`p${s.id}`} className="sol-path" data-i={i} />)}
             {[0, 1, 2, 3].map((k) => <path key={`u${k}`} className="sol-pulse" />)}
             <circle className="sol-hub-ring" r="4" />

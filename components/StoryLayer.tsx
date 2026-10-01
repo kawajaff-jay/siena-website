@@ -131,6 +131,17 @@ export function StoryLayer({ plates }: { plates: AvailablePlate[] }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [phase, close]);
 
+  // iOS Safari: touches on the story's frame (top bar, controls) must never scroll the page behind
+  useEffect(() => {
+    const el = layerRef.current;
+    if (!el || phase === "closed") return;
+    const block = (e: TouchEvent) => {
+      if (!(e.target as Element).closest(".story-scroll")) e.preventDefault();
+    };
+    el.addEventListener("touchmove", block, { passive: false });
+    return () => el.removeEventListener("touchmove", block);
+  }, [phase]);
+
   // closing: fade out, unmount, restore the exact page position and focus, then optionally glide to a section
   useEffect(() => {
     if (phase !== "closing") return;
