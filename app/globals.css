@@ -347,15 +347,6 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   font-family: var(--font-display), sans-serif; font-weight: 300; font-size: clamp(1.8rem, 3.4vw, 3rem); line-height: 1.12;
   color: var(--white); max-width: 22ch; text-wrap: balance;
 }
-.solutions { padding: clamp(96px, 14vh, 160px) 0; background: var(--bg); border-top: 1px solid var(--line); }
-.solutions-grid { margin-top: 56px; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
-.solution { padding: 28px 26px 34px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); display: grid; gap: 12px; align-content: start; transition: background 0.4s var(--ease); }
-.solution:hover { background: linear-gradient(180deg, rgba(47,123,255,0.08), rgba(47,123,255,0)); }
-.solution-index { font-family: var(--font-display), sans-serif; font-size: 0.78rem; color: var(--blue); letter-spacing: 0.2em; }
-.solution h3 { font-family: var(--font-display), sans-serif; font-weight: 400; font-size: 1.15rem; color: var(--white); letter-spacing: 0.02em; }
-.solution p { font-size: 0.94rem; color: var(--muted); }
-@media (max-width: 1100px) { .solutions-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 600px) { .solutions-grid { grid-template-columns: 1fr; } }
 
 .contact { padding: clamp(96px, 16vh, 180px) 0; background: radial-gradient(60% 70% at 50% 100%, rgba(47,123,255,0.18), transparent 70%), var(--bg); }
 .contact-inner { display: grid; justify-items: center; text-align: center; gap: 22px; }
@@ -446,3 +437,135 @@ html.story-open, html.story-open body { overflow: hidden; }
   .story-layer .reveal-stage { padding-bottom: 72px; }
 }
 @media (prefers-reduced-motion: reduce) { .story-layer, .story-layer[data-phase="closing"] { animation-duration: 0.01s; } }
+
+/* ═══════════════════════════════════════════════════════════════
+   SOLUTIONS — SIENA's intelligent modules
+   ═══════════════════════════════════════════════════════════════ */
+.solutions {
+  position: relative; overflow: hidden; isolation: isolate;
+  padding: clamp(104px, 15vh, 170px) 0 clamp(110px, 16vh, 180px);
+  background: radial-gradient(120% 70% at 50% 0%, #061232 0%, var(--bg) 58%);
+  border-top: 1px solid var(--line);
+}
+/* ambient life: slow blue light, faint network, a few motes */
+.sol-ambient { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.sol-glow { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.55; will-change: transform; }
+.sol-glow--a { width: 46vw; height: 46vw; max-width: 720px; max-height: 720px; left: -10%; top: 18%; background: radial-gradient(closest-side, rgba(47,123,255,0.22), transparent); animation: sol-drift-a 26s ease-in-out infinite alternate; }
+.sol-glow--b { width: 40vw; height: 40vw; max-width: 620px; max-height: 620px; right: -8%; bottom: 4%; background: radial-gradient(closest-side, rgba(91,155,255,0.16), transparent); animation: sol-drift-b 32s ease-in-out infinite alternate; }
+@keyframes sol-drift-a { to { transform: translate(14vw, 8vh); } }
+@keyframes sol-drift-b { to { transform: translate(-12vw, -10vh); } }
+.sol-ambient-net { position: absolute; inset: -8% 0; width: 100%; height: 116%; }
+.sol-ambient-net path { fill: none; stroke: rgba(91,155,255,0.12); stroke-width: 1; stroke-dasharray: 2 10; animation: trace 40s linear infinite; }
+.sol-particles { position: absolute; inset: 0; opacity: 0.7; }
+.sol-particles .particles { width: 100%; height: 100%; }
+
+.sol-head { position: relative; }
+.solutions .section-title { max-width: 18ch; }
+
+/* the field the modules sit on */
+.sol-field { position: relative; margin-top: clamp(48px, 7vh, 72px); }
+.sol-net { position: absolute; inset: 0; pointer-events: none; }
+.sol-net-line { position: absolute; background: linear-gradient(90deg, rgba(47,123,255,0), rgba(91,155,255,0.45) 12%, rgba(91,155,255,0.45) 88%, rgba(47,123,255,0)); }
+.sol-net-line--h { left: -3%; right: -3%; height: 1px; transform-origin: left center; }
+.sol-net-line--v { top: 25%; bottom: 25%; width: 1px; background: rgba(91,155,255,0.4); transform-origin: top center; }
+.sol-grid { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: clamp(14px, 1.6vw, 22px); }
+
+/* a module */
+.sol-card {
+  --lift: 0px;
+  position: relative; display: grid; align-content: start; gap: 12px;
+  padding: 22px 22px 24px; border-radius: 16px; overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(156,194,255,0.055), rgba(156,194,255,0.012) 42%, rgba(3,6,14,0) 100%),
+    linear-gradient(180deg, #07102a, #050a1a);
+  border: 1px solid rgba(156,194,255,0.13);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 24px 48px -32px rgba(0,0,0,0.9);
+  translate: 0 var(--lift); /* separate from GSAP's transform (arrival) */
+  transition: translate 0.5s var(--ease), border-color 0.5s var(--ease), box-shadow 0.6s var(--ease);
+}
+.sol-card::after { /* soft reflection along the top edge */
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(156,194,255,0.35), transparent); opacity: 0.6;
+}
+.sol-card-bloom { /* the soft blue bloom: on arrival and on hover */
+  position: absolute; inset: -30% -20% auto; height: 90%; pointer-events: none; opacity: 0;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(47,123,255,0.28), rgba(47,123,255,0));
+  transition: opacity 0.6s var(--ease);
+}
+.sol-card-sheen { /* a highlight that travels once across the surface */
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(105deg, transparent 35%, rgba(156,194,255,0.09) 50%, transparent 65%);
+  transform: translateX(-110%);
+}
+.sol-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+.sol-card-index { font-family: var(--font-display), sans-serif; font-size: 0.74rem; color: var(--blue); letter-spacing: 0.2em; padding-top: 2px; }
+.sol-card h3 { font-family: var(--font-display), sans-serif; font-weight: 400; font-size: 1.16rem; color: var(--white); letter-spacing: 0.02em; }
+.sol-card-body { font-size: 0.9rem; line-height: 1.55; color: var(--muted); }
+.sol-card-result {
+  margin-top: 4px; padding-top: 12px; border-top: 1px solid rgba(156,194,255,0.1);
+  font-size: 0.78rem; line-height: 1.45; color: var(--blue-soft); letter-spacing: 0.01em;
+}
+@media (hover: hover) {
+  .sol-card:hover { --lift: -6px; border-color: rgba(91,155,255,0.38); box-shadow: 0 1px 0 rgba(255,255,255,0.06) inset, 0 30px 60px -30px rgba(47,123,255,0.45); }
+  .sol-card:hover .sol-card-bloom { opacity: 0.85 !important; }
+  .sol-card:hover .sol-card-sheen { transform: translateX(110%); transition: transform 1.1s var(--ease); }
+}
+.sol-card:active { --lift: -3px; }
+
+/* the small drawing in each module */
+.sv { width: 104px; height: 56px; flex: none; overflow: visible; }
+.sv * { vector-effect: non-scaling-stroke; }
+.sv-faint, .sv-line, .sv-flow, .sv-ring { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.sv-faint { stroke: rgba(156,194,255,0.18); stroke-width: 1; }
+.sv-line { stroke: rgba(156,194,255,0.55); stroke-width: 1.2; }
+.sv-trend { stroke: var(--blue-bright); }
+.sv-area { fill: rgba(47,123,255,0.12); stroke: none; }
+.sv-flow { stroke: var(--blue-bright); stroke-width: 1.4; stroke-dasharray: 4 9; opacity: 0.85; }
+.sv-bar { fill: rgba(91,155,255,0.35); transform-box: fill-box; transform-origin: bottom; }
+.sv-node { fill: #0a1736; stroke: rgba(156,194,255,0.5); stroke-width: 1.1; transition: fill 0.4s, stroke 0.4s; }
+.sv-node rect { fill: inherit; stroke: inherit; }
+.sv-node--on { fill: rgba(47,123,255,0.55); stroke: var(--blue-bright); }
+.sv-ring { stroke: rgba(91,155,255,0.45); stroke-width: 1; transform-box: fill-box; transform-origin: center; opacity: 0; }
+.sv-dot { fill: #cfe0ff; offset-rotate: 0deg; offset-distance: 0%; filter: drop-shadow(0 0 3px rgba(91,155,255,0.9)); }
+/* idle loop (only while on screen) and a livelier pace on hover */
+.sol-card .sv * { animation-play-state: paused; }
+.sol-card.is-live .sv * { animation-play-state: running; }
+.sv-flow { animation: sv-flow 2.4s linear infinite; }
+.sv-dot { animation: sv-dot 4.2s var(--ease) infinite; }
+.sv-bar { animation: sv-bar 4.2s var(--ease) infinite; animation-delay: calc(var(--i) * 0.12s); }
+.sv-node { animation: sv-node 4.2s ease-in-out infinite; animation-delay: calc(var(--i) * 0.5s); }
+.sv-node--on { animation: none; }
+.sv-ring { animation: sv-ring 3.6s ease-out infinite; animation-delay: calc(var(--i) * 1.2s); }
+@keyframes sv-flow { to { stroke-dashoffset: -26; } }
+@keyframes sv-dot { 0% { offset-distance: 0%; opacity: 0; } 10% { opacity: 1; } 85% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+@keyframes sv-bar { 0%, 100% { transform: scaleY(0.55); } 50% { transform: scaleY(1); } }
+@keyframes sv-node { 0%, 70%, 100% { fill: #0a1736; stroke: rgba(156,194,255,0.5); } 20%, 40% { fill: rgba(47,123,255,0.5); stroke: var(--blue-bright); } }
+@keyframes sv-ring { 0% { transform: scale(0.3); opacity: 0.7; } 100% { transform: scale(1.25); opacity: 0; } }
+@media (hover: hover) {
+  .sol-card:hover .sv-flow { animation-duration: 1.1s; opacity: 1; }
+  .sol-card:hover .sv-dot, .sol-card:hover .sv-bar, .sol-card:hover .sv-node { animation-duration: 2.2s; }
+  .sol-card:hover .sv-line { stroke: rgba(156,194,255,0.8); }
+}
+
+/* before the arrival animation takes over (JS on): hidden until the section assembles */
+.solutions[data-anim="on"] .sol-net-line--h { transform: scaleX(0); }
+.solutions[data-anim="on"] .sol-net-line--v { transform: scaleY(0); }
+
+@media (max-width: 1100px) {
+  .sol-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto; }
+  .sol-net { display: none; }
+}
+/* phones: one module per row, a quiet spine linking them */
+@media (max-width: 760px) {
+  .sol-grid { grid-template-columns: 1fr; gap: 14px; }
+  .sol-field::before { content: ""; position: absolute; left: 22px; top: 12px; bottom: 12px; width: 1px; background: linear-gradient(180deg, rgba(91,155,255,0), rgba(91,155,255,0.35) 8%, rgba(91,155,255,0.35) 92%, rgba(91,155,255,0)); }
+  .sol-card { padding: 20px 20px 22px; }
+  .sol-glow { filter: blur(40px); animation: none; }
+  .sol-particles { display: none; }
+  .sv { width: 92px; height: 50px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sol-glow, .sol-ambient-net path, .sv * { animation: none !important; }
+  .sv-dot, .sv-ring { display: none; }
+  .sol-card, .sol-card-sheen { transition: none; }
+}

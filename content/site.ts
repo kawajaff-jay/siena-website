@@ -43,20 +43,21 @@ export const REVEAL = {
   storySecondary: { label: "Explore our solutions", href: "#solutions" },
 };
 
+/** visual: the small animated drawing inside each module (see SolutionVisual). result: DRAFT copy — edit freely. */
 export const SOLUTIONS = {
   eyebrow: "What SIENA connects",
   headline: "One intelligent system across the whole business.",
   items: [
-    { title: "Finance", body: "Invoices, reconciliation, cash-flow forecasting and reporting that update themselves." },
-    { title: "Sales", body: "Lead scoring, CRM hygiene, follow-ups and pipeline insight without the busywork." },
-    { title: "Customer Service", body: "AI agents that resolve, route and escalate — with full context from every system." },
-    { title: "Operations", body: "Inventory, orders and fulfilment orchestrated as one flow, not ten tools." },
-    { title: "Marketing", body: "Campaigns, content and attribution connected to real revenue data." },
-    { title: "Data & Analytics", body: "Live dashboards and decision support that explain what changed and why." },
-    { title: "Automation", body: "Reliable workflows and integrations across the software you already use." },
-    { title: "AI Workflows", body: "Custom agents and models, designed with human review where it matters." },
+    { title: "Finance", visual: "finance", body: "Invoices, reconciliation, cash-flow forecasting and reporting that update themselves.", result: "Less manual work. Faster financial visibility." },
+    { title: "Sales", visual: "sales", body: "Lead scoring, CRM hygiene, follow-ups and pipeline insight without the busywork.", result: "Every lead followed up. A pipeline you can trust." },
+    { title: "Customer Service", visual: "service", body: "AI agents that resolve, route and escalate — with full context from every system.", result: "Faster answers, with the full story." },
+    { title: "Operations", visual: "operations", body: "Inventory, orders and fulfilment orchestrated as one flow, not ten tools.", result: "Fewer handoffs. Orders that flow end to end." },
+    { title: "Marketing", visual: "marketing", body: "Campaigns, content and attribution connected to real revenue data.", result: "Spend tied to revenue, not guesswork." },
+    { title: "Data & Analytics", visual: "analytics", body: "Live dashboards and decision support that explain what changed and why.", result: "Decisions on live numbers." },
+    { title: "Automation", visual: "automation", body: "Reliable workflows and integrations across the software you already use.", result: "Routine work handled. Teams freed up." },
+    { title: "AI Workflows", visual: "ai", body: "Custom agents and models, designed with human review where it matters.", result: "Agents that act — people stay in control." },
   ],
-};
+} as const;
 
 export const CONTACT = {
   eyebrow: "Build your AI system",
