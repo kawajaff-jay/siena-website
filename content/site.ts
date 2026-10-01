@@ -13,6 +13,7 @@ export const SITE = {
 export const NAV = [
   { label: "The Evolution", href: "#evolution" },
   { label: "Solutions", href: "#solutions" },
+  { label: "Why SIENA", href: "#why" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -48,6 +49,29 @@ export const REVEAL = {
  * id: used for the detail drawer · visual: the small drawing (SolutionVisual)
  * related: modules this one exchanges data with (the network lights these up on hover)
  */
+/** DRAFT copy — short by design; edit freely. */
+export const WHAT = {
+  eyebrow: "What SIENA does",
+  headline: "We connect your business systems — and make them intelligent.",
+  pillars: [
+    { title: "Connect", body: "Your tools, data and teams, joined into one flow." },
+    { title: "Automate", body: "Routine work handled reliably, end to end." },
+    { title: "Make intelligent", body: "AI that understands the business and acts — with people in control." },
+  ],
+};
+
+/** DRAFT copy — short by design; edit freely. */
+export const WHY = {
+  eyebrow: "Why SIENA",
+  headline: "Built around how your business already works.",
+  points: [
+    { title: "One system, not more tools", body: "We connect what you already use instead of adding another platform." },
+    { title: "Designed around your workflows", body: "Every system starts from how your teams work today." },
+    { title: "People stay in control", body: "AI acts where it is trusted and asks where it matters." },
+    { title: "Built for daily use", body: "Reliable, monitored and documented from day one." },
+  ],
+};
+
 /** the six functions at the end of the Evolution story (ids match the Solutions modules) */
 export const STORY_FUNCTIONS = [
   { id: "finance", label: "Finance" },

@@ -1,6 +1,8 @@
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
+import { WhatSiena } from "@/components/WhatSiena";
 import { Solutions } from "@/components/Solutions";
+import { WhySiena } from "@/components/WhySiena";
 import { ContactCTA, Footer } from "@/components/ContactCTA";
 import { StoryLayer } from "@/components/StoryLayer";
 import { SceneDefs } from "@/components/scenes/common";
@@ -25,7 +27,9 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
+        <WhatSiena />
         <Solutions />
+        <WhySiena />
         <ContactCTA />
       </main>
       <Footer />
