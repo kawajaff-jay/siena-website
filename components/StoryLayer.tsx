@@ -15,6 +15,7 @@ import { BrandLogo } from "./BrandLogo";
 import { ERAS } from "@/content/eras";
 import { STORY_HASH, STORY_OPEN_EVENT } from "@/lib/story";
 import { REDUCED_QUERY } from "@/lib/mode";
+import { useChapterSettle } from "@/lib/useChapterSettle";
 import type { AvailablePlate } from "@/lib/plates.server";
 
 type Phase = "closed" | "open" | "closing";
@@ -186,6 +187,9 @@ export function StoryLayer({ plates }: { plates: AvailablePlate[] }) {
     e.preventDefault();
     close(href);
   };
+
+  // soft settle at each era so a fast swipe can't skip a whole chapter
+  useChapterSettle(scroller, api, ERAS.length);
 
   const skipToAI = () => api?.jump(AI_INDEX);
 
