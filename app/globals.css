@@ -464,11 +464,8 @@ html.story-open, html.story-open body { overflow: hidden; }
 
 /* the field the modules sit on */
 .sol-field { position: relative; margin-top: clamp(48px, 7vh, 72px); }
-.sol-net { position: absolute; inset: 0; pointer-events: none; }
-.sol-net-line { position: absolute; background: linear-gradient(90deg, rgba(47,123,255,0), rgba(91,155,255,0.45) 12%, rgba(91,155,255,0.45) 88%, rgba(47,123,255,0)); }
-.sol-net-line--h { left: -3%; right: -3%; height: 1px; transform-origin: left center; }
-.sol-net-line--v { top: 25%; bottom: 25%; width: 1px; background: rgba(91,155,255,0.4); transform-origin: top center; }
-.sol-grid { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: clamp(14px, 1.6vw, 22px); }
+.sol-grid { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 1fr; column-gap: clamp(14px, 1.6vw, 22px); row-gap: clamp(40px, 5vw, 64px); }
+.sol-item { display: grid; }
 
 /* a module */
 .sol-card {
@@ -547,13 +544,9 @@ html.story-open, html.story-open body { overflow: hidden; }
   .sol-card:hover .sv-line { stroke: rgba(156,194,255,0.8); }
 }
 
-/* before the arrival animation takes over (JS on): hidden until the section assembles */
-.solutions[data-anim="on"] .sol-net-line--h { transform: scaleX(0); }
-.solutions[data-anim="on"] .sol-net-line--v { transform: scaleY(0); }
-
 @media (max-width: 1100px) {
-  .sol-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto; }
-  .sol-net { display: none; }
+  .sol-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto; row-gap: clamp(14px, 1.6vw, 22px); }
+  .sol-net, .sol-core { display: none; }
 }
 /* phones: one module per row, a quiet spine linking them */
 @media (max-width: 760px) {
@@ -568,4 +561,122 @@ html.story-open, html.story-open body { overflow: hidden; }
   .sol-glow, .sol-ambient-net path, .sv * { animation: none !important; }
   .sv-dot, .sv-ring { display: none; }
   .sol-card, .sol-card-sheen { transition: none; }
+}
+
+/* ─── Solutions: the network (wide screens), measured from the real layout ─── */
+.sol-net { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.sol-net path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.sol-bus, .sol-stub { stroke: rgba(91,155,255,0.32); stroke-width: 1; }
+.sol-path { stroke: rgba(120,170,255,0); stroke-width: 1.4; transition: stroke 0.45s var(--ease); }
+.sol-path.is-soft { stroke: rgba(120,170,255,0.32); }
+.sol-path.is-lit { stroke: rgba(140,185,255,0.85); }
+.sol-pulse { stroke: #d6e5ff; stroke-width: 2; opacity: 0; filter: drop-shadow(0 0 4px rgba(91,155,255,0.95)); }
+.sol-hub { fill: #9cc2ff; filter: drop-shadow(0 0 6px rgba(47,123,255,0.9)); transition: fill 0.4s; }
+.sol-hub.is-lit { fill: #e6efff; }
+.sol-hub-ring { fill: none; stroke: rgba(91,155,255,0.7); stroke-width: 1; opacity: 0; }
+.sol-core { /* the soft central bloom: the system powering on */
+  position: absolute; width: 520px; height: 260px; margin: -130px 0 0 -260px; pointer-events: none; opacity: 0;
+  background: radial-gradient(closest-side, rgba(47,123,255,0.22), rgba(47,123,255,0));
+}
+.solutions:not([data-anim="on"]) .sol-hub { opacity: 0.9; }
+.solutions:not([data-anim="on"]) .sol-core { opacity: 0.35; }
+
+/* related modules glow faintly when one of them is active */
+.sol-card.is-related { border-color: rgba(91,155,255,0.3); }
+.sol-card.is-related .sol-card-bloom { opacity: 0.4 !important; }
+.sol-card.is-active { --lift: -6px; border-color: rgba(91,155,255,0.42); box-shadow: 0 1px 0 rgba(255,255,255,0.06) inset, 0 30px 60px -30px rgba(47,123,255,0.45); }
+.sol-card.is-active .sol-card-bloom { opacity: 0.85 !important; }
+.sol-card.is-active .sol-card-sheen { transform: translateX(110%); transition: transform 1.1s var(--ease); }
+
+/* the module is a real button: its ::after covers the whole card */
+.sol-card h3 { margin: 0; }
+.sol-card-hit {
+  all: unset; cursor: pointer; font: inherit; color: inherit; letter-spacing: inherit;
+}
+.sol-card-hit::after { content: ""; position: absolute; inset: 0; border-radius: 16px; z-index: 2; }
+.sol-card-hit:focus-visible { outline: none; }
+.sol-card:has(.sol-card-hit:focus-visible) {
+  border-color: rgba(156,194,255,0.7);
+  box-shadow: 0 0 0 3px rgba(47,123,255,0.28), 0 30px 60px -30px rgba(47,123,255,0.45);
+}
+.sol-card-more {
+  justify-self: start; margin-top: 2px; font-size: 0.64rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted);
+  transition: color 0.3s var(--ease);
+}
+.sol-card-more span { display: inline-block; transition: transform 0.35s var(--ease); }
+.sol-card.is-active .sol-card-more, .sol-card:has(.sol-card-hit:focus-visible) .sol-card-more { color: var(--white); }
+.sol-card.is-active .sol-card-more span { transform: translateX(4px); }
+@media (hover: none) { .sol-card-more { color: var(--blue-soft); } }
+
+/* ─── Solutions: detail drawer (right panel / bottom sheet) ─── */
+html.drawer-open, html.drawer-open body { overflow: hidden; }
+.sol-drawer { position: fixed; inset: 0; z-index: 900; }
+.sol-drawer[hidden] { display: none; }
+.sol-drawer-backdrop { position: absolute; inset: 0; background: rgba(2,4,10,0.62); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); animation: fade 0.4s var(--ease) both; }
+.sol-drawer-panel {
+  position: absolute; top: 0; right: 0; bottom: 0; width: min(520px, 94vw);
+  display: grid; grid-template-rows: auto 1fr auto;
+  background: linear-gradient(180deg, #081330, #050a1a 40%, #04081a);
+  border-left: 1px solid rgba(156,194,255,0.16);
+  box-shadow: -40px 0 80px -40px rgba(0,0,0,0.9), -1px 0 0 rgba(91,155,255,0.08);
+  animation: drawer-in 0.5s var(--ease) both;
+  transition: transform 0.25s var(--ease);
+}
+.sol-drawer[data-phase="closing"] .sol-drawer-panel { animation: drawer-out 0.38s var(--ease) both; }
+.sol-drawer[data-phase="closing"] .sol-drawer-backdrop { animation: story-out 0.38s var(--ease) both; }
+@keyframes drawer-in { from { transform: translateX(104%); } }
+@keyframes drawer-out { to { transform: translateX(104%); } }
+.sol-drawer-head { display: flex; align-items: center; gap: 16px; padding: 22px 26px 18px; border-bottom: 1px solid rgba(156,194,255,0.1); }
+.sol-drawer-grab { display: none; }
+.sol-drawer-titles { display: flex; align-items: baseline; gap: 14px; margin-right: auto; }
+.sol-drawer-index { font-family: var(--font-display), sans-serif; font-size: 0.78rem; letter-spacing: 0.2em; color: var(--blue); }
+.sol-drawer-titles h2 { font-family: var(--font-display), sans-serif; font-weight: 300; font-size: clamp(1.5rem, 2.2vw, 1.9rem); color: var(--white); letter-spacing: 0.01em; }
+.sol-drawer-close {
+  width: 40px; height: 40px; flex: none; display: grid; place-items: center; cursor: pointer;
+  border-radius: 50%; border: 1px solid rgba(156,194,255,0.3); background: rgba(3,6,14,0.4); color: var(--white); font-size: 1.3rem; line-height: 1;
+  transition: border-color 0.3s, background 0.3s;
+}
+.sol-drawer-close:hover, .sol-drawer-close:focus-visible { border-color: var(--blue-soft); background: rgba(47,123,255,0.16); outline: none; }
+.sol-drawer-close:focus-visible { box-shadow: 0 0 0 3px rgba(47,123,255,0.35); }
+.sol-drawer-scroll { overflow-y: auto; overscroll-behavior: contain; padding: 22px 26px 30px; display: grid; gap: 26px; align-content: start; }
+.sol-drawer-visual { justify-self: start; padding: 14px 18px; border-radius: 14px; border: 1px solid rgba(156,194,255,0.12); background: rgba(47,123,255,0.05); }
+.sol-drawer-visual .sv { width: 168px; height: 90px; }
+.sol-drawer-lead { font-size: 1.02rem; line-height: 1.6; color: var(--text); }
+.sol-drawer-block { display: grid; gap: 12px; }
+.sol-drawer-block h3 { font-size: 0.68rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--blue-soft); font-weight: 500; }
+.sol-drawer-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.sol-drawer-chips li { font-size: 0.78rem; color: var(--text); padding: 7px 12px; border-radius: 999px; border: 1px solid rgba(156,194,255,0.18); background: rgba(156,194,255,0.04); }
+/* the example workflow, step by step */
+.sol-flow { position: relative; display: grid; gap: 0; }
+.sol-flow::before { content: ""; position: absolute; left: 5px; top: 10px; bottom: 10px; width: 1px; background: linear-gradient(180deg, rgba(91,155,255,0.6), rgba(91,155,255,0.15)); transform-origin: top; animation: flow-line 1.1s var(--ease) 0.15s both; }
+.sol-flow li { position: relative; display: flex; align-items: center; gap: 16px; padding: 7px 0; font-size: 0.95rem; color: var(--text); animation: rise 0.6s var(--ease) both; animation-delay: calc(0.2s + var(--k) * 0.12s); }
+.sol-flow li:last-child { color: var(--white); }
+.sol-flow-dot { position: relative; width: 11px; height: 11px; flex: none; border-radius: 50%; border: 1px solid rgba(156,194,255,0.55); background: #071230; }
+.sol-flow li:last-child .sol-flow-dot { background: var(--blue); border-color: var(--blue-bright); box-shadow: 0 0 12px rgba(47,123,255,0.8); }
+@keyframes flow-line { from { transform: scaleY(0); } }
+.sol-drawer-uses { display: grid; gap: 8px; }
+.sol-drawer-uses li { position: relative; padding-left: 18px; font-size: 0.93rem; color: var(--text); }
+.sol-drawer-uses li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 8px; height: 1px; background: var(--blue-bright); }
+.sol-drawer-outcome { padding: 16px 18px; border-radius: 14px; border: 1px solid rgba(91,155,255,0.25); background: linear-gradient(180deg, rgba(47,123,255,0.1), rgba(47,123,255,0.03)); }
+.sol-drawer-outcome p { font-family: var(--font-display), sans-serif; font-size: 1.05rem; color: var(--white); }
+.sol-drawer-cta { justify-self: start; }
+.sol-drawer-nav { display: flex; justify-content: space-between; gap: 12px; padding: 14px 26px calc(14px + env(safe-area-inset-bottom)); border-top: 1px solid rgba(156,194,255,0.1); }
+.sol-drawer-nav button { background: none; border: 0; cursor: pointer; font: inherit; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); padding: 8px 2px; transition: color 0.3s; }
+.sol-drawer-nav button:hover, .sol-drawer-nav button:focus-visible { color: var(--white); outline: none; }
+.sol-drawer-nav button:focus-visible { text-decoration: underline; text-underline-offset: 6px; text-decoration-color: var(--blue); }
+/* phones: a bottom sheet */
+@media (max-width: 760px) {
+  .sol-drawer-panel {
+    top: auto; left: 0; width: 100%; max-height: 88svh; border-left: 0; border-top: 1px solid rgba(156,194,255,0.18);
+    border-radius: 20px 20px 0 0; box-shadow: 0 -30px 60px -30px rgba(0,0,0,0.9);
+  }
+  @keyframes drawer-in { from { transform: translateY(104%); } }
+  @keyframes drawer-out { to { transform: translateY(104%); } }
+  .sol-drawer-head { position: relative; padding: 24px 20px 14px; touch-action: none; }
+  .sol-drawer-grab { display: block; position: absolute; top: 8px; left: 50%; width: 40px; height: 4px; margin-left: -20px; border-radius: 4px; background: rgba(156,194,255,0.3); }
+  .sol-drawer-scroll { padding: 18px 20px 24px; gap: 22px; }
+  .sol-drawer-nav { padding-inline: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sol-drawer-panel, .sol-drawer-backdrop, .sol-flow::before, .sol-flow li { animation: none !important; }
 }
