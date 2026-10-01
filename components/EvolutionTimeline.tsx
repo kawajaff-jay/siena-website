@@ -31,8 +31,24 @@ function useMode(): Mode {
   return mode;
 }
 
+/** Lets the story layer drive the timeline: jump to a chapter, and know where a chapter starts. */
+export type TimelineApi = {
+  /** scroll to era i (index into ERAS) */
+  jump: (i: number, behavior?: ScrollBehavior) => void;
+  /** scroll offset (in the scroller) at which era i begins */
+  offsetOf: (i: number) => number;
+};
+
 /** scroller: the element that scrolls the story (the full-screen story layer); defaults to the page. */
-export function EvolutionTimeline({ plates = [], scroller }: { plates?: AvailablePlate[]; scroller?: HTMLElement | null }) {
+export function EvolutionTimeline({
+  plates = [],
+  scroller,
+  onApi,
+}: {
+  plates?: AvailablePlate[];
+  scroller?: HTMLElement | null;
+  onApi?: (api: TimelineApi) => void;
+}) {
   const mode = useMode();
   const trackRef = useRef<HTMLDivElement>(null);
   const tlRef = useRef<{ total: number } | null>(null);
@@ -73,24 +89,50 @@ export function EvolutionTimeline({ plates = [], scroller }: { plates?: Availabl
     return () => ctx.revert();
   }, [mode, plates, scroller]);
 
-  const jump = useCallback((i: number) => {
-    const root = trackRef.current;
-    const meta = tlRef.current;
-    if (!root || !meta) return;
-    const ch = chapters()[i];
-    const t = ch.start + Math.min(0.45, ch.w * 0.3);
-    const reduced = window.matchMedia(REDUCED_QUERY).matches;
-    const behavior: ScrollBehavior = reduced ? "auto" : "smooth";
+  /** scroll offset of the timeline's top and the scrollable distance, in the scroller's coordinates */
+  const frame = useCallback(() => {
+    const root = trackRef.current!;
     if (scroller) {
-      const top = root.getBoundingClientRect().top - scroller.getBoundingClientRect().top + scroller.scrollTop;
-      const dist = root.offsetHeight - scroller.clientHeight;
-      scroller.scrollTo({ top: top + (t / meta.total) * dist, behavior });
-      return;
+      return { top: root.getBoundingClientRect().top - scroller.getBoundingClientRect().top + scroller.scrollTop, dist: root.offsetHeight - scroller.clientHeight };
     }
-    const top = root.getBoundingClientRect().top + window.scrollY;
-    const dist = root.offsetHeight - window.innerHeight;
-    window.scrollTo({ top: top + (t / meta.total) * dist, behavior });
+    return { top: root.getBoundingClientRect().top + window.scrollY, dist: root.offsetHeight - window.innerHeight };
   }, [scroller]);
+
+  const offsetOf = useCallback(
+    (i: number) => {
+      // chronicle (reduced motion): the era's own block
+      if (mode === "chronicle") {
+        const el = chronRef.current?.querySelectorAll<HTMLElement>(".chronicle-era")[i];
+        if (!el) return 0;
+        const base = scroller ? scroller.getBoundingClientRect().top - scroller.scrollTop : -window.scrollY;
+        return el.getBoundingClientRect().top - base;
+      }
+      const meta = tlRef.current;
+      if (!trackRef.current || !meta) return 0;
+      const ch = chapters()[i];
+      const t = ch.start + Math.min(0.45, ch.w * 0.3);
+      const { top, dist } = frame();
+      return top + (t / meta.total) * dist;
+    },
+    [mode, scroller, frame],
+  );
+
+  const jump = useCallback(
+    (i: number, behavior?: ScrollBehavior) => {
+      const reduced = window.matchMedia(REDUCED_QUERY).matches;
+      const b: ScrollBehavior = behavior ?? (reduced ? "auto" : "smooth");
+      const y = offsetOf(i);
+      (scroller ?? window).scrollTo({ top: y, behavior: b });
+    },
+    [scroller, offsetOf],
+  );
+
+  // hand the controls to the story layer once the timeline exists
+  useEffect(() => {
+    if (!onApi || !mode) return;
+    if (mode === "cinematic" && !tlRef.current) return;
+    onApi({ jump, offsetOf });
+  }, [onApi, mode, jump, offsetOf]);
 
   return (
     <section id="evolution" className="evo" aria-labelledby="evo-heading" data-mode={mode ?? "pending"}>

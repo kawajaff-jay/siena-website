@@ -14,7 +14,8 @@ import { Particles } from "./Particles";
 const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 /** opening: used as the first section of the page — starts on the symbol and the first line, with a scroll cue. */
-export function SienaReveal({ opening = false, scroller }: { opening?: boolean; scroller?: HTMLElement | null }) {
+/** story: the ending of the full-screen Evolution story — one primary CTA into Solutions, a quieter secondary link. */
+export function SienaReveal({ opening = false, scroller, story = false }: { opening?: boolean; scroller?: HTMLElement | null; story?: boolean }) {
   const ref = useRef<HTMLElement>(null);
 
   useIsoLayoutEffect(() => {
@@ -90,13 +91,24 @@ export function SienaReveal({ opening = false, scroller }: { opening?: boolean; 
           <div className="reveal-brand" data-brand>
             <BrandLogo variant="lockup" sizes="(max-width: 700px) 64vw, 340px" />
             <p className="reveal-support">{REVEAL.support}</p>
-            <div className="reveal-ctas">
-              {REVEAL.ctas.map((c) => (
-                <a key={c.label} href={c.href} className={`btn btn--${c.variant}`}>
-                  {c.label}
+            {story ? (
+              <div className="reveal-ctas reveal-ctas--story">
+                <a href={REVEAL.storyCta.href} className="btn btn--primary" data-story-cta>
+                  {REVEAL.storyCta.label}
                 </a>
-              ))}
-            </div>
+                <a href={REVEAL.storySecondary.href} className="reveal-secondary">
+                  {REVEAL.storySecondary.label}
+                </a>
+              </div>
+            ) : (
+              <div className="reveal-ctas">
+                {REVEAL.ctas.map((c) => (
+                  <a key={c.label} href={c.href} className={`btn btn--${c.variant}`}>
+                    {c.label}
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
           {opening && (
             <div className="hero-cue reveal-cue" data-cue aria-hidden="true">

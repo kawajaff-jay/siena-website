@@ -38,6 +38,9 @@ export const REVEAL = {
     { label: "Explore Our Solutions", href: "#solutions", variant: "primary" as const },
     { label: "Build Your AI System", href: "#contact", variant: "ghost" as const },
   ],
+  /** ending of the full-screen Evolution story */
+  storyCta: { label: "Build Your AI System", href: "#solutions" },
+  storySecondary: { label: "Explore our solutions", href: "#solutions" },
 };
 
 export const SOLUTIONS = {
