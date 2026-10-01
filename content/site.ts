@@ -48,6 +48,16 @@ export const REVEAL = {
  * id: used for the detail drawer · visual: the small drawing (SolutionVisual)
  * related: modules this one exchanges data with (the network lights these up on hover)
  */
+/** the six functions at the end of the Evolution story (ids match the Solutions modules) */
+export const STORY_FUNCTIONS = [
+  { id: "finance", label: "Finance" },
+  { id: "sales", label: "Sales" },
+  { id: "service", label: "Customer Service" },
+  { id: "operations", label: "Operations" },
+  { id: "marketing", label: "Marketing" },
+  { id: "analytics", label: "Data & Analytics" },
+] as const;
+
 export const SOLUTIONS = {
   eyebrow: "What SIENA connects",
   headline: "One intelligent system across the whole business.",

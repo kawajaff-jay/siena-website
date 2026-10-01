@@ -5,7 +5,7 @@
  * → SIENA · AI SOLUTIONS & SYSTEMS → CTAs.
  */
 import { useEffect, useLayoutEffect, useRef } from "react";
-import { REVEAL } from "@/content/site";
+import { REVEAL, STORY_FUNCTIONS } from "@/content/site";
 import { registerGsap, gsap, ScrollTrigger } from "@/lib/gsap";
 import { CINEMATIC_QUERY } from "@/lib/mode";
 import { BrandLogo } from "./BrandLogo";
@@ -100,6 +100,14 @@ export function SienaReveal({ opening = false, scroller, story = false }: { open
                   {REVEAL.storySecondary.label}
                 </a>
               </div>
+            ) : null}
+            {story ? (
+              /* the six business functions SIENA organized — they unfold into the Solutions modules */
+              <ul className="reveal-fns" aria-hidden="true">
+                {STORY_FUNCTIONS.map((f) => (
+                  <li key={f.id} data-fn={f.id}>{f.label}</li>
+                ))}
+              </ul>
             ) : (
               <div className="reveal-ctas">
                 {REVEAL.ctas.map((c) => (

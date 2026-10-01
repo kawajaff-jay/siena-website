@@ -15,6 +15,7 @@ import { CINEMATIC_QUERY, REDUCED_QUERY } from "@/lib/mode";
 import { Particles } from "./Particles";
 import { SolutionVisual } from "./SolutionVisual";
 import { SolutionDrawer } from "./SolutionDrawer";
+import { SOLUTIONS_ARRIVE_EVENT, type SolutionsArrive } from "@/lib/story";
 
 const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 const ITEMS = SOLUTIONS.items;
@@ -194,6 +195,95 @@ export function Solutions() {
   }, [deactivate]);
 
   useEffect(() => () => { pulseTl.current?.kill(); }, []);
+
+  /* ── Story → Solutions: the six function chips unfold into their modules ──────────────
+     Full version (wide screens with headroom): the chips float over the page while it glides here,
+     then fly into their modules and become them; Automation and AI Workflows bloom in last and the
+     network lights up once. Simpler version (phones, tablets, low-power devices): fade + scroll +
+     the modules bloom in turn. Reduced motion: nothing extra — the section is simply there. */
+  useEffect(() => {
+    const lowPower = () =>
+      (navigator.hardwareConcurrency ?? 8) <= 4 || ((navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 8) <= 4;
+
+    // wait until the story has closed and the page has finished gliding to Solutions
+    const settled = () =>
+      new Promise<void>((resolve) => {
+        const t0 = performance.now();
+        let last = -1, still = 0;
+        const tick = () => {
+          const y = window.scrollY;
+          const open = document.documentElement.classList.contains("story-open");
+          still = !open && Math.abs(y - last) < 0.5 ? still + 1 : 0;
+          last = y;
+          if (still >= 8 || performance.now() - t0 > 3000) resolve();
+          else requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
+
+    const reveal = (card: HTMLElement) => {
+      card.classList.remove("sol-await");
+      card.classList.add("sol-arrive");
+      window.setTimeout(() => card.classList.remove("sol-arrive"), 1600);
+    };
+
+    const networkMoment = () => {
+      const field = fieldRef.current, svg = svgRef.current;
+      if (!field || !svg || !geo.current) return;
+      field.classList.add("net-on");
+      gsap.fromTo(svg.querySelector(".sol-hub-ring"), { autoAlpha: 0.7, scale: 1, transformOrigin: "50% 50%" }, { autoAlpha: 0, scale: 9, duration: 1.1, ease: "power2.out" });
+      window.setTimeout(() => { if (!field.querySelector(".is-active")) field.classList.remove("net-on"); }, 1700);
+    };
+
+    const onArrive = async (e: Event) => {
+      const root = ref.current;
+      if (!root || window.matchMedia(REDUCED_QUERY).matches) return;
+      const { chips } = (e as CustomEvent<SolutionsArrive>).detail;
+      const cards = Array.from(root.querySelectorAll<HTMLElement>(".sol-card"));
+      const full = window.matchMedia(WIDE).matches && !lowPower() && chips.length > 0 && chips.every((c) => c.rect.w > 0);
+      cards.forEach((c) => c.classList.add("sol-await"));
+
+      // full: ghosts of the chips, exactly where they were in the story
+      const ghosts = full
+        ? chips.map((c) => {
+            const g = document.createElement("div");
+            g.className = "sol-ghost";
+            g.innerHTML = `<span></span>`;
+            g.firstElementChild!.textContent = c.label;
+            Object.assign(g.style, { left: `${c.rect.x}px`, top: `${c.rect.y}px`, width: `${c.rect.w}px`, height: `${c.rect.h}px`, borderRadius: `${c.rect.h / 2}px` });
+            g.dataset.id = c.id;
+            document.body.appendChild(g);
+            return g;
+          })
+        : [];
+
+      await settled();
+
+      if (!full) {
+        cards.forEach((c, k) => window.setTimeout(() => reveal(c), 120 + k * 80));
+        window.setTimeout(networkMoment, 400);
+        return;
+      }
+
+      const tl = gsap.timeline({ onComplete: () => ghosts.forEach((g) => g.remove()) });
+      ghosts.forEach((g, k) => {
+        const card = cards[INDEX[g.dataset.id!]];
+        if (!card) return;
+        const r = card.getBoundingClientRect();
+        const at = k * 0.06;
+        tl.to(g, { left: r.left, top: r.top, width: r.width, height: r.height, borderRadius: 16, duration: 0.9, ease: "power3.inOut" }, at)
+          .to(g.firstElementChild, { autoAlpha: 0, duration: 0.3, ease: "power1.in" }, at + 0.3)
+          .call(() => reveal(card), undefined, at + 0.72)
+          .to(g, { autoAlpha: 0, duration: 0.35, ease: "power1.out" }, at + 0.74);
+      });
+      // the modules that weren't in the story bloom in last, and the network lights up once
+      const rest = cards.filter((c) => !ghosts.some((g) => cards[INDEX[g.dataset.id!]] === c));
+      tl.call(() => { rest.forEach((c, k) => window.setTimeout(() => reveal(c), k * 120)); networkMoment(); }, undefined, ">-0.2");
+    };
+
+    window.addEventListener(SOLUTIONS_ARRIVE_EVENT, onArrive);
+    return () => window.removeEventListener(SOLUTIONS_ARRIVE_EVENT, onArrive);
+  }, []);
 
   /* ── the drawer ─────────────────────────────────────────────────────────────── */
   const openModule = (i: number, btn: HTMLButtonElement) => { opener.current = btn; deactivate(); setOpen(i); };

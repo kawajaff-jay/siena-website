@@ -685,3 +685,23 @@ html.drawer-open, html.drawer-open body { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .sol-drawer-panel, .sol-drawer-backdrop, .sol-flow::before, .sol-flow li { animation: none !important; }
 }
+
+/* ─── Story → Solutions hand-off ─── */
+.reveal-fns { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; max-width: 640px; margin: 6px auto 0; }
+.reveal-fns li, .sol-ghost {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blue-soft); white-space: nowrap;
+  padding: 7px 12px; border-radius: 999px; border: 1px solid rgba(156,194,255,0.28); background: rgba(7,16,42,0.6);
+}
+/* phones / portrait: the simpler hand-off is used, so the chips stay out of the way of the controls */
+@media (max-aspect-ratio: 1/1) { .reveal-fns { display: none; } }
+.sol-ghost {
+  position: fixed; z-index: 1100; pointer-events: none; overflow: hidden; padding: 0;
+  background: linear-gradient(180deg, #0a1636, #060c1f); border-color: rgba(120,170,255,0.45);
+  box-shadow: 0 0 0 1px rgba(47,123,255,0.08), 0 20px 50px -20px rgba(47,123,255,0.55);
+}
+.sol-card.sol-await { opacity: 0 !important; }
+.sol-card.sol-arrive { animation: sol-arrive 0.7s var(--ease) both; }
+.sol-card.sol-arrive .sol-card-bloom { animation: sol-arrive-bloom 1.5s var(--ease) both; }
+@keyframes sol-arrive { from { opacity: 0; } to { opacity: 1; } }
+@keyframes sol-arrive-bloom { 0% { opacity: 0; } 30% { opacity: 0.9; } 100% { opacity: 0; } }

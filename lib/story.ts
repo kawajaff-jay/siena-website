@@ -9,3 +9,11 @@ export const STORY_HASH = "#evolution";
 export function openStory() {
   window.dispatchEvent(new CustomEvent(STORY_OPEN_EVENT));
 }
+
+/**
+ * Story → Solutions hand-off. Fired when the story's ending CTA is clicked, just before the story
+ * closes: carries where each function chip was on screen, so Solutions can unfold them into its modules.
+ */
+export const SOLUTIONS_ARRIVE_EVENT = "siena:solutions-arrive";
+export type FnChip = { id: string; label: string; rect: { x: number; y: number; w: number; h: number } };
+export type SolutionsArrive = { chips: FnChip[] };

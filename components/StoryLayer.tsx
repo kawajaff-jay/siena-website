@@ -13,7 +13,7 @@ import { EvolutionTimeline, type TimelineApi } from "./EvolutionTimeline";
 import { SienaReveal } from "./SienaReveal";
 import { BrandLogo } from "./BrandLogo";
 import { ERAS } from "@/content/eras";
-import { STORY_HASH, STORY_OPEN_EVENT } from "@/lib/story";
+import { SOLUTIONS_ARRIVE_EVENT, STORY_HASH, STORY_OPEN_EVENT, type FnChip } from "@/lib/story";
 import { REDUCED_QUERY } from "@/lib/mode";
 import { useChapterSettle } from "@/lib/useChapterSettle";
 import type { AvailablePlate } from "@/lib/plates.server";
@@ -196,6 +196,14 @@ export function StoryLayer({ plates }: { plates: AvailablePlate[] }) {
     const href = a.getAttribute("href")!;
     if (href.length < 2 || !document.querySelector(href) || a.closest(".evo")) return;
     e.preventDefault();
+    // the story's ending → Solutions: hand over where the six function chips are, so they can unfold into the modules
+    if (a.matches("[data-story-cta], .reveal-secondary")) {
+      const chips: FnChip[] = Array.from(layerRef.current?.querySelectorAll<HTMLElement>("[data-fn]") ?? []).map((el) => {
+        const r = el.getBoundingClientRect();
+        return { id: el.dataset.fn!, label: el.textContent ?? "", rect: { x: r.left, y: r.top, w: r.width, h: r.height } };
+      });
+      window.dispatchEvent(new CustomEvent(SOLUTIONS_ARRIVE_EVENT, { detail: { chips } }));
+    }
     close(href);
   };
 
