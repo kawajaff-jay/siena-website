@@ -1,14 +1,16 @@
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
-import { EvolutionTimeline } from "@/components/EvolutionTimeline";
-import { SienaReveal } from "@/components/SienaReveal";
 import { Solutions } from "@/components/Solutions";
 import { ContactCTA, Footer } from "@/components/ContactCTA";
+import { StoryLayer } from "@/components/StoryLayer";
 import { SceneDefs } from "@/components/scenes/common";
 import { LockupDefs } from "@/components/AIConvergence";
 import { getAvailablePlates } from "@/lib/plates.server";
 
-/** Home: the cinematic "Evolution of Business Systems" story. The short version lives at /lite. */
+/**
+ * Home: the fast, conversion-focused site. The cinematic "Evolution of Business Systems"
+ * story is optional — it opens full-screen from the hero button or the "The Evolution" link.
+ */
 export default function Home() {
   const plates = getAvailablePlates();
   return (
@@ -23,12 +25,11 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <EvolutionTimeline plates={plates} />
-        <SienaReveal />
         <Solutions />
         <ContactCTA />
       </main>
       <Footer />
+      <StoryLayer plates={plates} />
     </>
   );
 }

@@ -1,30 +1,10 @@
 import type { Metadata } from "next";
-import { Header } from "@/components/Header";
-import { SienaReveal } from "@/components/SienaReveal";
-import { Solutions } from "@/components/Solutions";
-import { ContactCTA, Footer } from "@/components/ContactCTA";
-import { SceneDefs } from "@/components/scenes/common";
-import { LockupDefs } from "@/components/AIConvergence";
+import { Redirect } from "@/components/Redirect";
+import { asset } from "@/lib/asset";
 
-export const metadata: Metadata = { robots: { index: false } }; // alternative version, kept for later
+export const metadata: Metadata = { robots: { index: false } };
 
-/** Short version without the evolution story: S → logo → From paper. To software. To intelligence. → solutions → contact. */
+/** Retired: the short version is now the home page. */
 export default function Lite() {
-  return (
-    <>
-      <svg className="svg-defs" aria-hidden="true" focusable="false">
-        <SceneDefs />
-        <defs>
-          <LockupDefs />
-        </defs>
-      </svg>
-      <Header story={false} />
-      <main>
-        <SienaReveal opening />
-        <Solutions />
-        <ContactCTA />
-      </main>
-      <Footer />
-    </>
-  );
+  return <Redirect to={asset("/")} />;
 }

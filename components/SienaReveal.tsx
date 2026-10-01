@@ -14,7 +14,7 @@ import { Particles } from "./Particles";
 const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 /** opening: used as the first section of the page — starts on the symbol and the first line, with a scroll cue. */
-export function SienaReveal({ opening = false }: { opening?: boolean }) {
+export function SienaReveal({ opening = false, scroller }: { opening?: boolean; scroller?: HTMLElement | null }) {
   const ref = useRef<HTMLElement>(null);
 
   useIsoLayoutEffect(() => {
@@ -53,12 +53,12 @@ export function SienaReveal({ opening = false }: { opening?: boolean }) {
         .to(q("[data-halo]"), { autoAlpha: 0, duration: 0.6 }, 5.4 + O + 0.4 * +opening)
         .fromTo(q("[data-brand] > *"), { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.18 }, 5.9 + O + 0.4 * +opening)
         .to({}, { duration: 0.8 });
-      const st = ScrollTrigger.create({ trigger: q(".reveal-track")[0], start: "top top", end: "bottom bottom", scrub: 0.8, animation: tl });
+      const st = ScrollTrigger.create({ trigger: q(".reveal-track")[0], scroller: scroller ?? undefined, start: "top top", end: "bottom bottom", scrub: 0.8, animation: tl });
       ScrollTrigger.refresh();
       return () => { st.kill(); tl.kill(); delete root.dataset.anim; };
     });
     return () => mm.revert();
-  }, [opening]);
+  }, [opening, scroller]);
 
   return (
     <section className="reveal" id={opening ? "top" : undefined} ref={ref} aria-labelledby="reveal-heading">

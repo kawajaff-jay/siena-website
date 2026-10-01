@@ -20,7 +20,9 @@ export const HERO = {
   eyebrow: "SIENA — AI Solutions & Systems",
   headline: "The Evolution of Business Systems",
   lead: "From human records to intelligent systems.",
-  cue: "Scroll through the evolution of how business works.",
+  storyCta: "Experience the Evolution",
+  storyNote: "From paper to intelligence.",
+  secondaryCta: "Explore solutions",
 };
 
 export const REVEAL = {

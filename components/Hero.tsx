@@ -1,51 +1,27 @@
-import { HERO, REVEAL } from "@/content/site";
+import { HERO } from "@/content/site";
 import { BrandLogo } from "./BrandLogo";
 
-/** story=false: the page without the evolution timeline (/lite) */
-export function Hero({ story = true }: { story?: boolean }) {
+export function Hero() {
   return (
     <section className="hero" id="top" aria-labelledby="hero-heading">
       <div className="hero-glow" aria-hidden="true" />
       <div className="hero-inner">
         <BrandLogo variant="lockup" className="hero-logo" sizes="(max-width: 700px) 62vw, 360px" priority />
-        {story ? (
-          <>
-            <h1 id="hero-heading" className="hero-title">
-              {HERO.headline}
-            </h1>
-            <p className="hero-lead">{HERO.lead}</p>
-          </>
-        ) : (
-          <>
-            <h1 id="hero-heading" className="hero-title hero-title--lines">
-              {REVEAL.lines.map((l) => (
-                <span key={l.text} className={l.highlight ? "reveal-hl" : undefined}>
-                  {l.text}
-                </span>
-              ))}
-            </h1>
-            <p className="hero-lead">{REVEAL.support}</p>
-            <div className="reveal-ctas hero-ctas">
-              {REVEAL.ctas.map((c) => (
-                <a key={c.label} href={c.href} className={`btn btn--${c.variant}`}>
-                  {c.label}
-                </a>
-              ))}
-            </div>
-          </>
-        )}
+        <h1 id="hero-heading" className="hero-title">
+          {HERO.headline}
+        </h1>
+        <p className="hero-lead">{HERO.lead}</p>
+        <div className="hero-actions">
+          {/* opens the full-screen Evolution story (StoryLayer) */}
+          <a href="#evolution" className="btn btn--primary hero-story" data-open-story>
+            {HERO.storyCta} <span aria-hidden="true">→</span>
+          </a>
+          <p className="hero-story-note">{HERO.storyNote}</p>
+          <a href="#solutions" className="hero-secondary">
+            {HERO.secondaryCta}
+          </a>
+        </div>
       </div>
-      {story && (
-        <a href="#evolution" className="hero-cue">
-          <span>{HERO.cue}</span>
-          <span className="hero-cue-line" aria-hidden="true" />
-        </a>
-      )}
-      {story && (
-        <a href="#solutions" className="skip-story">
-          Skip the story
-        </a>
-      )}
     </section>
   );
 }

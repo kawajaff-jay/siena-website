@@ -31,7 +31,8 @@ function useMode(): Mode {
   return mode;
 }
 
-export function EvolutionTimeline({ plates = [] }: { plates?: AvailablePlate[] }) {
+/** scroller: the element that scrolls the story (the full-screen story layer); defaults to the page. */
+export function EvolutionTimeline({ plates = [], scroller }: { plates?: AvailablePlate[]; scroller?: HTMLElement | null }) {
   const mode = useMode();
   const trackRef = useRef<HTMLDivElement>(null);
   const tlRef = useRef<{ total: number } | null>(null);
@@ -59,6 +60,7 @@ export function EvolutionTimeline({ plates = [] }: { plates?: AvailablePlate[] }
       tlRef.current = { total };
       ScrollTrigger.create({
         trigger: root,
+        scroller: scroller ?? undefined,
         start: "top top",
         end: "bottom bottom",
         scrub: lite ? 0.6 : 0.9,
@@ -69,7 +71,7 @@ export function EvolutionTimeline({ plates = [] }: { plates?: AvailablePlate[] }
     }, root);
     ScrollTrigger.refresh();
     return () => ctx.revert();
-  }, [mode, plates]);
+  }, [mode, plates, scroller]);
 
   const jump = useCallback((i: number) => {
     const root = trackRef.current;
@@ -77,11 +79,18 @@ export function EvolutionTimeline({ plates = [] }: { plates?: AvailablePlate[] }
     if (!root || !meta) return;
     const ch = chapters()[i];
     const t = ch.start + Math.min(0.45, ch.w * 0.3);
+    const reduced = window.matchMedia(REDUCED_QUERY).matches;
+    const behavior: ScrollBehavior = reduced ? "auto" : "smooth";
+    if (scroller) {
+      const top = root.getBoundingClientRect().top - scroller.getBoundingClientRect().top + scroller.scrollTop;
+      const dist = root.offsetHeight - scroller.clientHeight;
+      scroller.scrollTo({ top: top + (t / meta.total) * dist, behavior });
+      return;
+    }
     const top = root.getBoundingClientRect().top + window.scrollY;
     const dist = root.offsetHeight - window.innerHeight;
-    const reduced = window.matchMedia(REDUCED_QUERY).matches;
-    window.scrollTo({ top: top + (t / meta.total) * dist, behavior: reduced ? "auto" : "smooth" });
-  }, []);
+    window.scrollTo({ top: top + (t / meta.total) * dist, behavior });
+  }, [scroller]);
 
   return (
     <section id="evolution" className="evo" aria-labelledby="evo-heading" data-mode={mode ?? "pending"}>

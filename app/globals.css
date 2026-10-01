@@ -117,12 +117,6 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   background: linear-gradient(transparent, var(--blue-bright)); animation: cue 2.4s var(--ease) infinite;
 }
 @keyframes cue { to { top: 100%; } }
-.skip-story {
-  position: absolute; right: var(--gutter); bottom: 34px; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--muted); text-decoration: none; border-bottom: 1px solid transparent;
-}
-.skip-story:hover, .skip-story:focus-visible { color: var(--white); border-color: var(--blue); }
-@media (max-width: 760px) { .skip-story { right: 50%; transform: translateX(50%); bottom: auto; top: 76px; } }
 
 .hero-inner > * { animation: rise 1.4s var(--ease) both; }
 .hero-inner > :nth-child(2) { animation-delay: 0.25s; }
@@ -154,10 +148,10 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
    ═══════════════════════════════════════════════════════════════ */
 .evo { position: relative; background: var(--bg); }
 .evo-track { display: none; }
-.evo[data-mode="cinematic"] .evo-track { display: block; position: relative; height: calc(var(--track) * 18vh + 100vh); }
+.evo[data-mode="cinematic"] .evo-track { display: block; position: relative; height: calc(var(--track) * 21vh + 100vh); }
 .evo[data-mode="cinematic"] .chronicle { display: none; }
 @media (max-width: 1199px) {
-  .evo[data-mode="cinematic"] .evo-track { height: calc(var(--track) * 15vh + 100vh); }
+  .evo[data-mode="cinematic"] .evo-track { height: calc(var(--track) * 18vh + 100vh); }
 }
 
 .evo-stage {
@@ -252,7 +246,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
    the year sits just below it and the story text fills the rest of the screen. */
 @media (max-aspect-ratio: 1/1) {
   .evo-stage { --scene-top: 76px; --scene-h: calc(100vw * 9 / 16); --below: calc(var(--scene-top) + var(--scene-h)); background: var(--bg); }
-  .evo[data-mode="cinematic"] .evo-track { height: calc(var(--track) * 13svh + 100svh); }
+  .evo[data-mode="cinematic"] .evo-track { height: calc(var(--track) * 15svh + 100svh); }
   .evo-stage .scene { top: var(--scene-top); bottom: auto; height: var(--scene-h); }
   .evo-particles { top: var(--scene-top); bottom: auto; height: var(--scene-h); }
   .evo-scrim {
@@ -336,7 +330,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .reveal-support { color: var(--text); font-size: clamp(1rem, 1.3vw, 1.15rem); }
 .reveal-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
 
-.reveal[data-anim="on"] .reveal-track { height: 140vh; }
+.reveal[data-anim="on"] .reveal-track { height: 165vh; }
 .reveal[data-anim="on"] .reveal-stage { position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 0; padding: 0; display: block; }
 .reveal[data-anim="on"] .reveal-halo,
 .reveal[data-anim="on"] .reveal-kicker,
@@ -376,3 +370,46 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   HERO — the optional story entry
+   ═══════════════════════════════════════════════════════════════ */
+.hero-actions { display: grid; justify-items: center; gap: 12px; margin-top: clamp(8px, 2vh, 18px); }
+.hero-story { gap: 12px; padding-inline: 30px; }
+.hero-story span { transition: transform 0.4s var(--ease); }
+.hero-story:hover span { transform: translateX(4px); }
+.hero-story-note { font-size: 0.78rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--blue-soft); }
+.hero-secondary { margin-top: 6px; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); text-decoration: none; border-bottom: 1px solid transparent; padding-bottom: 2px; transition: color 0.3s, border-color 0.3s; }
+.hero-secondary:hover, .hero-secondary:focus-visible { color: var(--white); border-color: var(--blue); }
+
+/* ═══════════════════════════════════════════════════════════════
+   STORY LAYER — the Evolution experience, full screen, on demand
+   ═══════════════════════════════════════════════════════════════ */
+html.story-open, html.story-open body { overflow: hidden; }
+.story-layer {
+  position: fixed; inset: 0; z-index: 1000; background: var(--bg);
+  animation: story-in 0.55s var(--ease) both;
+}
+.story-layer[data-phase="closing"] { animation: story-out 0.45s var(--ease) both; pointer-events: none; }
+@keyframes story-in { from { opacity: 0; } }
+@keyframes story-out { to { opacity: 0; } }
+.story-scroll { position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.story-bar {
+  position: absolute; inset: 0 0 auto 0; z-index: 20; pointer-events: none;
+  display: flex; align-items: center; justify-content: space-between; padding: 14px var(--gutter);
+}
+.story-brand { display: flex; align-items: center; gap: 12px; opacity: 0.9; }
+.story-close {
+  pointer-events: auto; display: inline-flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 16px 0 12px;
+  border: 1px solid rgba(156,194,255,0.35); border-radius: 999px; background: rgba(3,6,14,0.55);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  color: var(--white); font: inherit; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer;
+  transition: border-color 0.3s, background 0.3s;
+}
+.story-close span[aria-hidden] { font-size: 1.25rem; line-height: 1; letter-spacing: 0; }
+.story-close:hover, .story-close:focus-visible { border-color: var(--blue-soft); background: rgba(47,123,255,0.16); }
+@media (max-width: 760px) {
+  .story-bar { background: rgba(3,6,14,0.82); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: 0 1px 0 rgba(156,194,255,0.08); }
+  .story-brand .site-brand-word { width: 78px; }
+}
+@media (prefers-reduced-motion: reduce) { .story-layer, .story-layer[data-phase="closing"] { animation-duration: 0.01s; } }
