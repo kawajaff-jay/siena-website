@@ -1,0 +1,46 @@
+/* switcher bar (shared by every preview) */
+.bar {
+  position: fixed; z-index: 100; left: 50%; bottom: 16px; translate: -50% 0;
+  display: flex; align-items: center; gap: 2px; padding: 5px;
+  max-width: calc(100vw - 24px); overflow-x: auto; scrollbar-width: none;
+  background: rgba(12, 14, 20, 0.86); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 999px;
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  box-shadow: 0 12px 40px -12px rgba(0, 0, 0, 0.6);
+  font: 500 12px/1 "Inter Variable", system-ui, sans-serif;
+}
+.bar::-webkit-scrollbar { display: none; }
+.barTag {
+  padding: 8px 10px; color: #ffcf5c; letter-spacing: 0.12em; text-transform: uppercase; font-size: 10px; white-space: nowrap;
+}
+.barLink {
+  padding: 9px 13px; border-radius: 999px; color: #c9cfdc; text-decoration: none; white-space: nowrap;
+  transition: background 0.2s, color 0.2s;
+}
+.barLink:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+.barLink[aria-current="page"] { background: #fff; color: #0a0c12; }
+
+/* index page */
+.index {
+  min-height: 100svh; padding: clamp(56px, 10vh, 120px) clamp(16px, 5vw, 88px) 120px;
+  background: #0a0c12; color: #e6e9f2;
+}
+.kicker { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: #8b93a7; }
+.title {
+  margin-top: 14px; font: 600 clamp(2rem, 5vw, 3.6rem)/1.05 "Sora Variable", sans-serif; letter-spacing: -0.02em; color: #fff;
+  max-width: 18ch;
+}
+.lead { margin-top: 18px; max-width: 60ch; color: #a3abbd; font-size: 1.05rem; }
+.grid { margin-top: 48px; display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.card {
+  height: 100%; display: grid; align-content: start; gap: 12px; padding: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 18px; background: #10131c;
+  text-decoration: none; color: inherit; transition: border-color 0.25s, transform 0.25s;
+}
+.card:hover { border-color: rgba(255, 255, 255, 0.35); transform: translateY(-3px); }
+.swatches { display: flex; gap: 6px; margin-bottom: 8px; }
+.swatches span { width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.18); }
+.cardMood { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: #8b93a7; }
+.cardName { font: 600 1.5rem/1.1 "Sora Variable", sans-serif; color: #fff; }
+.cardText { color: #a3abbd; font-size: 0.95rem; }
+.cardGo { margin-top: 6px; color: #7aa6ff; font-weight: 500; }
+@media (max-width: 520px) { .barName { display: none; } .barLink { padding: 9px 11px; } }
