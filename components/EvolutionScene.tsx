@@ -131,7 +131,7 @@ export function EvolutionStageScene({ plates = [] }: { plates?: AvailablePlate[]
                 </defs>
               )}
               {/* href is assigned just before the plate is needed (see choreography), so photos load progressively */}
-              <image data-src={p.src} x={PLATE_RECT.x} y={PLATE_RECT.y} width={PLATE_RECT.w} height={PLATE_RECT.h} preserveAspectRatio="xMidYMid slice" mask={p.reveal ? `url(#reveal-m-${p.id})` : undefined} />
+              <image data-src={p.src} data-src-small={p.small} data-avif={p.avif ? "" : undefined} x={PLATE_RECT.x} y={PLATE_RECT.y} width={PLATE_RECT.w} height={PLATE_RECT.h} preserveAspectRatio="xMidYMid slice" mask={p.reveal ? `url(#reveal-m-${p.id})` : undefined} />
             </g>
           ))}
         </g>

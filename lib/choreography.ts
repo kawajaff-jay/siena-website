@@ -137,16 +137,25 @@ export function buildEvolutionTimeline(root: HTMLElement, { lite = false, plateE
     }
   });
   const loaded = new Set<Element>();
+  const smallScreen = typeof window !== "undefined" && window.innerWidth * Math.min(window.devicePixelRatio || 1, 3) <= 1400; // the scene is at most this many device pixels wide
   const loadPlatesAround = (t: number) => {
     plateTime.forEach((pt, el) => {
       if (loaded.has(el) || pt > t + 2.6 || pt < t - 3) return;
       loaded.add(el);
       const img = el.querySelector("image");
-      const src = img?.getAttribute("data-src");
-      if (!img || !src) return;
-      const pre = new Image();
-      pre.src = src;
-      (pre.decode ? pre.decode() : Promise.resolve()).catch(() => {}).finally(() => img.setAttribute("href", src));
+      const full = img?.getAttribute("data-src");
+      if (!img || !full) return;
+      // small screens get the 1280px file; AVIF first (same fidelity, about half the bytes), WebP as fallback
+      const webp = (smallScreen && img.getAttribute("data-src-small")) || full;
+      const candidates = img.hasAttribute("data-avif") ? [webp.replace(/\.(webp|jpg)$/, ".avif"), webp] : [webp];
+      const tryLoad = (k: number) => {
+        const src = candidates[k];
+        const pre = new Image();
+        pre.onload = () => (pre.decode ? pre.decode() : Promise.resolve()).catch(() => {}).finally(() => img.setAttribute("href", src));
+        pre.onerror = () => { if (k + 1 < candidates.length) tryLoad(k + 1); };
+        pre.src = src;
+      };
+      tryLoad(0);
     });
   };
   loadPlatesAround(0);

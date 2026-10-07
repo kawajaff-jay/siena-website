@@ -19,7 +19,8 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = { themeColor: "#03060e", colorScheme: "dark" };
+// viewportFit "cover": lets the layout use the safe-area insets (notch, home indicator) instead of ignoring them
+export const viewport: Viewport = { themeColor: "#03060e", colorScheme: "dark", viewportFit: "cover" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

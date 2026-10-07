@@ -75,6 +75,7 @@ export function Solutions() {
     const mm = gsap.matchMedia(root);
     const q = gsap.utils.selector(root);
 
+    // (modules fade with opacity, never visibility, so they stay reachable by keyboard before they have arrived)
     // wide: network draws → system powers on → modules bloom outward
     mm.add(`${CINEMATIC_QUERY} and ${WIDE}`, () => {
       root.dataset.anim = "on";
@@ -99,7 +100,7 @@ export function Solutions() {
         .fromTo(q(".sol-core--boost"), { opacity: 0 }, { opacity: 1, duration: 0.18, ease: "sine.out" }, 0.5)
         .to(q(".sol-core--boost"), { opacity: 0, duration: 0.34, ease: "sine.inOut" }, 0.78)
         .fromTo(q(".sol-stub"), { drawSVG: "0%" }, { drawSVG: "100%", duration: 0.14, ease: "none", stagger: { each: 0.02, from: "center" } }, 0.56)
-        .fromTo(q(".sol-card"), { autoAlpha: 0, y: 30, scale: 0.93 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.36, stagger: grid }, 0.6)
+        .fromTo(q(".sol-card"), { opacity: 0, y: 30, scale: 0.93 }, { opacity: 1, y: 0, scale: 1, duration: 0.36, stagger: grid }, 0.6)
         .fromTo(q(".sol-card-bloom"), { opacity: 0 }, { opacity: 1, duration: 0.14, stagger: grid, ease: "sine.out" }, 0.66)
         .to(q(".sol-card-bloom"), { opacity: 0, duration: 0.26, stagger: grid, ease: "sine.inOut" }, 0.82);
 
@@ -116,7 +117,7 @@ export function Solutions() {
       root.dataset.anim = "on";
       const tl = gsap.timeline({ defaults: { ease: "power2.out" }, scrollTrigger: { trigger: root, start: "top 88%", end: "top 10%", scrub: 0.8 } });
       tl.fromTo(q("[data-sol-eyebrow], [data-sol-title]"), { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.35, stagger: 0.08 }, 0)
-        .fromTo(q(".sol-card"), { autoAlpha: 0, y: 40, scale: 0.95 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.4, stagger: 0.06 }, 0.35);
+        .fromTo(q(".sol-card"), { opacity: 0, y: 40, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, stagger: 0.06 }, 0.35);
       return () => { delete root.dataset.anim; };
     });
 
@@ -128,8 +129,8 @@ export function Solutions() {
         scrollTrigger: { trigger: q(".sol-head")[0], start: "top 90%", end: "top 60%", scrub: 0.6 },
       });
       q(".sol-card").forEach((card) => {
-        gsap.fromTo(card, { autoAlpha: 0, y: 36, scale: 0.97 }, {
-          autoAlpha: 1, y: 0, scale: 1, ease: "power2.out",
+        gsap.fromTo(card, { opacity: 0, y: 36, scale: 0.97 }, {
+          opacity: 1, y: 0, scale: 1, ease: "power2.out",
           scrollTrigger: { trigger: card, start: "top 96%", end: "top 70%", scrub: 0.6 },
         });
       });
@@ -151,7 +152,10 @@ export function Solutions() {
       { rootMargin: "0px 0px -8% 0px" },
     );
     root.querySelectorAll(".sol-card").forEach((c) => io.observe(c));
-    return () => io.disconnect();
+    // the section's ambient motion (light drift, dotted lines) pauses when it is off screen
+    const near = new IntersectionObserver(([e]) => root.classList.toggle("is-near", e.isIntersecting), { rootMargin: "20% 0px" });
+    near.observe(root);
+    return () => { io.disconnect(); near.disconnect(); };
   }, []);
 
   /* ── one system: hover / focus a module → its path, a pulse, related modules ─────── */

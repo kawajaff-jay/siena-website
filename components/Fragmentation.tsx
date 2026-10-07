@@ -41,7 +41,8 @@ export const FRAG_WINDOWS: FragWindow[] = [
   { id: "finance", label: "Finance · Invoices", kind: "ledger", accent: "#3fcf94", node: 0, wave: 1, x: 640, y: 118, r: -2, badge: 3, src: "monL" },
   { id: "crm", label: "CRM · Sales pipeline", kind: "pipeline", accent: "#ff9f43", node: 1, wave: 1, x: 905, y: 64, r: 1.5, badge: 7, src: "monR" },
   { id: "comms", label: "Team chat", kind: "chat", accent: "#8a9dff", node: 2, wave: 1, x: 1172, y: 104, r: 2, badge: 12, src: "laptop" },
-  { id: "ops", label: "Operations", kind: "ops", accent: "#4fd1ff", node: 3, wave: 1, x: 1290, y: 292, r: -2, badge: 2, src: "tablet" },
+  // kept clear of the year readout on the right (it used to sit underneath it)
+  { id: "ops", label: "Operations", kind: "ops", accent: "#4fd1ff", node: 3, wave: 1, x: 1250, y: 352, r: -2, badge: 2, src: "tablet" },
   // 2023 — more integrations and dashboards
   { id: "marketing", label: "Marketing · Campaigns", kind: "campaign", accent: "#e667d6", node: 4, wave: 2, x: 598, y: 322, r: 2, badge: 4, src: "laptop" },
   { id: "service", label: "Customer Service", kind: "tickets", accent: "#ffd166", node: 2, wave: 2, x: 842, y: 286, r: -2.5, badge: 9, src: "phone" },
