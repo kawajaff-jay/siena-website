@@ -52,8 +52,8 @@ export function WhatSiena() {
         }
       });
       // the last step arrives with a soft bloom
-      tl.fromTo(q(".what-bloom"), { autoAlpha: 0, scale: 0.4 }, { autoAlpha: 1, scale: 1, duration: 0.14 }, 0.76)
-        .to(q(".what-bloom"), { autoAlpha: 0.35, duration: 0.14, ease: "sine.inOut" }, 0.9);
+      tl.fromTo(q(".what-bloom"), { autoAlpha: 0, scale: 0.4 }, { autoAlpha: 0.85, scale: 1, duration: 0.14 }, 0.76)
+        .to(q(".what-bloom"), { autoAlpha: 0.3, duration: 0.14, ease: "sine.inOut" }, 0.9);
       return () => { delete root.dataset.anim; };
     };
     mm.add(`${CINEMATIC_QUERY} and (min-width: 761px)`, build(false));

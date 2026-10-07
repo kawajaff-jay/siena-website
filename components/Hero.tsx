@@ -26,7 +26,7 @@ export function Hero() {
     const q = gsap.utils.selector(root);
     mm.add(CINEMATIC_QUERY, () => {
       const small = window.matchMedia("(max-width: 760px)").matches;
-      const k = small ? 0.5 : 1; // gentler depth on phones
+      const k = small ? 0.5 : 0.78; // gentler depth on phones; desktop eased back ~22% (approved)
       const tl = gsap.timeline({ defaults: { ease: "none" }, scrollTrigger: { trigger: root, start: "top top", end: "bottom top", scrub: 0.6 } });
       tl.to(q(".hero-bg"), { y: 90 * k }, 0) // the light stays behind
         .to(q("[data-depth='logo']"), { y: -18 * k }, 0)
