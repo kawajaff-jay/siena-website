@@ -29,6 +29,8 @@ export function Solutions() {
   const fieldRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const geo = useRef<Geo | null>(null);
+  const gridTl = useRef<gsap.core.Timeline | null>(null); // the scroll-scrubbed power-on
+  const arrived = useRef(false); // the story has handed over: the grid stays on
   const pulseTl = useRef<gsap.core.Timeline | null>(null);
   const [open, setOpen] = useState<number | null>(null);
   const opener = useRef<HTMLButtonElement | null>(null);
@@ -83,33 +85,38 @@ export function Solutions() {
       const onRefreshInit = () => measure();
       ScrollTrigger.addEventListener("refreshInit", onRefreshInit);
       const grid = { each: 0.045, from: "center" as const, grid: [2, 4] as [number, number] };
+      // the headline arrives with the section…
+      gsap.timeline({ defaults: { ease: "power2.out" }, scrollTrigger: { trigger: root, start: "top 88%", end: "top 45%", scrub: 0.8 } })
+        .fromTo(q("[data-sol-eyebrow]"), { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.5 }, 0)
+        .fromTo(q("[data-sol-title]"), { autoAlpha: 0, y: 46 }, { autoAlpha: 1, y: 0, duration: 0.8 }, 0.2);
+      // …and the system powers on when the grid itself is on screen (so the pulse and the bloom are actually seen)
       const tl = gsap.timeline({
         defaults: { ease: "power2.out" },
-        scrollTrigger: { trigger: root, start: "top 88%", end: "top 8%", scrub: 0.8, invalidateOnRefresh: true },
+        scrollTrigger: { trigger: q(".sol-field")[0], start: "top 62%", end: "center 60%", scrub: 0.8, invalidateOnRefresh: true },
       });
-      tl.fromTo(q("[data-sol-eyebrow]"), { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.22 }, 0)
-        .fromTo(q("[data-sol-title]"), { autoAlpha: 0, y: 46 }, { autoAlpha: 1, y: 0, duration: 0.38 }, 0.07)
-        .fromTo(q(".sol-bus"), { drawSVG: "0%" }, { drawSVG: "100%", duration: 0.34, ease: "power1.inOut" }, 0.3)
-        .fromTo(q(".sol-hub"), { autoAlpha: 0, scale: 0.2, transformOrigin: "50% 50%" }, { autoAlpha: 1, scale: 1, duration: 0.12, ease: "back.out(2)" }, 0.5)
-        .fromTo(q(".sol-hub-ring"), { autoAlpha: 0.7, scale: 1, transformOrigin: "50% 50%" }, { autoAlpha: 0, scale: 9, duration: 0.3, ease: "power2.out" }, 0.52)
+      gridTl.current = tl;
+      tl.fromTo(q(".sol-bus"), { drawSVG: "0%" }, { drawSVG: "100%", duration: 0.34, ease: "power1.inOut" }, 0)
+        .fromTo(q(".sol-hub"), { autoAlpha: 0, scale: 0.2, transformOrigin: "50% 50%" }, { autoAlpha: 1, scale: 1, duration: 0.12, ease: "back.out(2)" }, 0.2)
+        .fromTo(q(".sol-hub-ring"), { autoAlpha: 0.7, scale: 1, transformOrigin: "50% 50%" }, { autoAlpha: 0, scale: 9, duration: 0.3, ease: "power2.out" }, 0.22)
         // the system powers on: the network and the central bloom brighten, then settle to a whisper
-        .fromTo(q(".sol-base-in"), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.08, ease: "none" }, 0.3)
-        .fromTo(q(".sol-base--boost"), { opacity: 0 }, { opacity: 1, duration: 0.16, ease: "sine.out" }, 0.3)
-        .to(q(".sol-base--boost"), { opacity: 0, duration: 0.34, ease: "sine.inOut" }, 0.78)
-        .fromTo(q(".sol-core-wrap"), { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.2 }, 0.5)
-        .fromTo(q(".sol-core--boost"), { opacity: 0 }, { opacity: 1, duration: 0.18, ease: "sine.out" }, 0.5)
-        .to(q(".sol-core--boost"), { opacity: 0, duration: 0.34, ease: "sine.inOut" }, 0.78)
-        .fromTo(q(".sol-stub"), { drawSVG: "0%" }, { drawSVG: "100%", duration: 0.14, ease: "none", stagger: { each: 0.02, from: "center" } }, 0.56)
-        .fromTo(q(".sol-card"), { opacity: 0, y: 30, scale: 0.93 }, { opacity: 1, y: 0, scale: 1, duration: 0.36, stagger: grid }, 0.6)
-        .fromTo(q(".sol-card-bloom"), { opacity: 0 }, { opacity: 1, duration: 0.14, stagger: grid, ease: "sine.out" }, 0.66)
-        .to(q(".sol-card-bloom"), { opacity: 0, duration: 0.26, stagger: grid, ease: "sine.inOut" }, 0.82);
+        .fromTo(q(".sol-base-in"), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.08, ease: "none" }, 0)
+        .fromTo(q(".sol-base--boost"), { opacity: 0 }, { opacity: 1, duration: 0.16, ease: "sine.out" }, 0)
+        .to(q(".sol-base--boost"), { opacity: 0, duration: 0.34, ease: "sine.inOut" }, 0.48)
+        .fromTo(q(".sol-core-wrap"), { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.2 }, 0.2)
+        .fromTo(q(".sol-core--boost"), { opacity: 0 }, { opacity: 1, duration: 0.18, ease: "sine.out" }, 0.2)
+        .to(q(".sol-core--boost"), { opacity: 0, duration: 0.34, ease: "sine.inOut" }, 0.48)
+        .fromTo(q(".sol-stub"), { drawSVG: "0%" }, { drawSVG: "100%", duration: 0.14, ease: "none", stagger: { each: 0.02, from: "center" } }, 0.26)
+        .fromTo(q(".sol-card"), { opacity: 0, y: 30, scale: 0.93 }, { opacity: 1, y: 0, scale: 1, duration: 0.36, stagger: grid }, 0.3)
+        .fromTo(q(".sol-card-bloom"), { opacity: 0 }, { opacity: 1, duration: 0.14, stagger: grid, ease: "sine.out" }, 0.36)
+        .to(q(".sol-card-bloom"), { opacity: 0, duration: 0.26, stagger: grid, ease: "sine.inOut" }, 0.52);
+      if (arrived.current) { tl.scrollTrigger?.kill(); tl.progress(1); }
 
       // depth: the headline drifts slower than the modules, the background network slower still
       const depth = gsap.timeline({ scrollTrigger: { trigger: root, start: "top bottom", end: "bottom top", scrub: true } });
       depth.fromTo(q(".sol-head"), { y: 40 }, { y: -40, ease: "none" }, 0)
         .fromTo(q(".sol-ambient-net"), { yPercent: 6 }, { yPercent: -6, ease: "none" }, 0);
 
-      return () => { ScrollTrigger.removeEventListener("refreshInit", onRefreshInit); delete root.dataset.anim; };
+      return () => { gridTl.current = null; ScrollTrigger.removeEventListener("refreshInit", onRefreshInit); delete root.dataset.anim; };
     });
 
     // tablet: same arrival without the drawn network
@@ -267,6 +274,9 @@ export function Solutions() {
       const full = window.matchMedia(WIDE).matches && !lowPower() && chips.length > 0 && chips.every((c) => c.rect.w > 0);
       const h = { tl: null as gsap.core.Timeline | null, cancelled: false };
       handoff.current = h;
+      // coming from the story the modules arrive with the chips, so the scroll-driven power-on is finished for good
+      arrived.current = true;
+      if (gridTl.current) { gridTl.current.scrollTrigger?.kill(); gridTl.current.progress(1); }
       cards.forEach((c) => c.classList.add("sol-await"));
 
       // full: ghosts of the chips, exactly where they were in the story
