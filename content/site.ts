@@ -49,26 +49,26 @@ export const REVEAL = {
  * id: used for the detail drawer · visual: the small drawing (SolutionVisual)
  * related: modules this one exchanges data with (the network lights these up on hover)
  */
-/** DRAFT copy — short by design; edit freely. */
+/** Approved copy. */
 export const WHAT = {
   eyebrow: "What SIENA does",
-  headline: "We connect your business systems — and make them intelligent.",
+  headline: "We connect your business systems — and make them work intelligently together.",
   pillars: [
-    { title: "Connect", body: "Your tools, data and teams, joined into one flow." },
-    { title: "Automate", body: "Routine work handled reliably, end to end." },
-    { title: "Make intelligent", body: "AI that understands the business and acts — with people in control." },
+    { title: "Connect", body: "Your tools, data and teams, connected in one flow." },
+    { title: "Automate", body: "Routine work moves reliably from one system to the next." },
+    { title: "Add intelligence", body: "AI understands context, takes action and brings people in when judgment matters." },
   ],
 };
 
-/** DRAFT copy — short by design; edit freely. */
+/** Approved copy. */
 export const WHY = {
   eyebrow: "Why SIENA",
   headline: "Built around how your business already works.",
   points: [
-    { title: "One system, not more tools", body: "We connect what you already use instead of adding another platform." },
-    { title: "Designed around your workflows", body: "Every system starts from how your teams work today." },
-    { title: "People stay in control", body: "AI acts where it is trusted and asks where it matters." },
-    { title: "Built for daily use", body: "Reliable, monitored and documented from day one." },
+    { title: "One system, not more tools", body: "We connect the software you already use instead of creating another isolated platform." },
+    { title: "Designed around your workflows", body: "The system follows how your teams actually work — not the other way around." },
+    { title: "People stay in control", body: "AI handles what can be automated and brings people in where judgment matters." },
+    { title: "Built for daily operations", body: "Reliable, monitored and designed to become part of everyday work." },
   ],
 };
 
