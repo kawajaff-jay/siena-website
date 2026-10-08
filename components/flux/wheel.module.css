@@ -1,0 +1,175 @@
+/* Solutions wheel — structure shared by every variant. Colours/fonts inherit from the Flux page (--cyan, --ink…). */
+.root { --steps: 8; position: relative; height: calc(100svh + 7 * 46vh); }
+.stage { position: sticky; top: 0; height: 100svh; overflow: hidden; display: grid; grid-template-rows: auto 1fr auto; padding: 88px var(--gutter, 24px) 28px; }
+.head { position: relative; z-index: 2; }
+.eyebrow { margin: 0; font: 500 0.72rem/1 var(--mono); letter-spacing: 0.2em; text-transform: uppercase; color: var(--cyan); }
+.eyebrow::before { content: "// "; color: var(--magenta); }
+.title { margin: 12px 0 0; max-width: 24ch; font: 600 clamp(1.6rem, 3vw, 2.6rem)/1.05 var(--display); letter-spacing: -0.03em; color: var(--ink); }
+
+.layout { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: clamp(24px, 4vw, 64px); align-items: center; min-height: 0; }
+.wheel { --pos: 0; position: relative; height: min(62vh, 560px); }
+.list { margin: 0; padding: 0; list-style: none; position: absolute; inset: 0; }
+.li { position: absolute; left: 0; top: 50%; }
+.item {
+  position: absolute; left: 0; top: 0; display: flex; align-items: baseline; gap: 14px; padding: 6px 4px; white-space: nowrap; cursor: pointer;
+  background: none; border: 0; color: var(--ink); font: inherit; text-align: left; will-change: transform, opacity;
+  translate: 0 -50%;
+}
+.itemN { font: 500 0.72rem/1 var(--mono); letter-spacing: 0.14em; color: var(--muted); transition: color 0.3s; }
+.itemLabel { font: 600 clamp(1.4rem, 2.4vw, 2.2rem)/1.1 var(--display); letter-spacing: -0.02em; color: rgba(232, 246, 255, 0.55); transition: color 0.3s, text-shadow 0.3s; }
+.item[aria-current="true"] .itemLabel { color: var(--ink); text-shadow: 0 0 28px rgba(51, 225, 255, 0.45); }
+.item[aria-current="true"] .itemN { color: var(--cyan); }
+.item:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; }
+
+/* description */
+.detail { position: relative; display: grid; gap: 14px; align-content: center; animation: detailIn 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+@keyframes detailIn { from { opacity: 0; transform: translateY(16px); } }
+.detailN { margin: 0; font: 500 0.78rem/1 var(--mono); letter-spacing: 0.16em; color: var(--cyan); }
+.detailN span { color: var(--muted); }
+.detailTitle { margin: 0; font: 600 clamp(2.2rem, 4.2vw, 3.8rem)/1 var(--display); letter-spacing: -0.035em; color: var(--ink); }
+.detailBody { margin: 0; max-width: 46ch; font-size: clamp(1rem, 1.2vw, 1.1rem); line-height: 1.65; color: #b9c4d8; }
+.steps { margin: 6px 0 0; padding: 0; list-style: none; counter-reset: s; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 20px; max-width: 620px; }
+.steps li {
+  counter-increment: s; display: grid; grid-template-columns: 26px 1fr; gap: 8px; align-items: baseline; padding-top: 8px;
+  border-top: 1px solid rgba(120, 170, 255, 0.16); font-size: 0.92rem; color: var(--muted);
+  animation: stepIn 0.5s ease both; animation-delay: calc(0.12s + var(--n) * 0.06s);
+}
+.steps li::before { content: counter(s, decimal-leading-zero); font: 500 0.7rem/1.6 var(--mono); color: var(--cyan); }
+@keyframes stepIn { from { opacity: 0; transform: translateX(-6px); } }
+.result { margin: 6px 0 0; font: 600 1rem/1.4 var(--display); color: var(--cyan); }
+
+.progress { position: relative; z-index: 2; display: flex; gap: 6px; justify-self: start; }
+.progress span { width: 22px; height: 2px; background: rgba(120, 170, 255, 0.2); transition: background 0.3s, width 0.3s; }
+.progress span[data-on] { width: 44px; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
+.hint { position: absolute; right: var(--gutter, 24px); bottom: 26px; margin: 0; font: 500 0.68rem/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+
+/* ── 1 · TIDE: hazy, fluid like water ───────────────────────── */
+/* drifting pools of blurred light (GPU-cheap transforms only), slow and liquid */
+.root[data-variant="tide"] .water { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.root[data-variant="tide"] .water span { position: absolute; border-radius: 50%; will-change: transform; }
+/* soft by construction (radial gradients), so no blur filter is needed — keeps scrolling smooth */
+.root[data-variant="tide"] .water span:nth-child(1) { width: 60vmax; height: 36vmax; left: -16vmax; top: 24%; background: radial-gradient(closest-side, rgba(51, 225, 255, 0.24), transparent); animation: tideA 14s ease-in-out infinite alternate; }
+.root[data-variant="tide"] .water span:nth-child(2) { width: 48vmax; height: 32vmax; left: 18%; top: 4%; background: radial-gradient(closest-side, rgba(122, 162, 255, 0.2), transparent); animation: tideB 19s ease-in-out infinite alternate; }
+.root[data-variant="tide"] .water span:nth-child(3) { width: 44vmax; height: 28vmax; right: -10vmax; bottom: -8vmax; background: radial-gradient(closest-side, rgba(255, 79, 216, 0.12), transparent); animation: tideA 23s ease-in-out infinite alternate-reverse; }
+.root[data-variant="tide"] .water span:nth-child(4) { width: 80vmax; height: 14vmax; left: -14vmax; top: 46%; background: radial-gradient(closest-side, rgba(51, 225, 255, 0.14), transparent); animation: tideC 9s ease-in-out infinite alternate; }
+@keyframes tideA { to { transform: translate(8vmax, -4vmax) scale(1.15, 0.9); } }
+@keyframes tideB { to { transform: translate(-6vmax, 5vmax) scale(0.9, 1.15); } }
+@keyframes tideC { to { transform: translate(6vmax, 2vmax) scaleY(1.6); } }
+.root[data-variant="tide"] .wheel { -webkit-mask: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent); mask: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent); }
+.root[data-variant="tide"] .item {
+  transform: translate(calc(var(--d2) * -9px), calc(var(--d) * 76px)) scale(calc(1 - min(var(--ad), 3) * 0.1));
+  transform-origin: 0 50%;
+  opacity: calc(1 - min(var(--ad), 3.4) * 0.28);
+  filter: blur(calc(min(var(--ad), 4) * 1.6px));
+}
+.root[data-variant="tide"] .wheel::before {
+  content: ""; position: absolute; left: -24px; right: 10%; top: 50%; height: 84px; translate: 0 -50%; border-radius: 999px; pointer-events: none;
+  background: radial-gradient(60% 100% at 30% 50%, rgba(51, 225, 255, 0.18), transparent 75%);
+  filter: blur(6px); animation: tideC 6s ease-in-out infinite alternate;
+}
+.root[data-variant="tide"] .detail { animation-name: tideIn; animation-duration: 0.7s; }
+@keyframes tideIn { from { opacity: 0; filter: blur(10px); transform: translateY(10px); } }
+
+/* ── 2 · DIAL: circular dial with ticks; the current solution sits at the pointer ── */
+.root[data-variant="dial"] .wheel { --R: min(17vw, 210px); }
+.root[data-variant="dial"] .li { left: 34%; }
+.root[data-variant="dial"] .item {
+  transform-origin: 0 50%; translate: 0 -50%;
+  transform: rotate(calc(var(--d) * 34deg)) translateX(var(--R)) rotate(calc(var(--d) * -34deg));
+  opacity: calc(1 - min(var(--ad), 4) * 0.3);
+}
+.root[data-variant="dial"] .itemLabel { font-size: clamp(1.1rem, 1.7vw, 1.5rem); }
+.root[data-variant="dial"] .item[aria-current="true"] .itemLabel { font-size: clamp(1.4rem, 2.2vw, 2rem); }
+.root[data-variant="dial"] .ring {
+  position: absolute; left: 34%; top: 50%; width: calc(var(--R) * 1.7); aspect-ratio: 1; translate: -50% -50%; border-radius: 50%;
+  border: 1px solid rgba(51, 225, 255, 0.35);
+  background: repeating-conic-gradient(from 0deg, rgba(51, 225, 255, 0.5) 0 0.6deg, transparent 0.6deg 6deg);
+  -webkit-mask: radial-gradient(closest-side, transparent 86%, #000 87%); mask: radial-gradient(closest-side, transparent 86%, #000 87%);
+  transform: rotate(calc(var(--pos) * -34deg));
+}
+.root[data-variant="dial"] .hub {
+  position: absolute; left: 34%; top: 50%; width: 64px; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%;
+  background: radial-gradient(circle, rgba(51, 225, 255, 0.9), rgba(51, 225, 255, 0.15) 45%, transparent 70%);
+}
+.root[data-variant="dial"] .hub::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: calc(var(--R) * 0.86); height: 2px; translate: 0 -50%;
+  background: linear-gradient(90deg, var(--cyan), transparent); box-shadow: 0 0 10px var(--cyan);
+}
+
+/* ── 3 · DRUM: a 3D rolling cylinder, like a picker ─────────── */
+.root[data-variant="drum"] .wheel { perspective: 900px; }
+.root[data-variant="drum"] .list { transform-style: preserve-3d; }
+.root[data-variant="drum"] .li { left: 8%; transform-style: preserve-3d; }
+.root[data-variant="drum"] .item {
+  transform: translateZ(-190px) rotateX(calc(var(--d) * -26deg)) translateZ(190px);
+  backface-visibility: hidden; opacity: calc(1 - min(var(--ad), 3.4) * 0.26);
+}
+.root[data-variant="drum"] .drumBand {
+  position: absolute; left: 0; right: 6%; top: 50%; height: 72px; translate: 0 -50%; pointer-events: none;
+  border-top: 1px solid rgba(51, 225, 255, 0.5); border-bottom: 1px solid rgba(51, 225, 255, 0.5);
+  background: linear-gradient(90deg, rgba(51, 225, 255, 0.12), transparent);
+}
+.root[data-variant="drum"] .list { -webkit-mask: linear-gradient(180deg, transparent, #000 28%, #000 72%, transparent); mask: linear-gradient(180deg, transparent, #000 28%, #000 72%, transparent); }
+.root[data-variant="drum"] .detail { animation-name: drumIn; }
+@keyframes drumIn { from { opacity: 0; transform: rotateX(-14deg) translateY(18px); transform-origin: 50% 0; } }
+
+/* ── 4 · LENS: names magnify as they pass through the lens ──── */
+.root[data-variant="lens"] .item {
+  transform: translateY(calc(var(--d) * 68px)) scale(calc(0.72 + var(--lens) * 0.75));
+  transform-origin: 0 50%; opacity: calc(0.28 + var(--lens) * 0.72);
+}
+.root[data-variant="lens"] .itemLabel { font-size: clamp(1.3rem, 2vw, 1.8rem); }
+.root[data-variant="lens"] .lensFrame {
+  position: absolute; left: -16px; right: 4%; top: 50%; height: 92px; translate: 0 -50%; pointer-events: none; border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(51, 225, 255, 0.05));
+  border: 1px solid rgba(51, 225, 255, 0.35); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 0 40px -10px rgba(51, 225, 255, 0.5);
+  -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+}
+.root[data-variant="lens"] .list { -webkit-mask: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent); mask: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent); }
+
+/* ── 5 · ARC: a large half-wheel sweeping in from the left ──── */
+.root[data-variant="arc"] .wheel { --R: min(30vw, 420px); }
+.root[data-variant="arc"] .li { left: calc(var(--R) * -0.62); }
+.root[data-variant="arc"] .item {
+  transform-origin: 0 50%; translate: 0 -50%;
+  transform: rotate(calc(var(--d) * 17deg)) translateX(var(--R)) rotate(calc(var(--d) * -17deg));
+  opacity: calc(1 - min(var(--ad), 4) * 0.24);
+}
+.root[data-variant="arc"] .ring {
+  position: absolute; left: calc(var(--R) * -0.62); top: 50%; width: calc(var(--R) * 1.86); aspect-ratio: 1; translate: -50% -50%; border-radius: 50%;
+  border: 1px solid rgba(51, 225, 255, 0.28); pointer-events: none;
+  background: repeating-conic-gradient(from 0deg, rgba(255, 79, 216, 0.55) 0 0.5deg, transparent 0.5deg 17deg);
+  -webkit-mask: radial-gradient(closest-side, transparent 95%, #000 96%); mask: radial-gradient(closest-side, transparent 95%, #000 96%);
+  transform: rotate(calc(var(--pos) * -17deg));
+}
+.root[data-variant="arc"] .hub {
+  position: absolute; left: calc(var(--R) * -0.62); top: 50%; width: calc(var(--R) * 0.95); height: 1px; translate: 0 -50%; pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--cyan)); box-shadow: 0 0 12px var(--cyan); transform-origin: 0 50%;
+}
+
+/* ── phones: wheel on top, description underneath ───────────── */
+@media (max-width: 860px) {
+  .root { height: calc(100svh + 7 * 38vh); }
+  .stage { padding: 76px 16px 16px; grid-template-rows: auto 1fr auto; }
+  .title { font-size: 1.4rem; }
+  .layout { grid-template-columns: 1fr; grid-template-rows: 34svh auto; gap: 8px; align-items: start; }
+  .wheel { height: 34svh; }
+  .itemLabel { font-size: 1.25rem; }
+  .detail { gap: 8px; }
+  .detailTitle { font-size: 1.9rem; }
+  .detailBody { font-size: 0.95rem; }
+  .steps { display: none; }
+  .hint { display: none; }
+  .root[data-variant="tide"] .item { transform: translate(calc(var(--d2) * -6px), calc(var(--d) * 46px)) scale(calc(1 - min(var(--ad), 3) * 0.1)); }
+  .root[data-variant="lens"] .item { transform: translateY(calc(var(--d) * 40px)) scale(calc(0.72 + var(--lens) * 0.6)); }
+  .root[data-variant="lens"] .lensFrame { height: 62px; }
+  .root[data-variant="drum"] .item { transform: translateZ(-120px) rotateX(calc(var(--d) * -28deg)) translateZ(120px); }
+  .root[data-variant="drum"] .drumBand { height: 52px; }
+  .root[data-variant="dial"] .wheel { --R: 32vw; }
+  .root[data-variant="dial"] .li, .root[data-variant="dial"] .ring, .root[data-variant="dial"] .hub { left: 22%; }
+  .root[data-variant="arc"] .wheel { --R: 62vw; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .detail, .steps li, .root[data-variant="tide"] .water { animation: none !important; }
+}

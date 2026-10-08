@@ -82,15 +82,20 @@ const DESIGNS = [
     text: "The Flux homepage finished: header that tracks your section with a full-screen mobile menu, a live system diagram, a Without/With SIENA switch, a terminal-style enquiry form and a full footer.",
     swatch: ["#03050d", "#33e1ff", "#ff4fd8"],
   },
+  { href: "/preview/q", name: "Q · Solutions wheel: Tide", mood: "Solutions section · hazy, fluid", text: "The live homepage with the solutions as a hazy wheel: names drift and blur like water as you scroll; the description dissolves in beside it.", swatch: ["#03050d", "#33e1ff", "#7aa2ff"] },
+  { href: "/preview/r", name: "R · Solutions wheel: Dial", mood: "Solutions section · circular dial", text: "Solutions around a ticked dial that turns as you scroll; the current one sits at the pointer.", swatch: ["#03050d", "#33e1ff", "#e8f6ff"] },
+  { href: "/preview/s", name: "S · Solutions wheel: Drum", mood: "Solutions section · 3D picker", text: "A 3D drum that rolls through the solutions like a picker; the selected one sits in the band.", swatch: ["#03050d", "#33e1ff", "#7aa2ff"] },
+  { href: "/preview/t", name: "T · Solutions wheel: Lens", mood: "Solutions section · magnifier", text: "A vertical list that magnifies each solution as it passes through a glass lens.", swatch: ["#03050d", "#33e1ff", "#ffffff"] },
+  { href: "/preview/u", name: "U · Solutions wheel: Arc", mood: "Solutions section · half-wheel", text: "A large half-wheel sweeping in from the left edge, turning through the solutions as you scroll.", swatch: ["#03050d", "#33e1ff", "#ff4fd8"] },
 ];
 
 export default function PreviewIndex() {
   return (
     <main className={s.index}>
       <p className={s.kicker}>SIENA · design previews</p>
-      <h1 className={s.title}>Sixteen directions for the homepage</h1>
+      <h1 className={s.title}>Twenty-one directions for the homepage</h1>
       <p className={s.lead}>
-        Same approved copy, sixteen different layouts and styles. These pages are hidden from search and don’t change the
+        Same approved copy, twenty-one different layouts and styles. These pages are hidden from search and don’t change the
         live homepage. Use the bar at the bottom to switch between them.
       </p>
       <ul className={s.grid}>

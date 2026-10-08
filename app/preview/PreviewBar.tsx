@@ -21,6 +21,11 @@ const LINKS: { href: string; label: string; name?: string }[] = [
   { href: "/preview/n", label: "N", name: "Noir" },
   { href: "/preview/o", label: "O", name: "Flux Blue" },
   { href: "/preview/p", label: "P", name: "Flux Complete" },
+  { href: "/preview/q", label: "Q", name: "Wheel · Tide" },
+  { href: "/preview/r", label: "R", name: "Wheel · Dial" },
+  { href: "/preview/s", label: "S", name: "Wheel · Drum" },
+  { href: "/preview/t", label: "T", name: "Wheel · Lens" },
+  { href: "/preview/u", label: "U", name: "Wheel · Arc" },
   { href: "/preview/classic", label: "Classic", name: "old home" },
   { href: "/", label: "Current site" },
 ];
