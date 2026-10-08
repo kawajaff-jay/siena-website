@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { SOLUTIONS } from "@/content/site";
 import t from "./tide.module.css";
 
@@ -135,7 +135,6 @@ export function SolutionsTide() {
   }, []);
 
   const it = ITEMS[sel];
-  const next = ITEMS[(sel + 1) % N];
 
   return (
     <section ref={section} id="solutions" className={t.root} aria-label={SOLUTIONS.eyebrow}>
@@ -176,33 +175,6 @@ export function SolutionsTide() {
           <p className={t.lead}>{it.body}</p>
           {it.overview.map((p) => <p key={p} className={t.para}>{p}</p>)}
 
-          <h4 className={t.h4}>{SOLUTIONS.drawer.workflow}</h4>
-          <ol className={t.steps}>
-            {it.workflow.map((s, n) => <li key={s} style={{ "--n": n } as CSSProperties}>{s}</li>)}
-          </ol>
-
-          <div className={t.cols}>
-            <div>
-              <h4 className={t.h4}>{SOLUTIONS.drawer.connects}</h4>
-              <ul className={t.chips}>{it.connects.map((c) => <li key={c}>{c}</li>)}</ul>
-            </div>
-            <div>
-              <h4 className={t.h4}>{SOLUTIONS.drawer.uses}</h4>
-              <ul className={t.uses}>{it.uses.map((u) => <li key={u}>{u}</li>)}</ul>
-            </div>
-          </div>
-
-          <div className={t.outcome}>
-            <span>{SOLUTIONS.drawer.outcome}</span>
-            <p>{it.result}</p>
-          </div>
-
-          <div className={t.actions}>
-            <a href="#contact" className={t.cta}>Discuss {it.title} with us</a>
-            <button type="button" className={t.nextBtn} onClick={() => choose(sel + 1)}>
-              Next: {next.title} <span aria-hidden="true">→</span>
-            </button>
-          </div>
         </article>
       </div>
     </section>
