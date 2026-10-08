@@ -4,8 +4,8 @@ import { BrandLogo } from "@/components/BrandLogo";
 import { TailSymbol } from "./TailSymbol";
 
 const LINKS = [
-  { id: "what", n: "01", label: "System" },
-  { id: "solutions", n: "02", label: "Modules" },
+  { id: "what", n: "01", label: "What we do" },
+  { id: "solutions", n: "02", label: "Solutions" },
   { id: "why", n: "03", label: "Why SIENA" },
   { id: "contact", n: "04", label: "Contact" },
 ];
@@ -56,13 +56,12 @@ export function FluxHeader({ s }: { s: Record<string, string> }) {
         <TailSymbol className={s.symbol} />
         <BrandLogo variant="wordmark" alt="SIENA" className={s.word} sizes="100px" priority feather={false} />
       </a>
-      <p className={s.status} aria-hidden="true"><span /> Core online · v2026</p>
       <nav aria-label="Primary" className={s.nav}>
         {LINKS.slice(0, 3).map((l) => (
-          <a key={l.id} href={`#${l.id}`} aria-current={active === l.id ? "location" : undefined}>[{l.n}] {l.label}</a>
+          <a key={l.id} href={`#${l.id}`} aria-current={active === l.id ? "location" : undefined}>{l.label}</a>
         ))}
       </nav>
-      <a href="#contact" className={s.topCta} aria-current={active === "contact" ? "location" : undefined}>Initiate</a>
+      <a href="#contact" className={s.topCta} aria-current={active === "contact" ? "location" : undefined}>Build your AI system</a>
       <button
         ref={toggle}
         type="button"
@@ -76,7 +75,7 @@ export function FluxHeader({ s }: { s: Record<string, string> }) {
       </button>
 
       <div id="flux-menu" ref={panel} className={s.menu} hidden={!open} role="dialog" aria-modal="true" aria-label="Menu">
-        <p className={s.menuKicker}>[ Navigation ]</p>
+        <p className={s.menuKicker}>Menu</p>
         <ul>
           {LINKS.map((l) => (
             <li key={l.id}>
