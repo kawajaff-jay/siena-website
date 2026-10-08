@@ -4,7 +4,7 @@ import { asset } from "@/lib/asset";
 
 export const metadata: Metadata = { robots: { index: false } };
 
-/** Direct link to the Evolution story: the home page with the story open (/story?chapter=ai opens at 2026 AI). */
+/** Direct link to the Evolution story, which now lives on the classic home (/story?chapter=ai opens at 2026 AI). */
 export default function Story() {
-  return <Redirect to={asset("/#evolution")} keepChapter />;
+  return <Redirect to={asset("/preview/classic.html#evolution")} keepChapter />;
 }

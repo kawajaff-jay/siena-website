@@ -2,8 +2,8 @@ import "@fontsource/instrument-serif/400.css";
 import "@fontsource/instrument-serif/400-italic.css";
 import { BrandLogo } from "@/components/BrandLogo";
 import { HERO, WHAT } from "@/content/site";
-import { Genesis, type GenesisPalette } from "../_genesis/Genesis";
-import { Sections } from "../_genesis/Sections";
+import { Genesis, type GenesisPalette } from "@/components/genesis/Genesis";
+import { Sections } from "@/components/genesis/Sections";
 import s from "./m.module.css";
 
 const PALETTE: GenesisPalette = {

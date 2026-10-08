@@ -1,8 +1,8 @@
 import "@fontsource-variable/jetbrains-mono/wght.css";
 import { BrandLogo } from "@/components/BrandLogo";
 import { HERO, WHAT } from "@/content/site";
-import { Genesis, type GenesisPalette } from "../_genesis/Genesis";
-import { Sections } from "../_genesis/Sections";
+import { Genesis, type GenesisPalette } from "@/components/genesis/Genesis";
+import { Sections } from "@/components/genesis/Sections";
 import s from "./n.module.css";
 
 const PALETTE: GenesisPalette = {

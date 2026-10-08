@@ -13,6 +13,12 @@ npm run build      # static export → ./out  (deploy the folder to any CDN / Ve
 
 Requires Node 20+.
 
+## Homepage
+
+The homepage (`app/page.tsx`) is **Genesis Flux**: scrolling builds the SIENA symbol from a live particle network (move the cursor to disturb it, click to send a pulse), then the eight solution modules orbit the official logo; selecting one runs its workflow. The engine lives in `components/genesis/` (`Genesis.tsx` hero, `Sections.tsx` + `Explorer.tsx` below it); colours and fonts are in `app/home.module.css`. All copy comes from `content/site.ts`.
+
+The previous homepage, with the full-screen Evolution story, is kept at `/preview/classic` (`/story` links there). Design explorations live under `/preview`.
+
 ## Where to edit
 
 | What | File |
