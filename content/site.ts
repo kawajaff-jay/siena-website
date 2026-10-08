@@ -60,13 +60,14 @@ export const WHAT = {
   ],
 };
 
-/** DRAFT copy — what SIENA builds (shown under "What SIENA does"). Edit freely. */
+/** DRAFT copy — what SIENA builds, shown as the text of "What SIENA does". Edit freely.
+ *  Each part is one short sentence; `key` is highlighted. */
 export const BUILDS = {
-  intro: "We design and build the software your business runs on — intelligent from day one.",
-  items: [
-    { title: "Apps", body: "Custom web and mobile apps for your team and customers, with AI built in." },
-    { title: "Websites", body: "Fast, modern websites that win customers and connect straight to your systems." },
-    { title: "Systems", body: "Integrations, automations and AI agents that link every tool into one flow." },
+  intro: "We design and build the software your business runs on.",
+  parts: [
+    { key: "Apps", text: "your team and customers enjoy using, with AI built in." },
+    { key: "Websites", text: "that look sharp, load fast and turn visitors into customers." },
+    { key: "Systems", text: "that connect every tool, automate the routine and bring intelligence to every decision." },
   ],
 };
 

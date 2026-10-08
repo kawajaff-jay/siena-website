@@ -12,21 +12,12 @@ export function FluxWhat({ s }: { s: Record<string, string> }) {
   return (
     <section id="what" className={s.section} data-reveal="">
       <p className={s.eyebrow}>{WHAT.eyebrow}</p>
-      <h2 className={s.h2}>Three layers. One intelligent core.</h2>
-      <p className={s.sectionLead}>{WHAT.headline}</p>
-
-      <div className={s.builds}>
-        <p className={s.buildsIntro}>{BUILDS.intro}</p>
-        <ul className={s.buildsList}>
-          {BUILDS.items.map((b, i) => (
-            <li key={b.title} className={s.card} data-spot="" style={{ "--i": i } as CSSProperties}>
-              <span className={s.cardN}>Build 0{i + 1}</span>
-              <h3 className={s.h3}>{b.title}</h3>
-              <p>{b.body}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <p className={s.buildsText}>
+        {BUILDS.intro}{" "}
+        {BUILDS.parts.map((b) => (
+          <span key={b.key}><strong>{b.key}</strong> {b.text} </span>
+        ))}
+      </p>
 
       <figure className={s.pipe}>
         <svg viewBox="0 0 1200 300" role="img" aria-label="Your business functions flow through Connect and Automate into the SIENA core, which turns them into decisions and action.">
