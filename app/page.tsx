@@ -1,5 +1,6 @@
 import "@fontsource-variable/jetbrains-mono/wght.css";
 import { BrandLogo } from "@/components/BrandLogo";
+import { TailSymbol } from "@/components/flux/TailSymbol";
 import { HERO, WHAT } from "@/content/site";
 import { Genesis, type GenesisPalette } from "@/components/genesis/Genesis";
 import { Sections } from "@/components/genesis/Sections";
@@ -11,7 +12,7 @@ const PALETTE: GenesisPalette = {
   linkAlpha: 0.75,
   pulse: "#ff4fd8",
   flow: "#33e1ff",
-  trace: ["#33e1ff", "#33e1ff", "#7aa2ff"],
+  trace: ["#ff4fd8", "#33e1ff", "#7aa2ff"],
 };
 
 /**
@@ -24,7 +25,7 @@ export default function Home() {
     <div className={s.page}>
       <header className={s.top}>
         <a href="#top" className={s.brand} aria-label="SIENA — back to top">
-          <BrandLogo variant="symbol" alt="" className={s.symbol} sizes="32px" priority />
+          <TailSymbol className={s.symbol} />
           <BrandLogo variant="wordmark" alt="SIENA" className={s.word} sizes="100px" priority feather={false} />
         </a>
         <p className={s.status} aria-hidden="true"><span /> Core online · v2026</p>

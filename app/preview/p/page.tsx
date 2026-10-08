@@ -18,7 +18,7 @@ const PALETTE: GenesisPalette = {
   linkAlpha: 0.75,
   pulse: "#ff4fd8",
   flow: "#33e1ff",
-  trace: ["#33e1ff", "#33e1ff", "#7aa2ff"],
+  trace: ["#ff4fd8", "#33e1ff", "#7aa2ff"],
 };
 
 /**

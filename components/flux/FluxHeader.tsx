@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { BrandLogo } from "@/components/BrandLogo";
+import { TailSymbol } from "./TailSymbol";
 
 const LINKS = [
   { id: "what", n: "01", label: "System" },
@@ -52,7 +53,7 @@ export function FluxHeader({ s }: { s: Record<string, string> }) {
   return (
     <header className={s.top} data-open={open || undefined}>
       <a href="#top" className={s.brand} aria-label="SIENA — back to top">
-        <BrandLogo variant="symbol" alt="" className={s.symbol} sizes="32px" priority />
+        <TailSymbol className={s.symbol} />
         <BrandLogo variant="wordmark" alt="SIENA" className={s.word} sizes="100px" priority feather={false} />
       </a>
       <p className={s.status} aria-hidden="true"><span /> Core online · v2026</p>

@@ -1,0 +1,8 @@
+.wrap { position: relative; display: block; }
+.img { display: block; width: 100%; }
+.tail {
+  position: absolute; inset: 0; pointer-events: none;
+  /* same colours as the hero trace: pink at the lower tail, fading out toward the centre */
+  background: linear-gradient(to top right, #ff4fd8 0%, #ff4fd8 22%, rgba(255, 79, 216, 0.55) 38%, rgba(255, 79, 216, 0) 52%);
+  -webkit-mask: var(--sym) center / contain no-repeat; mask: var(--sym) center / contain no-repeat;
+}
