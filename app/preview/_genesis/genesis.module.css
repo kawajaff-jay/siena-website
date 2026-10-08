@@ -1,0 +1,185 @@
+/* Interactive Genesis hero — structure. Colours / fonts come from the page as --g-* variables. */
+.root { --p: 0; --fin: 0; --charge: 0; position: relative; height: 440vh; color: var(--g-ink); }
+.stage { position: sticky; top: 0; height: 100svh; overflow: hidden; touch-action: pan-y; }
+.canvas { position: absolute; inset: 0; pointer-events: none; }
+
+.root {
+  --in-intro: clamp(0, (var(--p) - 0.04) * 8, 1);
+  --in-trace: clamp(0, (var(--p) - 0.38) / 0.28, 1);
+  --in-blades: clamp(0, (var(--p) - 0.6) * 8, 1);
+  --in-logo: clamp(0, (var(--p) - 0.66) * 7, 1);
+  --in-word: clamp(0, (var(--p) - 0.8) * 9, 1);
+  --in-outro: clamp(0, (var(--p) - 0.88) * 10, 1);
+  --hud: calc(clamp(0, (var(--p) - 0.03) * 10, 1) * (1 - clamp(0, (var(--p) - 0.84) * 10, 1)));
+}
+
+/* the mark (positioned each frame by JS) */
+.markBox { position: absolute; left: 0; top: 0; transform-origin: 50% 50%; pointer-events: none; will-change: transform; }
+.mark { width: 100%; height: 100%; overflow: visible; }
+.trace, .traceGlow {
+  fill: none; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: var(--len, 2400); stroke-dashoffset: calc(var(--len, 2400) * (1 - var(--in-trace)));
+}
+.trace { stroke-width: 3.5; opacity: calc(1 - clamp(0, (var(--p) - 0.78) * 10, 1)); }
+.traceGlow { stroke-width: 18; filter: blur(9px); opacity: calc(0.55 * (1 - clamp(0, (var(--p) - 0.78) * 10, 1)) + var(--charge) * 0.6 * var(--in-logo)); }
+.blades path { opacity: calc(0.5 * var(--in-blades) * (1 - clamp(0, (var(--p) - 0.76) * 8, 1))); }
+.logoSymbol {
+  opacity: var(--in-logo); transform-box: fill-box; transform-origin: 50% 40%;
+  transform: scale(calc(0.9 + 0.1 * var(--in-logo) + var(--charge) * 0.03));
+  filter: drop-shadow(0 0 calc(18px + var(--charge) * 40px) var(--g-glow, rgba(59, 108, 255, 0.6)));
+}
+.logoWord { opacity: var(--in-word); }
+.wordDark { filter: brightness(0); opacity: calc(0.86 * var(--in-word)); } /* official white wordmark, shown dark on light themes */
+
+/* cursor */
+.cursor { position: absolute; left: 0; top: 0; pointer-events: none; opacity: 0; transition: opacity 0.3s; z-index: 4; }
+.cursorRing, .cursorCoords { position: absolute; }
+
+/* intro copy */
+.intro {
+  position: absolute; inset: 0; display: grid; align-content: center; justify-items: center; gap: 20px; text-align: center;
+  padding: 0 var(--g-gutter, 24px); pointer-events: none;
+  opacity: calc(1 - var(--in-intro)); transform: translateY(calc(-6vh * var(--in-intro)));
+}
+
+/* build readout */
+.hud { position: absolute; left: var(--g-gutter); top: 50%; translate: 0 -50%; display: grid; gap: 14px; opacity: var(--hud); margin: 0; padding: 0; list-style: none; }
+.hud li { display: flex; align-items: center; gap: 12px; color: var(--g-muted); opacity: 0.55; transition: opacity 0.3s, color 0.3s; }
+.hud li span { display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid var(--g-line); transition: all 0.3s; }
+.root[data-stage="0"] .hud li[data-i="0"], .root[data-stage="1"] .hud li[data-i="1"],
+.root[data-stage="2"] .hud li[data-i="2"], .root[data-stage="3"] .hud li[data-i="3"] { opacity: 1; color: var(--g-ink); }
+.root[data-stage="0"] .hud li[data-i="0"] span, .root[data-stage="1"] .hud li[data-i="1"] span,
+.root[data-stage="2"] .hud li[data-i="2"] span, .root[data-stage="3"] .hud li[data-i="3"] span {
+  background: var(--g-accent); border-color: var(--g-accent); color: var(--g-on-accent, #fff); box-shadow: 0 0 0 5px color-mix(in srgb, var(--g-accent) 22%, transparent);
+}
+.meter { position: absolute; right: var(--g-gutter); bottom: 9vh; display: grid; gap: 10px; justify-items: end; opacity: var(--hud); margin: 0; color: var(--g-muted); }
+.meter b { color: var(--g-ink); font-variant-numeric: tabular-nums; }
+.meterBar { width: 180px; height: 2px; background: var(--g-line); overflow: hidden; }
+.meterBar i { display: block; height: 100%; width: calc(clamp(0, var(--p) / 0.86, 1) * 100%); background: linear-gradient(90deg, var(--g-accent2), var(--g-accent)); }
+.hint {
+  position: absolute; left: 50%; bottom: 9vh; translate: -50% 0; margin: 0; white-space: nowrap; color: var(--g-muted);
+  opacity: calc(clamp(0, (var(--p) - 0.12) * 8, 1) * (1 - clamp(0, (var(--p) - 0.6) * 8, 1)));
+}
+
+/* modules orbiting the formed mark */
+.orbit { position: absolute; inset: 0; pointer-events: none; opacity: var(--in-outro); }
+.root[data-done="true"] .orbit { pointer-events: auto; }
+.orbit .chip { position: absolute; left: 0; top: 0; will-change: transform; }
+.chip {
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 13px; cursor: pointer; white-space: nowrap;
+  font: inherit; color: var(--g-ink); background: var(--g-chip-bg); border: 1px solid var(--g-line);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.chip:hover, .chip:focus-visible, .chip[aria-pressed="true"] { border-color: var(--g-accent); box-shadow: 0 0 24px -4px var(--g-accent); }
+.chip[aria-pressed="true"] { background: var(--g-accent); color: var(--g-on-accent, #fff); }
+.chipDot { width: 6px; height: 6px; border-radius: 50%; background: var(--g-accent); box-shadow: 0 0 8px var(--g-accent); }
+.chip[aria-pressed="true"] .chipDot { background: currentColor; }
+
+/* final copy / run panel */
+.outro {
+  position: absolute; left: var(--g-gutter); top: 50%; translate: 0 -50%; width: min(460px, 36vw);
+  display: grid; justify-items: start; gap: 16px; opacity: var(--in-outro);
+  transform: translateY(calc(24px * (1 - var(--in-outro)))); pointer-events: none;
+}
+.root[data-done="true"] .outro { pointer-events: auto; }
+.outroHint { margin: 4px 0 0; color: var(--g-muted); font-size: 0.85rem; }
+.hintMob, .chipRow { display: none; }
+.panel { display: grid; gap: 12px; width: 100%; animation: panelIn 0.5s ease both; }
+@keyframes panelIn { from { opacity: 0; transform: translateX(-16px); } }
+.panelStatus { display: flex; align-items: center; gap: 8px; margin: 0; color: var(--g-accent); }
+.live { width: 8px; height: 8px; border-radius: 50%; background: var(--g-accent); box-shadow: 0 0 10px var(--g-accent); animation: blink 1.2s ease-in-out infinite; }
+@keyframes blink { 50% { opacity: 0.3; } }
+.panelTitle { margin: 0; }
+.panelBody { margin: 0; color: var(--g-muted); }
+.steps { display: grid; gap: 6px; margin: 4px 0 0; padding: 0; list-style: none; width: 100%; }
+.steps li {
+  display: grid; grid-template-columns: 20px 1fr; align-items: center; gap: 10px; padding: 9px 12px;
+  border: 1px solid var(--g-line); background: var(--g-chip-bg); color: var(--g-muted);
+  animation: stepOn 0.4s ease both; animation-delay: calc(var(--d) * 0.45s + 0.2s);
+}
+@keyframes stepOn { from { opacity: 0.25; transform: translateX(-6px); } to { color: var(--g-ink); border-color: color-mix(in srgb, var(--g-accent) 45%, var(--g-line)); } }
+.tick { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--g-accent); position: relative; }
+.tick::after { content: ""; position: absolute; inset: 2px; border-radius: 50%; background: var(--g-accent); transform: scale(0); animation: tickOn 0.3s ease forwards; animation-delay: inherit; }
+.steps li .tick::after { animation-delay: calc(var(--d) * 0.45s + 0.45s); }
+@keyframes tickOn { to { transform: scale(1); } }
+.panelResult { margin: 2px 0 0; font-weight: 600; color: var(--g-ink); animation: stepOn 0.5s ease both; animation-delay: calc(var(--d) * 0.45s + 0.3s); }
+.panelActions { display: flex; gap: 8px; flex-wrap: wrap; }
+.panelBtn { font: inherit; cursor: pointer; padding: 9px 14px; color: var(--g-ink); background: transparent; border: 1px solid var(--g-line); }
+.panelBtn:hover { border-color: var(--g-accent); }
+
+@media (max-width: 899px) {
+  .root { height: 360vh; }
+  .hud { top: auto; bottom: 10vh; translate: none; grid-template-columns: repeat(4, auto); gap: 8px; }
+  .hud li { font-size: 0 !important; gap: 0; }
+  .hud li span { font-size: 0.66rem; width: 28px; height: 28px; }
+  .meter { bottom: 10.5vh; }
+  .meterBar { width: 110px; }
+  .hint { display: none; }
+  .orbit { display: none; }
+  .outro { left: 0; right: 0; top: auto; bottom: 4vh; translate: none; width: auto; padding: 0 var(--g-gutter); justify-items: center; text-align: center; gap: 12px; }
+  .hintDesk { display: none; }
+  .hintMob { display: inline; }
+  .chipRow { display: flex; gap: 6px; overflow-x: auto; max-width: 100%; padding-bottom: 4px; scrollbar-width: none; }
+  .chipRow .chip { padding: 7px 11px; font-size: 0.8rem; }
+  .panel {
+    justify-items: start; text-align: left; padding: 16px; max-height: 78svh; overflow-y: auto;
+    background: var(--g-chip-bg); border: 1px solid var(--g-line); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  }
+  .steps li { padding: 7px 10px; font-size: 0.85rem; }
+  .panelBody { display: none; }
+}
+
+/* reduced motion: finished hero, normal height */
+.root[data-static="true"] { height: auto; }
+.root[data-static="true"] .stage { position: relative; height: 100svh; min-height: 640px; }
+.root[data-static="true"] .intro, .root[data-static="true"] .hud, .root[data-static="true"] .meter, .root[data-static="true"] .hint { display: none; }
+@media (prefers-reduced-motion: reduce) { .panel, .steps li, .tick::after, .panelResult, .live { animation: none !important; } .tick::after { transform: none; } }
+
+/* ── variant: FLUX — futuristic HUD ─────────────────────────── */
+.root[data-variant="flux"] .hud li { font: 500 0.72rem/1 var(--g-mono); letter-spacing: 0.14em; text-transform: uppercase; }
+.root[data-variant="flux"] .hud li span { clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); font-size: 0.66rem; }
+.root[data-variant="flux"] .meter, .root[data-variant="flux"] .hint, .root[data-variant="flux"] .outroHint { font: 500 0.72rem/1.4 var(--g-mono); letter-spacing: 0.12em; text-transform: uppercase; }
+.root[data-variant="flux"] .chip { font: 500 0.74rem/1 var(--g-mono); letter-spacing: 0.08em; text-transform: uppercase; clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); }
+.root[data-variant="flux"] .panelStatus, .root[data-variant="flux"] .panelBtn { font: 500 0.72rem/1 var(--g-mono); letter-spacing: 0.12em; text-transform: uppercase; }
+.root[data-variant="flux"] .panelTitle { font: 600 clamp(2rem, 3.4vw, 3rem)/1 var(--g-display); letter-spacing: -0.03em; text-transform: uppercase; }
+.root[data-variant="flux"] .steps li { font: 400 0.82rem/1.3 var(--g-mono); }
+.root[data-variant="flux"] .cursorRing {
+  width: 46px; height: 46px; left: -23px; top: -23px; border: 1px solid var(--g-accent);
+  clip-path: polygon(0 0, 30% 0, 30% 2px, 2px 2px, 2px 30%, 0 30%, 0 70%, 2px 70%, 2px calc(100% - 2px), 30% calc(100% - 2px), 30% 100%, 70% 100%, 70% calc(100% - 2px), calc(100% - 2px) calc(100% - 2px), calc(100% - 2px) 70%, 100% 70%, 100% 30%, calc(100% - 2px) 30%, calc(100% - 2px) 2px, 70% 2px, 70% 0, 100% 0, 100% 100%, 0 100%);
+  animation: spinSlow 8s linear infinite;
+}
+.root[data-variant="flux"] .cursorRing::after { content: ""; position: absolute; left: 50%; top: 50%; width: 4px; height: 4px; margin: -2px; background: var(--g-accent2); border-radius: 50%; }
+@keyframes spinSlow { to { rotate: 360deg; } }
+.root[data-variant="flux"] .cursorCoords { left: 30px; top: 18px; font: 500 0.62rem/1 var(--g-mono); letter-spacing: 0.1em; color: var(--g-accent); white-space: pre; }
+
+/* ── variant: LUMIÈRE — elegant futuristic ───────────────────── */
+.root[data-variant="lumiere"] .hud li { font: 400 0.95rem/1 var(--g-display); font-style: italic; }
+.root[data-variant="lumiere"] .hud li span { border-radius: 50%; font: 500 0.66rem/1 var(--g-text); font-style: normal; }
+.root[data-variant="lumiere"] .meter { font: 400 0.8rem/1.4 var(--g-text); letter-spacing: 0.06em; }
+.root[data-variant="lumiere"] .meterBar { height: 1px; }
+.root[data-variant="lumiere"] .hint, .root[data-variant="lumiere"] .outroHint { font: italic 400 1rem/1.4 var(--g-display); }
+.root[data-variant="lumiere"] .chip { border-radius: 999px; font: 400 0.82rem/1 var(--g-text); letter-spacing: 0.02em; }
+.root[data-variant="lumiere"] .panelStatus { font: 400 0.78rem/1 var(--g-text); letter-spacing: 0.14em; text-transform: uppercase; }
+.root[data-variant="lumiere"] .panelTitle { font: 400 clamp(2.6rem, 4.6vw, 4rem)/1 var(--g-display); letter-spacing: -0.02em; }
+.root[data-variant="lumiere"] .steps li, .root[data-variant="lumiere"] .panelBtn { border-radius: 999px; }
+.root[data-variant="lumiere"] .cursorRing {
+  width: 360px; height: 360px; left: -180px; top: -180px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 236, 200, 0.55), rgba(255, 236, 200, 0)); mix-blend-mode: soft-light;
+}
+.root[data-variant="lumiere"] .cursorRing::after { content: ""; position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; margin: -4px; border-radius: 50%; border: 1px solid var(--g-accent); }
+.root[data-variant="lumiere"] .cursorCoords { display: none; }
+
+/* ── variant: NOIR — noir futuristic ─────────────────────────── */
+.root[data-variant="noir"] .hud li { font: 400 0.7rem/1 var(--g-mono); letter-spacing: 0.22em; text-transform: uppercase; }
+.root[data-variant="noir"] .hud li span { border-radius: 0; font-size: 0.62rem; }
+.root[data-variant="noir"] .meter, .root[data-variant="noir"] .hint, .root[data-variant="noir"] .outroHint { font: 400 0.7rem/1.4 var(--g-mono); letter-spacing: 0.2em; text-transform: uppercase; }
+.root[data-variant="noir"] .chip { font: 400 0.72rem/1 var(--g-mono); letter-spacing: 0.14em; text-transform: uppercase; }
+.root[data-variant="noir"] .panelStatus, .root[data-variant="noir"] .panelBtn { font: 400 0.7rem/1 var(--g-mono); letter-spacing: 0.18em; text-transform: uppercase; }
+.root[data-variant="noir"] .panelTitle { font: 200 clamp(2.4rem, 4.4vw, 4rem)/1 var(--g-display); letter-spacing: -0.04em; }
+.root[data-variant="noir"] .steps li { font: 400 0.82rem/1.3 var(--g-mono); }
+.root[data-variant="noir"] .cursorRing {
+  width: 640px; height: 640px; left: -320px; top: -320px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03) 50%, transparent);
+}
+.root[data-variant="noir"] .cursorRing::after { content: ""; position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px; background: #fff; border-radius: 50%; box-shadow: 0 0 14px #fff; }
+.root[data-variant="noir"] .cursorCoords { left: 14px; top: 12px; font: 400 0.6rem/1 var(--g-mono); letter-spacing: 0.16em; color: var(--g-muted); white-space: pre; }

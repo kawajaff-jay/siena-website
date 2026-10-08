@@ -57,15 +57,30 @@ const DESIGNS = [
     text: "Aurora light with a cinematic hero: as you scroll, scattered data points gather, link up like a neural network, trace the S, and resolve into the real SIENA logo.",
     swatch: ["#f7f8fc", "#3b6cff", "#7fe3d3"],
   },
+  {
+    href: "/preview/l", name: "L · Genesis Flux", mood: "Interactive · futuristic HUD",
+    text: "Interactive Genesis, futuristic: holographic grid floor, scanlines and a targeting reticle. Push the particle network with your cursor, click to pulse it, then run any module orbiting the logo.",
+    swatch: ["#03050d", "#33e1ff", "#ff4fd8"],
+  },
+  {
+    href: "/preview/m", name: "M · Genesis Lumière", mood: "Interactive · elegant futuristic",
+    text: "Interactive Genesis, elegant: pearl light, champagne-gold orbits and serif type. Your cursor is a soft light the particles drift toward; the modules orbit the logo like jewellery.",
+    swatch: ["#f7f4ef", "#b08a4f", "#4d6bff"],
+  },
+  {
+    href: "/preview/n", name: "N · Genesis Noir", mood: "Interactive · noir futuristic",
+    text: "Interactive Genesis, noir: black, grain and venetian-blind light. Your cursor is a flashlight that reveals the hidden network; SIENA blue is the only colour.",
+    swatch: ["#000000", "#ffffff", "#2f7bff"],
+  },
 ];
 
 export default function PreviewIndex() {
   return (
     <main className={s.index}>
       <p className={s.kicker}>SIENA · design previews</p>
-      <h1 className={s.title}>Eleven directions for the homepage</h1>
+      <h1 className={s.title}>Fourteen directions for the homepage</h1>
       <p className={s.lead}>
-        Same approved copy, eleven different layouts and styles. These pages are hidden from search and don’t change the
+        Same approved copy, fourteen different layouts and styles. These pages are hidden from search and don’t change the
         live homepage. Use the bar at the bottom to switch between them.
       </p>
       <ul className={s.grid}>
