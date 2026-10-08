@@ -60,14 +60,17 @@ export const WHAT = {
   ],
 };
 
-/** DRAFT copy — what SIENA builds, shown as the text of "What SIENA does". Edit freely.
- *  Each part is one short sentence; `key` is highlighted. */
-export const BUILDS = {
-  intro: "We design and build the software your business runs on.",
-  parts: [
-    { key: "Apps", text: "your team and customers enjoy using, with AI built in." },
-    { key: "Websites", text: "that look sharp, load fast and turn visitors into customers." },
-    { key: "Systems", text: "that connect every tool, automate the routine and bring intelligence to every decision." },
+/** DRAFT copy — the About section (first section after the hero). Edit freely.
+ *  body: short sentence parts; `key` parts are highlighted. */
+export const ABOUT = {
+  eyebrow: "About SIENA",
+  lead: "SIENA is an AI solutions and systems company. We design and build the apps, websites and systems that help businesses work smarter.",
+  body: [
+    { text: "We start with how your business actually runs, then build what it needs: " },
+    { key: "apps", text: " your team enjoys using, " },
+    { key: "websites", text: " that bring in customers, and " },
+    { key: "systems", text: " that connect every tool and automate the routine. " },
+    { text: "AI is built in from day one, with people in control where judgment matters." },
   ],
 };
 

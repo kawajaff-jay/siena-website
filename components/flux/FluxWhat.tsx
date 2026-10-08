@@ -1,21 +1,21 @@
 import type { CSSProperties } from "react";
 import { asset } from "@/lib/asset";
-import { BUILDS, STORY_FUNCTIONS, SOLUTIONS, WHAT } from "@/content/site";
+import { ABOUT, STORY_FUNCTIONS, SOLUTIONS, WHAT } from "@/content/site";
 import { Counter } from "./Reveal";
 
 /* pipeline geometry (viewBox 1200 × 300) */
 const IN_X = 150, CONNECT = { x: 430, y: 150 }, AUTOMATE = { x: 690, y: 150 }, CORE = { x: 950, y: 150 }, OUT_X = 1140;
 const INPUTS = STORY_FUNCTIONS.map((f, i) => ({ ...f, y: 40 + i * 44 }));
 
-/** "What SIENA does" as a live system diagram: business functions → Connect → Automate → SIENA core → action. */
+/** About SIENA: a short introduction, then the live system diagram: business functions → Connect → Automate → SIENA core → action. */
 export function FluxWhat({ s }: { s: Record<string, string> }) {
   return (
     <section id="what" className={s.section} data-reveal="">
-      <p className={s.eyebrow}>{WHAT.eyebrow}</p>
-      <p className={s.buildsText}>
-        {BUILDS.intro}{" "}
-        {BUILDS.parts.map((b) => (
-          <span key={b.key}><strong>{b.key}</strong> {b.text} </span>
+      <p className={s.eyebrow}>{ABOUT.eyebrow}</p>
+      <h2 className={s.aboutLead}>{ABOUT.lead}</h2>
+      <p className={s.aboutBody}>
+        {ABOUT.body.map((b, i) => (
+          <span key={i}>{b.key && <strong>{b.key}</strong>}{b.text}</span>
         ))}
       </p>
 

@@ -15,7 +15,7 @@ export function FluxFooter({ s }: { s: Record<string, string> }) {
           <div>
             <h2>Navigate</h2>
             <ul>
-              <li><a href="#what">What SIENA does</a></li>
+              <li><a href="#what">About SIENA</a></li>
               <li><a href="#solutions">Solutions</a></li>
               <li><a href="#why">Why SIENA</a></li>
               <li><a href="#contact">Contact</a></li>

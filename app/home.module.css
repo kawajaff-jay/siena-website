@@ -397,12 +397,10 @@ line.pipeWire { stroke: rgba(51, 225, 255, 0.45); }
 .menu .btn { clip-path: none; border-radius: 999px; font: 600 0.95rem/1 "Inter Variable", system-ui, sans-serif; letter-spacing: 0; text-transform: none; padding: 0 24px; }
 .menuClose { font-size: 0.9rem; }
 
-/* What SIENA does: what we build, as words */
-.buildsText {
-  margin: 18px 0 0; max-width: 34ch; font: 500 clamp(1.5rem, 3vw, 2.5rem)/1.25 var(--display); letter-spacing: -0.02em;
-  color: rgba(232, 246, 255, 0.62);
+/* About SIENA: short introduction */
+.aboutLead {
+  margin: 18px 0 0; max-width: 30ch; font: 600 clamp(1.6rem, 3.2vw, 2.7rem)/1.18 var(--display); letter-spacing: -0.025em;
+  color: var(--ink); text-transform: none; text-wrap: balance;
 }
-.buildsText strong { font-weight: 700; color: var(--ink); }
-.buildsText span:nth-child(1) strong { color: var(--cyan); }
-.buildsText span:nth-child(2) strong { color: #7aa2ff; }
-.buildsText span:nth-child(3) strong { color: var(--magenta); }
+.aboutBody { margin: 20px 0 0; max-width: 60ch; font-size: clamp(1rem, 1.3vw, 1.15rem); line-height: 1.65; color: var(--muted); }
+.aboutBody strong { font-weight: 600; color: var(--cyan); }

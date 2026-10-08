@@ -4,7 +4,7 @@ import { BrandLogo } from "@/components/BrandLogo";
 import { TailSymbol } from "./TailSymbol";
 
 const LINKS = [
-  { id: "what", n: "01", label: "What we do" },
+  { id: "what", n: "01", label: "About" },
   { id: "solutions", n: "02", label: "Solutions" },
   { id: "why", n: "03", label: "Why SIENA" },
   { id: "contact", n: "04", label: "Contact" },
