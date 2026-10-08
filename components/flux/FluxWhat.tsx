@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import { asset } from "@/lib/asset";
-import { ABOUT, STORY_FUNCTIONS, SOLUTIONS, WHAT } from "@/content/site";
+import { ABOUT, SERVICES, STORY_FUNCTIONS, WHAT } from "@/content/site";
 import { Counter } from "./Reveal";
 
 /* pipeline geometry (viewBox 1200 × 300) */
@@ -91,7 +91,7 @@ export function FluxWhat({ s }: { s: Record<string, string> }) {
       </ol>
 
       <dl className={s.stats}>
-        <div><dt>Modules</dt><dd><Counter to={SOLUTIONS.items.length} /></dd></div>
+        <div><dt>Modules</dt><dd><Counter to={SERVICES.length} /></dd></div>
         <div><dt>Business functions</dt><dd><Counter to={STORY_FUNCTIONS.length} /></dd></div>
         <div><dt>Connected system</dt><dd><Counter to={1} /></dd></div>
       </dl>

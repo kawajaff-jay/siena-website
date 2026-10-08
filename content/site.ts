@@ -193,6 +193,27 @@ export const SOLUTIONS = {
 
 export type Solution = (typeof SOLUTIONS.items)[number];
 
+/** DRAFT copy — Apps, the first solution on the homepage (replaces Finance there). Edit freely. */
+export const APPS = {
+  id: "apps", title: "Apps", visual: "ai",
+  body: "Custom mobile and web applications, designed around how your business and your customers actually work.",
+  overview: [
+    "A well-built app turns everyday interactions into effortless experiences for your customers and your team. SIENA designs and develops custom mobile and web applications for businesses of every size, built around the way each business operates rather than a generic template.",
+    "For restaurants, that means online ordering, table reservations and loyalty rewards connected directly to the kitchen and point of sale. For beauty centres and clinics, it means appointment booking, automated reminders, staff scheduling and client histories in one place. For delivery companies, it means live order tracking, driver dispatch and proof of delivery, with customers kept informed at every step.",
+    "The same thinking applies across industries: retailers offering click-and-collect and personalised offers, gyms and studios managing memberships and class bookings, real-estate agencies sharing listings and scheduling viewings, schools and training centres keeping students and parents connected, and field-service teams receiving jobs, routes and reports on the move.",
+    "What sets our approach apart is that we begin with the business, not the screens. We map your customer journey and internal workflows first, then design an app that fits them, and connect it to the systems you already rely on, such as your point of sale, CRM, inventory and payments, so information flows without double entry.",
+    "Every app is built for real-world use: fast, intuitive and dependable on iOS, Android and the web, with AI added where it creates genuine value, from smart recommendations to automated customer support. After launch, we continue refining the app with you, guided by how people actually use it.",
+  ],
+  result: "An app your customers enjoy and your team relies on.",
+  related: ["service", "operations", "ai"],
+  connects: ["Point of sale", "CRM", "Payments", "Inventory", "Booking systems", "Delivery tracking"],
+  workflow: ["Map your customers and workflows", "Design the experience", "Build for iOS, Android and web", "Connect your existing systems", "Launch and measure", "Refine with real usage"],
+  uses: ["Ordering and reservations", "Bookings and reminders", "Delivery tracking", "Memberships and loyalty"],
+} as const;
+
+/** The solutions shown on the homepage (wheel, hero orbit, footer, contact form): Apps first, Finance removed. */
+export const SERVICES = [APPS, ...SOLUTIONS.items.filter((i) => i.id !== "finance")];
+
 export const CONTACT = {
   eyebrow: "Build your AI system",
   headline: "Let’s design the next evolution of your business.",

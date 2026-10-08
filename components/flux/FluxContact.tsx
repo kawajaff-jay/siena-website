@@ -1,6 +1,6 @@
 "use client";
 import { useState, type FormEvent } from "react";
-import { CONTACT, SITE, SOLUTIONS } from "@/content/site";
+import { CONTACT, SERVICES, SITE } from "@/content/site";
 
 /** Terminal-style enquiry. The site is static, so it opens a pre-filled email in the visitor's mail app. */
 export function FluxContact({ s }: { s: Record<string, string> }) {
@@ -53,7 +53,7 @@ export function FluxContact({ s }: { s: Record<string, string> }) {
           <fieldset className={s.areas}>
             <legend>Where do your systems feel fragmented?</legend>
             <div>
-              {SOLUTIONS.items.map((it) => (
+              {SERVICES.map((it) => (
                 <button key={it.id} type="button" aria-pressed={areas.includes(it.title)} onClick={() => toggle(it.title)}>
                   {it.title}
                 </button>

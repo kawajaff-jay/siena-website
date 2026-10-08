@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
-import { SOLUTIONS } from "@/content/site";
+import { SERVICES } from "@/content/site";
 import { asset } from "@/lib/asset";
 import { LOCKUP, SIENA_BLADE_LOWER, SIENA_BLADE_UPPER, SIENA_S_THREAD } from "@/lib/geometry";
 import g from "./genesis.module.css";
@@ -26,7 +26,7 @@ export type GenesisPalette = {
 const VB = { x: 560, y: 120, w: 800, h: 720 };
 const S_CENTER = { x: 956, y: 400 };
 const SYMBOL_BOTTOM = LOCKUP.wordmarkTop - 8;
-const ITEMS = SOLUTIONS.items;
+const ITEMS = SERVICES;
 
 const clamp = (v: number) => Math.min(1, Math.max(0, v));
 const range = (p: number, a: number, b: number) => clamp((p - a) / (b - a));

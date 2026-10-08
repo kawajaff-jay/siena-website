@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
-import { SOLUTIONS } from "@/content/site";
+import { SERVICES, SOLUTIONS } from "@/content/site";
 import t from "./tide.module.css";
 
-const ITEMS = SOLUTIONS.items;
+const ITEMS = SERVICES;
 const N = ITEMS.length;
 
 /**

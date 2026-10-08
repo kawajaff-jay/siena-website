@@ -1,5 +1,5 @@
 import { BrandLogo } from "@/components/BrandLogo";
-import { CONTACT, SITE, SOLUTIONS } from "@/content/site";
+import { CONTACT, SERVICES, SITE } from "@/content/site";
 import { asset } from "@/lib/asset";
 
 /** Full footer: brand, navigation, every module (deep-links into the explorer), the Evolution story, contact. */
@@ -24,7 +24,7 @@ export function FluxFooter({ s }: { s: Record<string, string> }) {
           <div>
             <h2>Modules</h2>
             <ul>
-              {SOLUTIONS.items.map((it) => <li key={it.id}><a href={`#solution-${it.id}`}>{it.title}</a></li>)}
+              {SERVICES.map((it) => <li key={it.id}><a href={`#solution-${it.id}`}>{it.title}</a></li>)}
             </ul>
           </div>
           <div>
