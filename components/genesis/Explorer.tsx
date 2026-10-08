@@ -14,6 +14,20 @@ export function Explorer({ s }: { s: Record<string, string> }) {
     return () => window.clearTimeout(t);
   }, [auto, i, items.length]);
 
+  /* deep links: #solution-<id> opens that module (used by the footer) */
+  useEffect(() => {
+    const fromHash = () => {
+      const m = window.location.hash.match(/^#solution-([a-z]+)$/);
+      const n = m ? items.findIndex((it) => it.id === m[1]) : -1;
+      if (n < 0) return;
+      setAuto(false); setI(n);
+      document.getElementById("solutions")?.scrollIntoView({ behavior: "smooth" });
+    };
+    fromHash();
+    window.addEventListener("hashchange", fromHash);
+    return () => window.removeEventListener("hashchange", fromHash);
+  }, [items]);
+
   const it = items[i];
   const pick = (n: number) => { setAuto(false); setI(n); };
 

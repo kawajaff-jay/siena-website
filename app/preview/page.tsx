@@ -77,15 +77,20 @@ const DESIGNS = [
     text: "Flux with every pink and magenta accent removed: particles, pulses, trace, glitch, haze and labels now run in cyan and SIENA electric blue only.",
     swatch: ["#03050d", "#33e1ff", "#2f7bff"],
   },
+  {
+    href: "/preview/p", name: "P · Flux Complete", mood: "Homepage candidate · Flux, finished",
+    text: "The Flux homepage finished: header that tracks your section with a full-screen mobile menu, a live system diagram, a Without/With SIENA switch, a terminal-style enquiry form and a full footer.",
+    swatch: ["#03050d", "#33e1ff", "#ff4fd8"],
+  },
 ];
 
 export default function PreviewIndex() {
   return (
     <main className={s.index}>
       <p className={s.kicker}>SIENA · design previews</p>
-      <h1 className={s.title}>Fifteen directions for the homepage</h1>
+      <h1 className={s.title}>Sixteen directions for the homepage</h1>
       <p className={s.lead}>
-        Same approved copy, fifteen different layouts and styles. These pages are hidden from search and don’t change the
+        Same approved copy, sixteen different layouts and styles. These pages are hidden from search and don’t change the
         live homepage. Use the bar at the bottom to switch between them.
       </p>
       <ul className={s.grid}>
