@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import { asset } from "@/lib/asset";
-import { STORY_FUNCTIONS, SOLUTIONS, WHAT } from "@/content/site";
+import { BUILDS, STORY_FUNCTIONS, SOLUTIONS, WHAT } from "@/content/site";
 import { Counter } from "./Reveal";
 
 /* pipeline geometry (viewBox 1200 × 300) */
@@ -14,6 +14,19 @@ export function FluxWhat({ s }: { s: Record<string, string> }) {
       <p className={s.eyebrow}>{WHAT.eyebrow}</p>
       <h2 className={s.h2}>Three layers. One intelligent core.</h2>
       <p className={s.sectionLead}>{WHAT.headline}</p>
+
+      <div className={s.builds}>
+        <p className={s.buildsIntro}>{BUILDS.intro}</p>
+        <ul className={s.buildsList}>
+          {BUILDS.items.map((b, i) => (
+            <li key={b.title} className={s.card} data-spot="" style={{ "--i": i } as CSSProperties}>
+              <span className={s.cardN}>Build 0{i + 1}</span>
+              <h3 className={s.h3}>{b.title}</h3>
+              <p>{b.body}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
 
       <figure className={s.pipe}>
         <svg viewBox="0 0 1200 300" role="img" aria-label="Your business functions flow through Connect and Automate into the SIENA core, which turns them into decisions and action.">

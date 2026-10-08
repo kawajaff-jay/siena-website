@@ -396,3 +396,11 @@ line.pipeWire { stroke: rgba(51, 225, 255, 0.45); }
 .menuKicker { font: 500 0.72rem/1 var(--mono); letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
 .menu .btn { clip-path: none; border-radius: 999px; font: 600 0.95rem/1 "Inter Variable", system-ui, sans-serif; letter-spacing: 0; text-transform: none; padding: 0 24px; }
 .menuClose { font-size: 0.9rem; }
+
+/* What we build: apps, websites, systems */
+.builds { margin: 28px 0 0; display: grid; gap: 16px; }
+.buildsIntro { margin: 0; max-width: 56ch; font: 600 clamp(1.05rem, 1.6vw, 1.3rem)/1.35 var(--display); color: var(--ink); }
+.buildsList { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.buildsList .card { padding: 22px 24px; gap: 8px; }
+.buildsList .h3 { font-size: 1.35rem; }
+@media (max-width: 860px) { .buildsList { grid-template-columns: 1fr; } }
