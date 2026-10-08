@@ -41,6 +41,7 @@ export default function Home() {
         <Genesis
           variant="flux"
           palette={PALETTE}
+          logoTail="#ff4fd8"
           stages={["Signals", "Connections", "Pattern", "Intelligence"]}
           backdrop={
             <div className={s.backdrop} aria-hidden="true">

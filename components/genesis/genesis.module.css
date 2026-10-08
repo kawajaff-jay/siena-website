@@ -28,6 +28,11 @@
   transform: scale(calc(0.9 + 0.1 * var(--in-logo) + var(--charge) * 0.03));
   filter: drop-shadow(0 0 calc(18px + var(--charge) * 40px) var(--g-glow, rgba(59, 108, 255, 0.6)));
 }
+/* tint on the finished logo's tail: same scale-in as the symbol so it stays aligned */
+.logoTail {
+  opacity: var(--in-logo); transform-box: fill-box; transform-origin: 50% 40%;
+  transform: scale(calc(0.9 + 0.1 * var(--in-logo) + var(--charge) * 0.03)); pointer-events: none;
+}
 .logoWord { opacity: var(--in-word); }
 .wordDark { filter: brightness(0); opacity: calc(0.86 * var(--in-word)); } /* official white wordmark, shown dark on light themes */
 

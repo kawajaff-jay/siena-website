@@ -37,7 +37,7 @@ type Pulse = { x: number; y: number; t0: number };
 type Flow = { x0: number; y0: number; t0: number; dur: number; bend: number };
 
 export function Genesis({
-  variant, palette, stages, intro, outro, backdrop, wordmarkDark = false,
+  variant, palette, stages, intro, outro, backdrop, wordmarkDark = false, logoTail,
 }: {
   variant: GenesisVariant;
   palette: GenesisPalette;
@@ -46,6 +46,8 @@ export function Genesis({
   outro: ReactNode;
   backdrop?: ReactNode;
   wordmarkDark?: boolean;
+  /** colour laid over the lower tail of the finished logo (as on the header symbol); omit for none */
+  logoTail?: string;
 }) {
   const track = useRef<HTMLElement>(null);
   const stageEl = useRef<HTMLDivElement>(null);
@@ -286,6 +288,19 @@ export function Genesis({
                 <stop offset=".5" stopColor={palette.trace[1]} />
                 <stop offset="1" stopColor={palette.trace[2]} />
               </linearGradient>
+              {logoTail && (
+                <>
+                  <linearGradient id={`gTail-${variant}`} x1="835" y1="595" x2="1010" y2="330" gradientUnits="userSpaceOnUse">
+                    <stop offset="0" stopColor={logoTail} />
+                    <stop offset=".3" stopColor={logoTail} stopOpacity=".9" />
+                    <stop offset=".62" stopColor={logoTail} stopOpacity="0" />
+                  </linearGradient>
+                  {/* the official symbol itself is the mask, so the tint follows its exact shape */}
+                  <mask id={`gTailMask-${variant}`} maskUnits="userSpaceOnUse" x={LOCKUP.x} y={LOCKUP.y} width={LOCKUP.w} height={LOCKUP.h} style={{ maskType: "alpha" }}>
+                    <image href={asset("/brand/siena-lockup.webp")} x={LOCKUP.x} y={LOCKUP.y} width={LOCKUP.w} height={LOCKUP.h} clipPath={`url(#gSym-${variant})`} preserveAspectRatio="xMidYMid meet" />
+                  </mask>
+                </>
+              )}
               <clipPath id={`gSym-${variant}`}><rect x={LOCKUP.x} y={LOCKUP.y} width={LOCKUP.w} height={SYMBOL_BOTTOM - LOCKUP.y} /></clipPath>
               <clipPath id={`gWord-${variant}`}><rect x={LOCKUP.x} y={SYMBOL_BOTTOM} width={LOCKUP.w} height={LOCKUP.y + LOCKUP.h - SYMBOL_BOTTOM} /></clipPath>
             </defs>
@@ -299,6 +314,9 @@ export function Genesis({
               <path d={SIENA_BLADE_LOWER} />
             </g>
             <image className={g.logoSymbol} href={asset("/brand/siena-lockup.webp")} x={LOCKUP.x} y={LOCKUP.y} width={LOCKUP.w} height={LOCKUP.h} clipPath={`url(#gSym-${variant})`} preserveAspectRatio="xMidYMid meet" />
+            {logoTail && (
+              <rect className={g.logoTail} x={LOCKUP.x} y={LOCKUP.y} width={LOCKUP.w} height={LOCKUP.h} fill={`url(#gTail-${variant})`} mask={`url(#gTailMask-${variant})`} />
+            )}
             <image className={`${g.logoWord} ${wordmarkDark ? g.wordDark : ""}`} href={asset("/brand/siena-lockup.webp")} x={LOCKUP.x} y={LOCKUP.y} width={LOCKUP.w} height={LOCKUP.h} clipPath={`url(#gWord-${variant})`} preserveAspectRatio="xMidYMid meet" />
           </svg>
         </div>
