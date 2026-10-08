@@ -17,15 +17,35 @@ const DESIGNS = [
     text: "Huge type on full-bleed SIENA blue, a moving ticker of what SIENA connects, and a sticky split layout. Loud, confident and very memorable.",
     swatch: ["#2f6bff", "#0a0a0a", "#ffffff"],
   },
+  {
+    href: "/preview/d", name: "D · Neural", mood: "AI · dark · living network",
+    text: "SIENA at the centre of a glowing network: signals pulse out to all eight modules, and each solution card shows which other modules it talks to.",
+    swatch: ["#02040b", "#3d7bff", "#8b6cff"],
+  },
+  {
+    href: "/preview/e", name: "E · Prompt", mood: "AI · light · conversation",
+    text: "The homepage is a conversation with SIENA. A prompt types itself, then each section is an answer, and solutions open to show the workflow step by step.",
+    swatch: ["#f6f6f3", "#15171c", "#2563eb"],
+  },
+  {
+    href: "/preview/f", name: "F · Aurora", mood: "AI · light · soft glass",
+    text: "Calm and human: soft moving light, frosted glass cards, orbits around the SIENA symbol and a sideways-scrolling solutions carousel.",
+    swatch: ["#f7f8fc", "#b9c9ff", "#9a7bff"],
+  },
+  {
+    href: "/preview/g", name: "G · Blueprint", mood: "AI · technical · schematic",
+    text: "SIENA drawn like an engineered system on blueprint paper. A wiring diagram with live signals, each module’s workflow as a flowchart, and principles as a spec table.",
+    swatch: ["#0a2a66", "#eef5ff", "#ffd166"],
+  },
 ];
 
 export default function PreviewIndex() {
   return (
     <main className={s.index}>
       <p className={s.kicker}>SIENA · design previews</p>
-      <h1 className={s.title}>Three directions for the homepage</h1>
+      <h1 className={s.title}>Seven directions for the homepage</h1>
       <p className={s.lead}>
-        Same approved copy, three different layouts and styles. These pages are hidden from search and don’t change the
+        Same approved copy, seven different layouts and styles. These pages are hidden from search and don’t change the
         live homepage. Use the bar at the bottom to switch between them.
       </p>
       <ul className={s.grid}>

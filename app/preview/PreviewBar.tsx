@@ -8,6 +8,10 @@ const LINKS: { href: string; label: string; name?: string }[] = [
   { href: "/preview/a", label: "A", name: "Ledger" },
   { href: "/preview/b", label: "B", name: "Console" },
   { href: "/preview/c", label: "C", name: "Signal" },
+  { href: "/preview/d", label: "D", name: "Neural" },
+  { href: "/preview/e", label: "E", name: "Prompt" },
+  { href: "/preview/f", label: "F", name: "Aurora" },
+  { href: "/preview/g", label: "G", name: "Blueprint" },
   { href: "/", label: "Current site" },
 ];
 
