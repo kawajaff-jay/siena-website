@@ -37,15 +37,30 @@ const DESIGNS = [
     text: "SIENA drawn like an engineered system on blueprint paper. A wiring diagram with live signals, each module’s workflow as a flowchart, and principles as a spec table.",
     swatch: ["#0a2a66", "#eef5ff", "#ffd166"],
   },
+  {
+    href: "/preview/h", name: "H · Aurora Dusk", mood: "Aurora · dark · northern lights",
+    text: "The aurora at night: green-to-violet ribbons drifting over a starry sky, dark glass cards, and a constellation line joining Connect → Automate → Intelligence.",
+    swatch: ["#050816", "#5cf2c0", "#a07bff"],
+  },
+  {
+    href: "/preview/i", name: "I · Aurora Prism", mood: "Aurora · bright · iridescent",
+    text: "Light refracted through one lens: an iridescent glass orb holding the SIENA symbol, a Venn of the three capabilities with SIENA at the centre, and rainbow-edged glass tiles.",
+    swatch: ["#fbfbfe", "#b38cff", "#ff9fd6"],
+  },
+  {
+    href: "/preview/j", name: "J · Aurora Bloom", mood: "Aurora · warm · sunrise",
+    text: "A warm sunrise of peach, rose and lilac with soft film grain. Big calm type, breathing orbs, and solution cards that stack on top of each other as you scroll.",
+    swatch: ["#fff8f2", "#ffb39a", "#c4a6ff"],
+  },
 ];
 
 export default function PreviewIndex() {
   return (
     <main className={s.index}>
       <p className={s.kicker}>SIENA · design previews</p>
-      <h1 className={s.title}>Seven directions for the homepage</h1>
+      <h1 className={s.title}>Ten directions for the homepage</h1>
       <p className={s.lead}>
-        Same approved copy, seven different layouts and styles. These pages are hidden from search and don’t change the
+        Same approved copy, ten different layouts and styles. These pages are hidden from search and don’t change the
         live homepage. Use the bar at the bottom to switch between them.
       </p>
       <ul className={s.grid}>
