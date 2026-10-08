@@ -2,7 +2,6 @@ import "@fontsource-variable/jetbrains-mono/wght.css";
 import type { ReactNode } from "react";
 import { HERO, WHAT } from "@/content/site";
 import { Genesis, type GenesisPalette } from "@/components/genesis/Genesis";
-import { Explorer } from "@/components/genesis/Explorer";
 import { Spotlight } from "@/components/genesis/Spotlight";
 import { FluxHeader } from "@/components/flux/FluxHeader";
 import { FluxWhat } from "@/components/flux/FluxWhat";
@@ -10,7 +9,7 @@ import { FluxWhy } from "@/components/flux/FluxWhy";
 import { FluxContact } from "@/components/flux/FluxContact";
 import { FluxFooter } from "@/components/flux/FluxFooter";
 import { Counters, Reveal } from "@/components/flux/Reveal";
-import { SOLUTIONS } from "@/content/site";
+import { SolutionsTide } from "@/components/flux/SolutionsTide";
 import s from "@/app/home.module.css";
 
 const PALETTE: GenesisPalette = {
@@ -24,7 +23,7 @@ const PALETTE: GenesisPalette = {
 
 /**
  * The Genesis Flux homepage. `solutions` replaces the solutions section (used by design previews);
- * by default it is the explorer. Keep the section id "solutions" so the header and footer links work.
+ * by default it is the Tide wheel (SolutionsTide). Keep the section id "solutions" so the header and footer links work.
  */
 export function FluxHome({ solutions }: { solutions?: ReactNode }) {
   return (
@@ -74,13 +73,7 @@ export function FluxHome({ solutions }: { solutions?: ReactNode }) {
 
         <FluxWhat s={s} />
 
-        {solutions ?? (
-          <section id="solutions" className={s.section} data-reveal="">
-            <p className={s.eyebrow}>{SOLUTIONS.eyebrow}</p>
-            <h2 className={s.h2}>{SOLUTIONS.headline}</h2>
-            <Explorer s={s} />
-          </section>
-        )}
+        {solutions ?? <SolutionsTide />}
 
         <FluxWhy s={s} />
         <FluxContact s={s} />

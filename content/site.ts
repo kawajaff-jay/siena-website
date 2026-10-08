@@ -45,7 +45,7 @@ export const REVEAL = {
 };
 
 /**
- * Solutions modules. DRAFT copy for result / connects / workflow / uses — edit freely.
+ * Solutions modules. DRAFT copy for overview / result / connects / workflow / uses — edit freely.
  * id: used for the detail drawer · visual: the small drawing (SolutionVisual)
  * related: modules this one exchanges data with (the network lights these up on hover)
  */
@@ -103,6 +103,7 @@ export const SOLUTIONS = {
   items: [
     {
       id: "finance", title: "Finance", visual: "finance",
+      overview: ["SIENA connects your accounting software, bank feeds and invoicing into one continuous financial workflow. Incoming invoices are read, validated and recorded automatically, and reconciliation happens daily rather than at month end.", "Your finance team spends less time on data entry and more time on analysis. Cash-flow forecasts and management reports update as transactions arrive, giving leadership a current, reliable view of the business."],
       body: "Invoices, reconciliation, cash-flow forecasting and reporting that update themselves.",
       result: "Less manual work. Faster financial visibility.",
       related: ["operations", "analytics"],
@@ -112,6 +113,7 @@ export const SOLUTIONS = {
     },
     {
       id: "sales", title: "Sales", visual: "sales",
+      overview: ["Every new enquiry is captured, scored and routed to the right person within minutes. SIENA enriches each lead with context from your CRM, website and email, so your team always knows who they are speaking to.", "Follow-ups are drafted and scheduled automatically, and your CRM stays accurate without manual updates. Pipeline reports refresh on their own, giving managers a clear and current picture of revenue."],
       body: "Lead scoring, CRM hygiene, follow-ups and pipeline insight without the busywork.",
       result: "Every lead followed up. A current pipeline.",
       related: ["service", "marketing", "analytics"],
@@ -121,6 +123,7 @@ export const SOLUTIONS = {
     },
     {
       id: "service", title: "Customer Service", visual: "service",
+      overview: ["SIENA’s AI agents respond to customer messages across email and chat, drawing on order history, account details and your knowledge base to give accurate answers.", "Routine requests are resolved immediately, while complex or sensitive cases are routed to the right person with a full summary. Your team handles fewer repetitive tickets and can focus on the conversations that matter most."],
       body: "AI agents that resolve, route and escalate — with full context from every system.",
       result: "Faster answers. Fewer escalations.",
       related: ["sales", "operations", "ai"],
@@ -130,6 +133,7 @@ export const SOLUTIONS = {
     },
     {
       id: "operations", title: "Operations", visual: "operations",
+      overview: ["SIENA orchestrates the journey from order to delivery as a single flow. Stock is checked across locations, suppliers and warehouses are notified, and fulfilment is scheduled automatically.", "Customers and finance are updated at every step, and exceptions are flagged early so issues are resolved before they become delays. The result is fewer handoffs, fewer errors and a more predictable operation."],
       body: "Inventory, orders and fulfilment orchestrated as one flow, not ten tools.",
       result: "Fewer handoffs. Fewer delays.",
       related: ["finance", "service", "automation"],
@@ -139,6 +143,7 @@ export const SOLUTIONS = {
     },
     {
       id: "marketing", title: "Marketing", visual: "marketing",
+      overview: ["SIENA links your campaigns, website analytics and CRM to your revenue data, so every channel can be measured against the results it actually delivers.", "Campaign performance is summarised automatically, on-brand content can be drafted in minutes, and budget recommendations are prepared for your team to review. Investment decisions are based on evidence rather than assumption."],
       body: "Campaigns, content and attribution connected to real revenue data.",
       result: "Spend tied to revenue. Clearer priorities.",
       related: ["sales", "analytics"],
@@ -148,6 +153,7 @@ export const SOLUTIONS = {
     },
     {
       id: "analytics", title: "Data & Analytics", visual: "analytics",
+      overview: ["SIENA brings data from every system into one connected, consistent view. Information is cleaned and linked automatically, and live dashboards replace manual spreadsheets.", "Beyond the numbers, SIENA explains what has changed and why, delivering short, clear briefings to leadership. Anomalies are flagged as they occur, so decisions are made on current information."],
       body: "Live dashboards and decision support that explain what changed and why.",
       result: "Live numbers. Faster decisions.",
       related: ["finance", "sales", "marketing"],
@@ -157,6 +163,7 @@ export const SOLUTIONS = {
     },
     {
       id: "automation", title: "Automation", visual: "automation",
+      overview: ["Many businesses still rely on people to move information between systems by hand. SIENA replaces this with reliable integrations that pass data between the tools you already use.", "Approvals, document generation and notifications run automatically, with every step logged and monitored. Double data entry disappears, errors are reduced and your team is free to focus on higher-value work."],
       body: "Reliable workflows and integrations across the software you already use.",
       result: "Routine work handled. Teams freed up.",
       related: ["operations", "ai"],
@@ -166,6 +173,7 @@ export const SOLUTIONS = {
     },
     {
       id: "ai", title: "AI Workflows", visual: "ai",
+      overview: ["SIENA designs custom AI agents and workflows around specific tasks in your business, from understanding documents to answering internal questions and supporting decisions.", "Each workflow gathers the right information, proposes or takes action, and brings a person in wherever judgment is required. Every result is recorded, so your team retains full visibility and control."],
       body: "Custom agents and models, designed with human review where it matters.",
       result: "Faster execution. Human oversight.",
       related: ["service", "automation", "analytics"],
