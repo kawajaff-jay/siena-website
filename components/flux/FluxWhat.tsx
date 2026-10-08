@@ -11,13 +11,24 @@ const INPUTS = STORY_FUNCTIONS.map((f, i) => ({ ...f, y: 40 + i * 44 }));
 export function FluxWhat({ s }: { s: Record<string, string> }) {
   return (
     <section id="what" className={s.section} data-reveal="">
-      <p className={s.eyebrow}>{ABOUT.eyebrow}</p>
-      <h2 className={s.aboutLead}>{ABOUT.lead}</h2>
-      <p className={s.aboutBody}>
-        {ABOUT.body.map((b, i) => (
-          <span key={i}>{b.key && <strong>{b.key}</strong>}{b.text}</span>
+      <div className={s.about}>
+        <div>
+          <p className={s.eyebrow}>{ABOUT.eyebrow}</p>
+          <h2 className={s.aboutTitle}>{ABOUT.headline}</h2>
+        </div>
+        <div className={s.aboutText}>
+          {ABOUT.paragraphs.map((p) => <p key={p}>{p}</p>)}
+        </div>
+      </div>
+      <ul className={s.services}>
+        {ABOUT.services.map((sv, i) => (
+          <li key={sv.title}>
+            <span className={s.serviceN}>0{i + 1}</span>
+            <h3 className={s.serviceTitle}>{sv.title}</h3>
+            <p>{sv.body}</p>
+          </li>
         ))}
-      </p>
+      </ul>
 
       <figure className={s.pipe}>
         <svg viewBox="0 0 1200 300" role="img" aria-label="Your business functions flow through Connect and Automate into the SIENA core, which turns them into decisions and action.">

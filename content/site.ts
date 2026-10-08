@@ -60,17 +60,18 @@ export const WHAT = {
   ],
 };
 
-/** DRAFT copy — the About section (first section after the hero). Edit freely.
- *  body: short sentence parts; `key` parts are highlighted. */
+/** DRAFT copy — the About section (first section after the hero). Formal, concise. Edit freely. */
 export const ABOUT = {
   eyebrow: "About SIENA",
-  lead: "SIENA is an AI solutions and systems company. We design and build the apps, websites and systems that help businesses work smarter.",
-  body: [
-    { text: "We start with how your business actually runs, then build what it needs: " },
-    { key: "apps", text: " your team enjoys using, " },
-    { key: "websites", text: " that bring in customers, and " },
-    { key: "systems", text: " that connect every tool and automate the routine. " },
-    { text: "AI is built in from day one, with people in control where judgment matters." },
+  headline: "Digital solutions, built around your business.",
+  paragraphs: [
+    "SIENA is a digital solutions company specializing in custom websites, mobile applications and digital systems, each tailored to the specific needs of our clients.",
+    "We combine modern technology, thoughtful design and reliable development to deliver practical solutions that help businesses grow and operate more efficiently. Every engagement is guided by a clear understanding of your goals and delivered with precision.",
+  ],
+  services: [
+    { title: "Custom Websites", body: "Professional, high-performing websites that represent your brand and serve your customers." },
+    { title: "Mobile Applications", body: "Intuitive applications designed around the people who use them every day." },
+    { title: "Digital Systems", body: "Integrated platforms and automation that streamline operations and connect your business." },
   ],
 };
 
