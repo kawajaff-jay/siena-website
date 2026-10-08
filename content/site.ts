@@ -98,7 +98,7 @@ export const STORY_FUNCTIONS = [
 ] as const;
 
 export const SOLUTIONS = {
-  eyebrow: "What SIENA connects",
+  eyebrow: "SIENA Solutions",
   headline: "One intelligent system across the whole business.",
   items: [
     {
