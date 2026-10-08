@@ -72,15 +72,20 @@ const DESIGNS = [
     text: "Interactive Genesis, noir: black, grain and venetian-blind light. Your cursor is a flashlight that reveals the hidden network; SIENA blue is the only colour.",
     swatch: ["#000000", "#ffffff", "#2f7bff"],
   },
+  {
+    href: "/preview/o", name: "O · Genesis Flux Blue", mood: "Interactive · futuristic HUD · all blue",
+    text: "Flux with every pink and magenta accent removed: particles, pulses, trace, glitch, haze and labels now run in cyan and SIENA electric blue only.",
+    swatch: ["#03050d", "#33e1ff", "#2f7bff"],
+  },
 ];
 
 export default function PreviewIndex() {
   return (
     <main className={s.index}>
       <p className={s.kicker}>SIENA · design previews</p>
-      <h1 className={s.title}>Fourteen directions for the homepage</h1>
+      <h1 className={s.title}>Fifteen directions for the homepage</h1>
       <p className={s.lead}>
-        Same approved copy, fourteen different layouts and styles. These pages are hidden from search and don’t change the
+        Same approved copy, fifteen different layouts and styles. These pages are hidden from search and don’t change the
         live homepage. Use the bar at the bottom to switch between them.
       </p>
       <ul className={s.grid}>

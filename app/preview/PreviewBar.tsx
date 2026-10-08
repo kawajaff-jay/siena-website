@@ -19,6 +19,7 @@ const LINKS: { href: string; label: string; name?: string }[] = [
   { href: "/preview/l", label: "L", name: "Flux" },
   { href: "/preview/m", label: "M", name: "Lumière" },
   { href: "/preview/n", label: "N", name: "Noir" },
+  { href: "/preview/o", label: "O", name: "Flux Blue" },
   { href: "/", label: "Current site" },
 ];
 
