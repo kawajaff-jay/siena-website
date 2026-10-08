@@ -52,15 +52,20 @@ const DESIGNS = [
     text: "A warm sunrise of peach, rose and lilac with soft film grain. Big calm type, breathing orbs, and solution cards that stack on top of each other as you scroll.",
     swatch: ["#fff8f2", "#ffb39a", "#c4a6ff"],
   },
+  {
+    href: "/preview/k", name: "K · Aurora Genesis", mood: "Aurora · light · scroll-built logo",
+    text: "Aurora light with a cinematic hero: as you scroll, scattered data points gather, link up like a neural network, trace the S, and resolve into the real SIENA logo.",
+    swatch: ["#f7f8fc", "#3b6cff", "#7fe3d3"],
+  },
 ];
 
 export default function PreviewIndex() {
   return (
     <main className={s.index}>
       <p className={s.kicker}>SIENA · design previews</p>
-      <h1 className={s.title}>Ten directions for the homepage</h1>
+      <h1 className={s.title}>Eleven directions for the homepage</h1>
       <p className={s.lead}>
-        Same approved copy, ten different layouts and styles. These pages are hidden from search and don’t change the
+        Same approved copy, eleven different layouts and styles. These pages are hidden from search and don’t change the
         live homepage. Use the bar at the bottom to switch between them.
       </p>
       <ul className={s.grid}>

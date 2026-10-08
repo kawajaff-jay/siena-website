@@ -15,6 +15,7 @@ const LINKS: { href: string; label: string; name?: string }[] = [
   { href: "/preview/h", label: "H", name: "Dusk" },
   { href: "/preview/i", label: "I", name: "Prism" },
   { href: "/preview/j", label: "J", name: "Bloom" },
+  { href: "/preview/k", label: "K", name: "Genesis" },
   { href: "/", label: "Current site" },
 ];
 
