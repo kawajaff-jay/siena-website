@@ -1,9 +1,15 @@
 import "@fontsource-variable/jetbrains-mono/wght.css";
-import { BrandLogo } from "@/components/BrandLogo";
-import { TailSymbol } from "@/components/flux/TailSymbol";
 import { HERO, WHAT } from "@/content/site";
 import { Genesis, type GenesisPalette } from "@/components/genesis/Genesis";
-import { Sections } from "@/components/genesis/Sections";
+import { Explorer } from "@/components/genesis/Explorer";
+import { Spotlight } from "@/components/genesis/Spotlight";
+import { FluxHeader } from "@/components/flux/FluxHeader";
+import { FluxWhat } from "@/components/flux/FluxWhat";
+import { FluxWhy } from "@/components/flux/FluxWhy";
+import { FluxContact } from "@/components/flux/FluxContact";
+import { FluxFooter } from "@/components/flux/FluxFooter";
+import { Counters, Reveal } from "@/components/flux/Reveal";
+import { SOLUTIONS } from "@/content/site";
 import s from "./home.module.css";
 
 const PALETTE: GenesisPalette = {
@@ -16,26 +22,19 @@ const PALETTE: GenesisPalette = {
 };
 
 /**
- * Home — "Genesis Flux". Scrolling builds the SIENA symbol from a live particle network (cursor and
- * click interaction), then the eight modules orbit the official logo and run their workflows.
+ * Home — "Genesis Flux". Scrolling builds the SIENA symbol from a live particle network (move to disturb it,
+ * click to pulse it); the eight modules then orbit the official logo and run their workflows. Below: the
+ * header with section tracking and mobile menu, a live system diagram, the solutions explorer, the
+ * Without/With SIENA switch, a terminal-style enquiry form and the full footer.
  * The previous homepage (with the Evolution story) is kept at /preview/classic.
  */
 export default function Home() {
   return (
     <div className={s.page}>
-      <header className={s.top}>
-        <a href="#top" className={s.brand} aria-label="SIENA — back to top">
-          <TailSymbol className={s.symbol} />
-          <BrandLogo variant="wordmark" alt="SIENA" className={s.word} sizes="100px" priority feather={false} />
-        </a>
-        <p className={s.status} aria-hidden="true"><span /> Core online · v2026</p>
-        <nav aria-label="Primary" className={s.nav}>
-          <a href="#what">[01] System</a>
-          <a href="#solutions">[02] Modules</a>
-          <a href="#why">[03] Why</a>
-        </nav>
-        <a href="#contact" className={s.topCta}>Initiate</a>
-      </header>
+      <Reveal />
+      <Counters />
+      <Spotlight />
+      <FluxHeader s={s} />
 
       <main id="top">
         <Genesis
@@ -74,8 +73,19 @@ export default function Home() {
             </>
           }
         />
-        <Sections s={s} whatTitle="Three layers. One intelligent core." />
+
+        <FluxWhat s={s} />
+
+        <section id="solutions" className={s.section} data-reveal="">
+          <p className={s.eyebrow}>{SOLUTIONS.eyebrow}</p>
+          <h2 className={s.h2}>{SOLUTIONS.headline}</h2>
+          <Explorer s={s} />
+        </section>
+
+        <FluxWhy s={s} />
+        <FluxContact s={s} />
       </main>
+      <FluxFooter s={s} />
     </div>
   );
 }

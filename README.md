@@ -15,7 +15,18 @@ Requires Node 20+.
 
 ## Homepage
 
-The homepage (`app/page.tsx`) is **Genesis Flux**: scrolling builds the SIENA symbol from a live particle network (move the cursor to disturb it, click to send a pulse), then the eight solution modules orbit the official logo; selecting one runs its workflow. The engine lives in `components/genesis/` (`Genesis.tsx` hero, `Sections.tsx` + `Explorer.tsx` below it); colours and fonts are in `app/home.module.css`. All copy comes from `content/site.ts`.
+The homepage (`app/page.tsx`) is **Genesis Flux**: scrolling builds the SIENA symbol from a live particle network (move the cursor to disturb it, click to send a pulse), then the eight solution modules orbit the official logo; selecting one runs its workflow.
+
+| Part | File |
+|---|---|
+| Hero engine (particles, logo, orbiting modules) | `components/genesis/Genesis.tsx` |
+| Solutions explorer (`#solution-<id>` opens a module) | `components/genesis/Explorer.tsx` |
+| Header (section tracking, mobile menu), header logo with pink tail | `components/flux/FluxHeader.tsx`, `TailSymbol.tsx` |
+| What SIENA does (system diagram), Why SIENA (Without/With switch) | `components/flux/FluxWhat.tsx`, `FluxWhy.tsx` |
+| Contact form (opens a pre-filled email), footer | `components/flux/FluxContact.tsx`, `FluxFooter.tsx` |
+| Colours, fonts, layout | `app/home.module.css` |
+
+All copy comes from `content/site.ts`.
 
 The previous homepage, with the full-screen Evolution story, is kept at `/preview/classic` (`/story` links there). Design explorations live under `/preview`.
 
