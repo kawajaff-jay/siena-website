@@ -6,7 +6,7 @@ export default function CorePreviewIndex() {
   return (
     <main className={s.index}>
       <p className={s.kicker}>SIENA · energy core previews</p>
-      <h1 className={s.title}>Four ways to charge the S</h1>
+      <h1 className={s.title}>Ways to charge the S</h1>
       <p className={s.lead}>
         Each design replaces the system diagram in the About section with the SIENA symbol vibrating with energy. Move your
         cursor closer to charge it and click to send a surge. Each page opens on the full homepage, scrolled to that section.

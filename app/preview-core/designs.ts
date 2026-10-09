@@ -22,4 +22,9 @@ export const CORE_DESIGNS: { v: EnergyVariant; n: string; name: string; mood: st
     text: "The S shimmers under a skin of vibrating particles while a vortex of energy spirals into it and field lines flow around it. Click and the whole vortex blasts outward.",
     swatch: ["#03050d", "#ff4fd8", "#33e1ff"],
   },
+  {
+    v: "fieldstorm", n: "5", name: "Field Storm", mood: "Live on the homepage · field + storm",
+    text: "Field and Plasma Storm together: the particle skin, energy vortex and field lines, with lightning cracking out of the S and reaching for your cursor. Click for a discharge and a vortex blast.",
+    swatch: ["#03050d", "#ff4fd8", "#e6f7ff"],
+  },
 ];

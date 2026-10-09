@@ -28,8 +28,8 @@
 .ghost { mix-blend-mode: screen; opacity: calc(0.18 + var(--e) * 0.22); }
 .ghostC { background: var(--cyan, #33e1ff); translate: calc(var(--split) * -1) 0; }
 .ghostM { background: var(--magenta, #ff4fd8); translate: var(--split) calc(var(--split) * 0.3); }
-.root[data-variant="field"] .ghost { opacity: calc(0.08 + var(--e) * 0.1); }
-.root[data-variant="field"] .symbol { opacity: 0.88; }
+.root:is([data-variant="field"], [data-variant="fieldstorm"]) .ghost { opacity: calc(0.08 + var(--e) * 0.1); }
+.root:is([data-variant="field"], [data-variant="fieldstorm"]) .symbol { opacity: 0.88; }
 
 .hud { position: absolute; z-index: 2; font: 500 0.68rem/1 var(--mono, monospace); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted, #7f93b3); pointer-events: none; }
 .tl { top: 22px; left: 26px; color: var(--cyan, #33e1ff); }

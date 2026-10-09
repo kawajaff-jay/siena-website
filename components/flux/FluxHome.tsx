@@ -10,6 +10,7 @@ import { FluxContact } from "@/components/flux/FluxContact";
 import { FluxFooter } from "@/components/flux/FluxFooter";
 import { Counters, Reveal } from "@/components/flux/Reveal";
 import { SolutionsTide } from "@/components/flux/SolutionsTide";
+import { EnergyCore } from "@/components/flux/EnergyCore";
 import s from "@/app/home.module.css";
 
 const PALETTE: GenesisPalette = {
@@ -23,7 +24,7 @@ const PALETTE: GenesisPalette = {
 
 /**
  * The Genesis Flux homepage. `solutions` replaces the solutions section (used by design previews);
- * by default it is the Tide wheel (SolutionsTide). `core` replaces the About diagram (energy-core previews). Keep the section id "solutions" so the header and footer links work.
+ * by default it is the Tide wheel (SolutionsTide). `core` replaces the About visual; by default it is the Field Storm energy core. Keep the section id "solutions" so the header and footer links work.
  */
 export function FluxHome({ solutions, core }: { solutions?: ReactNode; core?: ReactNode }) {
   return (
@@ -71,7 +72,7 @@ export function FluxHome({ solutions, core }: { solutions?: ReactNode; core?: Re
           }
         />
 
-        <FluxWhat s={s} core={core} />
+        <FluxWhat s={s} core={core ?? <EnergyCore variant="fieldstorm" />} />
 
         {solutions ?? <SolutionsTide />}
 

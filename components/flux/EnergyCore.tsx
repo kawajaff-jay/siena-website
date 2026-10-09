@@ -3,7 +3,7 @@ import { useEffect, useRef, type CSSProperties } from "react";
 import { asset } from "@/lib/asset";
 import e from "./energy.module.css";
 
-export type EnergyVariant = "reactor" | "storm" | "resonance" | "field";
+export type EnergyVariant = "reactor" | "storm" | "resonance" | "field" | "fieldstorm";
 
 const CYAN = "51,225,255", PINK = "255,79,216", BLUE = "122,162,255", WHITE = "230,247,255";
 type P = { x: number; y: number };
@@ -13,6 +13,7 @@ const LABEL: Record<EnergyVariant, string> = {
   storm: "SIENA core · plasma",
   resonance: "SIENA core · resonance",
   field: "SIENA core · field",
+  fieldstorm: "SIENA core · field storm",
 };
 
 /** jagged lightning path between two points (midpoint displacement) */
@@ -27,7 +28,7 @@ function bolt(a: P, b: P, depth: number, out: P[]) {
 /**
  * The SIENA symbol, charged with energy. The mark itself is always the official asset (with the pink tail laid over it,
  * as in the header); everything moving around it is drawn on a canvas behind. Move the cursor closer to charge it,
- * click to send a surge. Four styles: reactor, storm, resonance, field.
+ * click to send a surge. Styles: reactor, storm, resonance, field, and fieldstorm (field + storm, used on the homepage).
  */
 export function EnergyCore({ variant }: { variant: EnergyVariant }) {
   const root = useRef<HTMLElement>(null);
@@ -71,7 +72,7 @@ export function EnergyCore({ variant }: { variant: EnergyVariant }) {
     type Bound = { p: P; ph: number; f: number; col: string };
     type Free = { a: number; r: number; v: number; px: number; py: number; col: string };
     let rings: Ring[] = [], sparks: Spark[] = [], arcs: Arc[] = [], motes: Mote[] = [], bound: Bound[] = [], free: Free[] = [];
-    let ringAcc = 0, pulses: number[] = [], burst = 0;
+    let ringAcc = 0, pulses: number[] = [], burst = 0, discharge = false;
 
     const spawnFree = (f: Free, far = true) => {
       f.a = Math.random() * Math.PI * 2;
@@ -164,8 +165,9 @@ export function EnergyCore({ variant }: { variant: EnergyVariant }) {
     };
 
     /* ---------- 2 · Storm: lightning from the S to a containment ring (and to your cursor) ---------- */
-    const storm = (dt: number) => {
+    const storm = (dt: number, ring = true) => {
       const R = size * 0.9;
+      if (ring) {
       circle(R, CYAN, 0.25);
       circle(R + 6, CYAN, 0.08, 4);
       for (let i = 0; i < 8; i++) {
@@ -180,6 +182,7 @@ export function EnergyCore({ variant }: { variant: EnergyVariant }) {
         ctx.fillStyle = `rgba(${BLUE},${(0.35 + 0.3 * Math.sin(t * 0.008 + m.s * 5)).toFixed(3)})`;
         ctx.fillRect(cx + Math.cos(m.a) * r, cy + Math.sin(m.a) * r, m.s, m.s);
       });
+      }
       const strike = (to?: P, col?: string) => {
         if (!edge.length) return;
         const from = at(rnd(edge));
@@ -196,7 +199,7 @@ export function EnergyCore({ variant }: { variant: EnergyVariant }) {
       if (Math.random() < 0.09 * E * (dt / 16)) strike();
       const md = Math.hypot(mx - cx, my - cy);
       if (md < R * 1.9 && md > size * 0.4 && Math.random() < 0.12 * (dt / 16)) strike({ x: mx, y: my }, WHITE);
-      if (burst > 0) { for (let i = 0; i < 7; i++) strike(); burst = 0; }
+      if (discharge) { for (let i = 0; i < 7; i++) strike(); discharge = false; }
       arcs = arcs.filter((a) => (a.life += dt) < a.max);
       arcs.forEach((a) => glowLine(a.pts, a.col, (1 - a.life / a.max) * (0.6 + Math.random() * 0.4), 1.3));
     };
@@ -294,7 +297,7 @@ export function EnergyCore({ variant }: { variant: EnergyVariant }) {
       E = reduce ? 0.7 : 0.55 + 0.08 * Math.sin(t / 900) + prox * 0.5 + surge * 0.9;
 
       /* the vibration */
-      const base = variant === "storm" ? 1.2 : variant === "field" ? 0.5 : 1;
+      const base = variant === "storm" ? 1.2 : variant === "field" ? 0.5 : variant === "fieldstorm" ? 0.8 : 1;
       const amp = reduce ? 0 : base * (0.5 + E * 1.1) + kick * 2.5;
       let jx = (Math.random() - 0.5) * amp, jy = (Math.random() - 0.5) * amp;
       if (variant === "resonance" && !reduce) { jy = Math.sin(t * 0.09) * amp * 1.1; jx *= 0.4; }
@@ -310,7 +313,8 @@ export function EnergyCore({ variant }: { variant: EnergyVariant }) {
       if (variant === "reactor") reactor(dt);
       else if (variant === "storm") storm(dt);
       else if (variant === "resonance") resonance();
-      else { field(dt); skin(); }
+      else if (variant === "field") { field(dt); skin(); }
+      else { field(dt); storm(dt, false); skin(); }
       ctx.globalCompositeOperation = "source-over";
 
       if ((readT += dt) > 120 || reduce) {
@@ -333,9 +337,9 @@ export function EnergyCore({ variant }: { variant: EnergyVariant }) {
       pos(ev);
       surge = 1; kick = 1.5;
       if (variant === "reactor") for (let i = 0; i < 3; i++) rings.push({ r: size * (0.42 - i * 0.06), col: i === 1 ? PINK : WHITE, w: 2.4 });
-      if (variant === "storm") burst = 1;
+      if (variant === "storm" || variant === "fieldstorm") discharge = true;
       if (variant === "resonance") pulses.push(t);
-      if (variant === "field") burst = 650;
+      if (variant === "field" || variant === "fieldstorm") burst = 650;
     };
     el.addEventListener("pointermove", onMove);
     el.addEventListener("pointerleave", onLeave);
