@@ -6,8 +6,8 @@ import { ABOUT, STORY_FUNCTIONS, WHAT } from "@/content/site";
 const IN_X = 150, CONNECT = { x: 430, y: 150 }, AUTOMATE = { x: 690, y: 150 }, CORE = { x: 950, y: 150 }, OUT_X = 1140;
 const INPUTS = STORY_FUNCTIONS.map((f, i) => ({ ...f, y: 40 + i * 44 }));
 
-/** About SIENA: a short introduction, then the live system diagram: business functions → Connect → Automate → SIENA core → action.
- *  `core` replaces the diagram (used by the energy-core previews). */
+/** About SIENA: a short introduction, then a visual. `core` is that visual (the homepage passes the logo interlude, or null
+ *  for none); when it is left out, the older previews get the system diagram and stage cards. */
 export function FluxWhat({ s, core }: { s: Record<string, string>; core?: ReactNode }) {
   return (
     <section id="what" className={s.section} data-reveal="">
@@ -30,7 +30,7 @@ export function FluxWhat({ s, core }: { s: Record<string, string>; core?: ReactN
         ))}
       </ul>
 
-      {core ?? <figure className={s.pipe}>
+      {core !== undefined ? core : <><figure className={s.pipe}>
         <svg viewBox="0 0 1200 300" role="img" aria-label="Your business functions flow through Connect and Automate into the SIENA core, which turns them into decisions and action.">
           <defs>
             <linearGradient id="pWire" x1="0" x2="1">
@@ -78,7 +78,7 @@ export function FluxWhat({ s, core }: { s: Record<string, string>; core?: ReactN
             <text x={OUT_X} y={CORE.y - 22} textAnchor="middle" className={s.pipeLabel}>ACTION</text>
           </g>
         </svg>
-      </figure>}
+      </figure>
 
       <ol className={s.stages}>
         {WHAT.pillars.map((p, i) => (
@@ -88,7 +88,7 @@ export function FluxWhat({ s, core }: { s: Record<string, string>; core?: ReactN
             <p>{p.body}</p>
           </li>
         ))}
-      </ol>
+      </ol></>}
 
     </section>
   );

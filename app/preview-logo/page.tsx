@@ -1,20 +1,20 @@
 import Link from "next/link";
 import s from "../preview/preview.module.css";
-import { CORE_DESIGNS } from "./designs";
+import { LOGO_DESIGNS } from "./designs";
 
-export default function CorePreviewIndex() {
+export default function LogoPreviewIndex() {
   return (
     <main className={s.index}>
-      <p className={s.kicker}>SIENA · energy core previews</p>
-      <h1 className={s.title}>Ways to charge the S</h1>
+      <p className={s.kicker}>SIENA · logo interlude previews</p>
+      <h1 className={s.title}>A pause between reading</h1>
       <p className={s.lead}>
-        Each design replaces the system diagram in the About section with the SIENA symbol vibrating with energy. Move your
-        cursor closer to charge it and click to send a surge. Each page opens on the full homepage, scrolled to that section.
+        Simple, catchy moments with the SIENA logo, placed after the About section to give visitors a break before the
+        solutions. Each page opens on the full homepage, scrolled to the logo.
       </p>
       <ul className={s.grid}>
-        {CORE_DESIGNS.map((d) => (
+        {LOGO_DESIGNS.map((d) => (
           <li key={d.v}>
-            <Link href={`/preview-core/${d.v}#what`} className={s.card}>
+            <Link href={`/preview-logo/${d.v}#interlude`} className={s.card}>
               <span className={s.swatches} aria-hidden="true">
                 {d.swatch.map((c) => <span key={c} style={{ background: c }} />)}
               </span>
