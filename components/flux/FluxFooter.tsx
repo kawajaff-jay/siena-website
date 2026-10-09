@@ -1,4 +1,4 @@
-import { BrandLogo } from "@/components/BrandLogo";
+import { TailLockup } from "./TailLockup";
 import { CONTACT, SERVICES, SITE } from "@/content/site";
 import { asset } from "@/lib/asset";
 
@@ -8,8 +8,8 @@ export function FluxFooter({ s }: { s: Record<string, string> }) {
     <footer className={s.footer}>
       <div className={s.footTop}>
         <div className={s.footBrand}>
-          <BrandLogo variant="lockup" alt="SIENA — AI Solutions & Systems" className={s.footLogo} sizes="160px" />
-          <p>From paper. To software. <em>To intelligence.</em></p>
+          <TailLockup alt="SIENA — AI Solutions & Systems" className={s.footLogo} sizes="320px" />
+          <p>From scattered data <em>to one intelligence.</em></p>
         </div>
         <nav className={s.footCols} aria-label="Footer">
           <div>
