@@ -116,7 +116,7 @@ export function Genesis({
       if (r.bottom < -40 || r.top > window.innerHeight + 40) { raf = requestAnimationFrame(frame); return; }
       const target = reduce ? 1 : clamp(-r.top / Math.max(1, r.height - window.innerHeight));
       /* glide toward the scroll position instead of jumping with each wheel notch (frame-rate independent) */
-      ps = ps < 0 || reduce ? target : ps + (target - ps) * (1 - Math.exp(-dt / 110));
+      ps = ps < 0 || reduce ? target : ps + (target - ps) * (1 - Math.exp(-dt / 85));
       if (Math.abs(target - ps) < 0.0005) ps = target;
       const p = ps;
       setVar("--p", p.toFixed(4));

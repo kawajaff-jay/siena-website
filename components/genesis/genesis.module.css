@@ -1,5 +1,5 @@
 /* Interactive Genesis hero — structure. Colours / fonts come from the page as --g-* variables. */
-.root { --p: 0; --fin: 0; --charge: 0; position: relative; height: 440vh; color: var(--g-ink); }
+.root { --p: 0; --fin: 0; --charge: 0; position: relative; height: 362vh; /* desktop: 100vh stage + 262vh of scroll (30% faster than the original 340vh) */ color: var(--g-ink); }
 .stage { position: sticky; top: 0; height: 100svh; overflow: hidden; touch-action: pan-y; }
 .canvas { position: absolute; inset: 0; pointer-events: none; }
 
