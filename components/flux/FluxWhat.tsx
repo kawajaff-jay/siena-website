@@ -1,7 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import { asset } from "@/lib/asset";
-import { ABOUT, SERVICES, STORY_FUNCTIONS, WHAT } from "@/content/site";
-import { Counter } from "./Reveal";
+import { ABOUT, STORY_FUNCTIONS, WHAT } from "@/content/site";
 
 /* pipeline geometry (viewBox 1200 × 300) */
 const IN_X = 150, CONNECT = { x: 430, y: 150 }, AUTOMATE = { x: 690, y: 150 }, CORE = { x: 950, y: 150 }, OUT_X = 1140;
@@ -91,11 +90,6 @@ export function FluxWhat({ s, core }: { s: Record<string, string>; core?: ReactN
         ))}
       </ol>
 
-      <dl className={s.stats}>
-        <div><dt>Modules</dt><dd><Counter to={SERVICES.length} /></dd></div>
-        <div><dt>Business functions</dt><dd><Counter to={STORY_FUNCTIONS.length} /></dd></div>
-        <div><dt>Connected system</dt><dd><Counter to={1} /></dd></div>
-      </dl>
     </section>
   );
 }
