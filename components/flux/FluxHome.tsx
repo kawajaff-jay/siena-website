@@ -23,9 +23,9 @@ const PALETTE: GenesisPalette = {
 
 /**
  * The Genesis Flux homepage. `solutions` replaces the solutions section (used by design previews);
- * by default it is the Tide wheel (SolutionsTide). Keep the section id "solutions" so the header and footer links work.
+ * by default it is the Tide wheel (SolutionsTide). `core` replaces the About diagram (energy-core previews). Keep the section id "solutions" so the header and footer links work.
  */
-export function FluxHome({ solutions }: { solutions?: ReactNode }) {
+export function FluxHome({ solutions, core }: { solutions?: ReactNode; core?: ReactNode }) {
   return (
     <div className={s.page}>
       <Reveal />
@@ -71,7 +71,7 @@ export function FluxHome({ solutions }: { solutions?: ReactNode }) {
           }
         />
 
-        <FluxWhat s={s} />
+        <FluxWhat s={s} core={core} />
 
         {solutions ?? <SolutionsTide />}
 
