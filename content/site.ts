@@ -211,8 +211,26 @@ export const APPS = {
   uses: ["Ordering and reservations", "Bookings and reminders", "Delivery tracking", "Memberships and loyalty"],
 } as const;
 
-/** The solutions shown on the homepage (wheel, hero orbit, footer, contact form): Apps first, Finance removed. */
-export const SERVICES = [APPS, ...SOLUTIONS.items.filter((i) => i.id !== "finance")];
+/** DRAFT copy — Websites, the second solution on the homepage (replaces Sales there). Edit freely. */
+export const WEBSITES = {
+  id: "websites", title: "Websites", visual: "marketing",
+  body: "Professional websites that present your business with clarity and turn visitors into customers.",
+  overview: [
+    "Your website is often the first impression a customer has of your business. SIENA designs and develops websites that are visually refined, fast and easy to use, and that communicate clearly who you are and why customers should choose you.",
+    "We create websites for a wide range of businesses: restaurants and cafés presenting their menus and taking reservations, clinics and beauty centres offering online booking, retailers selling through integrated online stores, real-estate agencies showcasing their properties, professional firms building credibility, and growing companies that need a strong digital presence for their next stage.",
+    "Our approach begins with strategy rather than appearance. We study your audience, your goals and what sets you apart, then shape the structure, content and design around them. Every page is built to guide visitors toward a clear action, whether that is making a booking, placing an order or getting in touch.",
+    "Where it adds real value, we bring intelligence into the website itself: AI assistants that answer customer questions at any hour, smart search and personalised recommendations, and automatic qualification of new enquiries. Bookings, orders and leads flow directly into your existing systems, so nothing is lost between your website and your team.",
+    "Every website is fully responsive across phones, tablets and desktops, optimised for speed and search engines, and built on a secure foundation that is simple to manage as your business grows.",
+  ],
+  result: "A website that builds trust and brings in business.",
+  related: ["apps", "marketing", "ai"],
+  connects: ["Booking systems", "Online store", "CRM", "Payments", "Analytics", "Email marketing"],
+  workflow: ["Understand your business and audience", "Plan structure and content", "Design the experience", "Build, optimise and connect", "Add AI where it helps", "Launch and refine"],
+  uses: ["Company and brand websites", "Online booking and reservations", "Online stores", "AI assistants and smart search"],
+} as const;
+
+/** The solutions shown on the homepage (wheel, hero orbit, footer, contact form): Apps and Websites first; Finance and Sales removed. */
+export const SERVICES = [APPS, WEBSITES, ...SOLUTIONS.items.filter((i) => i.id !== "finance" && i.id !== "sales")];
 
 export const CONTACT = {
   eyebrow: "Build your AI system",
