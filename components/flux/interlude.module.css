@@ -12,8 +12,7 @@
 @keyframes breathe { 50% { opacity: 0.6; scale: 0.92; } }
 
 .holder { display: block; width: clamp(170px, 22vw, 280px); }
-/* the symbol's artwork sits slightly left of its square image, so nudge it to the optical centre */
-.mark { position: relative; display: block; aspect-ratio: 1; translate: 8% 0; }
+.mark { position: relative; display: block; aspect-ratio: 1; }
 .mark img { display: block; width: 100%; height: 100%; filter: drop-shadow(0 18px 40px rgba(47, 123, 255, 0.35)); }
 .tail, .sheen, .lockTail { position: absolute; pointer-events: none; }
 .tail, .sheen { inset: 0; -webkit-mask: var(--sym) center / contain no-repeat; mask: var(--sym) center / contain no-repeat; }

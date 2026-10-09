@@ -5,11 +5,13 @@
  * → SIENA · AI SOLUTIONS & SYSTEMS → CTAs.
  */
 import { useEffect, useLayoutEffect, useRef } from "react";
-import { REVEAL, STORY_FUNCTIONS } from "@/content/site";
+import { REVEAL, SERVICES } from "@/content/site";
 import { registerGsap, gsap, ScrollTrigger } from "@/lib/gsap";
 import { CINEMATIC_QUERY } from "@/lib/mode";
 import { BrandLogo } from "./BrandLogo";
 import { Particles } from "./Particles";
+import { TailSymbol } from "./flux/TailSymbol";
+import { TailLockup } from "./flux/TailLockup";
 
 const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
@@ -71,7 +73,7 @@ export function SienaReveal({ opening = false, scroller, story = false }: { open
             <path d="M-50 180 C 500 260 1100 120 1650 240" />
           </svg>
           <div className="reveal-halo" data-halo aria-hidden="true">
-            <BrandLogo variant="symbol" alt="" sizes="(max-width: 700px) 60vw, 520px" />
+            <TailSymbol sizes="(max-width: 700px) 60vw, 520px" />
           </div>
           {opening && (
             <div className="reveal-openword" data-openword>
@@ -89,7 +91,7 @@ export function SienaReveal({ opening = false, scroller, story = false }: { open
             ))}
           </h2>
           <div className="reveal-brand" data-brand>
-            <BrandLogo variant="lockup" sizes="(max-width: 700px) 64vw, 340px" />
+            <TailLockup className="brand" sizes="(max-width: 700px) 64vw, 340px" />
             <p className="reveal-support">{REVEAL.support}</p>
             {story ? (
               <div className="reveal-ctas reveal-ctas--story">
@@ -102,10 +104,10 @@ export function SienaReveal({ opening = false, scroller, story = false }: { open
               </div>
             ) : null}
             {story ? (
-              /* the six business functions SIENA organized — they unfold into the Solutions modules */
+              /* the six services SIENA provides */
               <ul className="reveal-fns" aria-hidden="true">
-                {STORY_FUNCTIONS.map((f) => (
-                  <li key={f.id} data-fn={f.id}>{f.label}</li>
+                {SERVICES.map((f) => (
+                  <li key={f.id} data-fn={f.id}>{f.title}</li>
                 ))}
               </ul>
             ) : (

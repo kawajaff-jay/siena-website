@@ -28,7 +28,7 @@ The homepage (`app/page.tsx`) is **Genesis Flux**: scrolling builds the SIENA sy
 
 All copy comes from `content/site.ts`.
 
-The previous homepage, with the full-screen Evolution story, is kept at `/preview/classic` (`/story` links there). Design explorations live under `/preview`; the logo interludes under `/preview-logo`.
+"Experience the Evolution" (any `#evolution` link, and `/story`) opens the full-screen Evolution story on top of the homepage (`components/StoryLayer.tsx`); its ending shows the logo and the six services. The previous homepage is kept at `/preview/classic`. Design explorations live under `/preview`; the logo interludes under `/preview-logo`.
 
 **To do:** use the **Logo Reveal** interlude (`<LogoInterlude variant="lockup" />`, preview `/preview-logo/lockup`) in the end section of the website.
 

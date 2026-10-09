@@ -12,6 +12,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { EvolutionTimeline, type TimelineApi } from "./EvolutionTimeline";
 import { SienaReveal } from "./SienaReveal";
 import { BrandLogo } from "./BrandLogo";
+import { TailSymbol } from "./flux/TailSymbol";
 import { ERAS } from "@/content/eras";
 import { SOLUTIONS_ARRIVE_EVENT, STORY_HASH, STORY_OPEN_EVENT, STORY_OPENED_EVENT, type FnChip } from "@/lib/story";
 import { REDUCED_QUERY } from "@/lib/mode";
@@ -230,7 +231,7 @@ export function StoryLayer({ plates }: { plates: AvailablePlate[] }) {
       </div>
       <div className="story-bar">
         <span className="story-brand" aria-hidden="true">
-          <BrandLogo variant="symbol" alt="" className="site-brand-symbol" sizes="40px" />
+          <TailSymbol className="site-brand-symbol" sizes="40px" />
           <BrandLogo variant="wordmark" alt="" className="site-brand-word" sizes="120px" feather={false} />
         </span>
       </div>

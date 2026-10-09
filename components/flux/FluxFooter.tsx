@@ -30,7 +30,7 @@ export function FluxFooter({ s }: { s: Record<string, string> }) {
           <div>
             <h2>Explore</h2>
             <ul>
-              <li><a href={asset("/preview/classic.html#evolution")}>Experience the Evolution →</a></li>
+              <li><a href="#evolution">Experience the Evolution →</a></li>
             </ul>
             <h2 className={s.footH2Gap}>Contact</h2>
             <ul>

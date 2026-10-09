@@ -1,12 +1,25 @@
 import { FluxHome } from "@/components/flux/FluxHome";
+import { StoryLayer } from "@/components/StoryLayer";
+import { SceneDefs } from "@/components/scenes/common";
+import { LockupDefs } from "@/components/AIConvergence";
+import { getAvailablePlates } from "@/lib/plates.server";
 
 /**
- * Home — "Genesis Flux". Scrolling builds the SIENA symbol from a live particle network (move to disturb it,
- * click to pulse it); the eight modules then orbit the official logo and run their workflows. Below: the
- * header with section tracking and mobile menu, About SIENA with a live system diagram, the Tide solutions wheel, the
- * Without/With SIENA switch, a terminal-style enquiry form and the full footer.
- * The previous homepage (with the Evolution story) is kept at /preview/classic.
+ * The homepage: Genesis Flux. "Experience the Evolution" (any #evolution link) opens the full-screen
+ * Evolution story on top of it (StoryLayer). The previous homepage is kept at /preview/classic.
  */
 export default function Home() {
-  return <FluxHome />;
+  return (
+    <>
+      {/* shared SVG definitions used by the Evolution story's scenes */}
+      <svg className="svg-defs" aria-hidden="true" focusable="false">
+        <SceneDefs />
+        <defs>
+          <LockupDefs />
+        </defs>
+      </svg>
+      <FluxHome />
+      <StoryLayer plates={getAvailablePlates()} />
+    </>
+  );
 }

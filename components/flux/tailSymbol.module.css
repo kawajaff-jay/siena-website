@@ -6,3 +6,5 @@
   background: linear-gradient(to top right, #ff4fd8 0%, #ff4fd8 22%, rgba(255, 79, 216, 0.55) 38%, rgba(255, 79, 216, 0) 52%);
   -webkit-mask: var(--sym) center / contain no-repeat; mask: var(--sym) center / contain no-repeat;
 }
+/* the symbol's square within the lockup image */
+.onLockup { inset: auto; left: 16.59%; top: 1.18%; width: 66.37%; height: 70.59%; }
