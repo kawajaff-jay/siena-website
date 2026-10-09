@@ -90,7 +90,7 @@ export function Genesis({
 
     let W = 0, H = 0, dpr = 1;
     const resize = () => {
-      dpr = Math.min(2, window.devicePixelRatio || 1);
+      dpr = Math.min(1.5, window.devicePixelRatio || 1); /* thin lines/dots don't need full retina; saves a lot of fill */
       W = stage.clientWidth; H = stage.clientHeight;
       canvas.width = W * dpr; canvas.height = H * dpr;
       canvas.style.width = `${W}px`; canvas.style.height = `${H}px`;
@@ -100,7 +100,11 @@ export function Genesis({
 
     const flows: Flow[] = [];
     const tilt = { x: 0, y: 0 };
-    let charge = 0, lastSpawn = 0, orbit = 0, lastT = performance.now(), raf = 0;
+    let charge = 0, lastSpawn = 0, orbit = 0, lastT = performance.now(), raf = 0, ps = -1;
+    /* only touch the DOM when a value actually changes (avoids restyling the whole hero every frame) */
+    const last: Record<string, string> = {};
+    const setVar = (name: string, v: string) => { if (last[name] !== v) { last[name] = v; root.style.setProperty(name, v); } };
+    const setData = (name: string, v: string) => { if (last["d" + name] !== v) { last["d" + name] = v; root.dataset[name] = v; } };
     const pct = root.querySelector<HTMLElement>("[data-pct]");
     const coords = root.querySelector<HTMLElement>("[data-coords]");
 
@@ -108,16 +112,22 @@ export function Genesis({
       const dt = Math.min(50, now - lastT); lastT = now;
       const time = now / 1000;
       const r = root.getBoundingClientRect();
-      const p = reduce ? 1 : clamp(-r.top / Math.max(1, r.height - window.innerHeight));
-      root.style.setProperty("--p", p.toFixed(4));
-      root.dataset.stage = String(p < 0.2 ? 0 : p < 0.42 ? 1 : p < 0.66 ? 2 : 3);
-      root.dataset.done = p > 0.88 ? "true" : "false";
-      if (pct) pct.textContent = String(Math.round(range(p, 0, 0.86) * 100)).padStart(2, "0");
+      /* nothing to draw while the hero is off screen */
+      if (r.bottom < -40 || r.top > window.innerHeight + 40) { raf = requestAnimationFrame(frame); return; }
+      const target = reduce ? 1 : clamp(-r.top / Math.max(1, r.height - window.innerHeight));
+      /* glide toward the scroll position instead of jumping with each wheel notch (frame-rate independent) */
+      ps = ps < 0 || reduce ? target : ps + (target - ps) * (1 - Math.exp(-dt / 110));
+      if (Math.abs(target - ps) < 0.0005) ps = target;
+      const p = ps;
+      setVar("--p", p.toFixed(4));
+      setData("stage", String(p < 0.2 ? 0 : p < 0.42 ? 1 : p < 0.66 ? 2 : 3));
+      setData("done", p > 0.88 ? "true" : "false");
+      if (pct) { const v = String(Math.round(range(p, 0, 0.86) * 100)).padStart(2, "0"); if (last.pct !== v) { last.pct = v; pct.textContent = v; } }
 
       /* layout of the mark: centred while building, then moves aside for the modules + copy */
       const desktop = W >= 900;
       const fin = reduce ? 1 : ease(range(p, 0.84, 0.97));
-      root.style.setProperty("--fin", fin.toFixed(3));
+      setVar("--fin", fin.toFixed(3));
       const Hb = Math.min(H * 0.8, W * 0.92 * 0.9), Wb = Hb / 0.9;
       const fx = desktop ? W * 0.66 : W / 2, fy = desktop ? H * 0.54 : H * 0.29, fs = desktop ? 0.7 : 0.5;
       const cx = W / 2 + (fx - W / 2) * fin, cy = H / 2 + (fy - H / 2) * fin, sc = 1 + (fs - 1) * fin;
@@ -128,7 +138,7 @@ export function Genesis({
       const want = mouse.current.in && p > 0.8 && !reduce;
       tilt.x += ((want ? (mouse.current.y - cy) / H : 0) * -16 - tilt.x) * 0.08;
       tilt.y += ((want ? (mouse.current.x - cx) / W : 0) * 22 - tilt.y) * 0.08;
-      markBox.style.width = `${Wb}px`; markBox.style.height = `${Hb}px`;
+      if (last.wb !== String(Wb)) { last.wb = String(Wb); markBox.style.width = `${Wb}px`; markBox.style.height = `${Hb}px`; }
       markBox.style.transform = `translate(${cx - Wb / 2}px, ${cy - Hb / 2}px) scale(${sc}) perspective(1400px) rotateX(${tilt.x.toFixed(2)}deg) rotateY(${tilt.y.toFixed(2)}deg)`;
 
       /* modules orbit the mark (desktop) */
@@ -154,7 +164,7 @@ export function Genesis({
         lastSpawn = now;
       }
       charge *= 0.94;
-      root.style.setProperty("--charge", charge.toFixed(3));
+      setVar("--charge", charge < 0.002 ? "0" : charge.toFixed(3));
 
       /* ── canvas ── */
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -200,6 +210,8 @@ export function Genesis({
         variant !== "noir" || p > 0.82 ? 1 : m.in ? Math.max(0.06, 1 - Math.hypot(x - m.x, y - m.y) / 300) : 0.22;
       ctx.lineWidth = variant === "lumiere" ? 0.6 : 0.8;
       ctx.strokeStyle = palette.link;
+      const LEVELS = 8;
+      const buckets: number[][] = Array.from({ length: LEVELS }, () => []);
       for (let i = 0; i < parts.length; i++) {
         const a = parts[i];
         for (let j = i + 1; j < parts.length; j++) {
@@ -210,20 +222,41 @@ export function Genesis({
           if (dist > thr) continue;
           const alpha = (1 - dist / thr) * (linkWin * palette.linkAlpha + residual * 0.1 + Math.max(a.b, b.b) * 0.6) * torch((a.x + b.x) / 2, (a.y + b.y) / 2);
           if (alpha < 0.01) continue;
-          ctx.globalAlpha = Math.min(1, alpha);
-          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+          const lv = Math.min(LEVELS - 1, Math.floor(Math.min(1, alpha) * LEVELS));
+          buckets[lv].push(a.x, a.y, b.x, b.y);
         }
       }
+      for (let lv = 0; lv < LEVELS; lv++) {
+        const seg = buckets[lv];
+        if (!seg.length) continue;
+        ctx.globalAlpha = (lv + 0.5) / LEVELS;
+        ctx.beginPath();
+        for (let s = 0; s < seg.length; s += 4) { ctx.moveTo(seg[s], seg[s + 1]); ctx.lineTo(seg[s + 2], seg[s + 3]); }
+        ctx.stroke();
+      }
+      /* dots, batched by colour and brightness (a few fills instead of one per dot) */
+      const DOT_LV = 6;
+      const dotBatches = new Map<string, number[]>();
       for (const pt of parts) {
         const tw = residual > 0 ? 0.6 + 0.4 * Math.sin(time * 2 + pt.ph * 3) : 1;
-        ctx.globalAlpha = Math.min(1, dotAlpha * tw * torch(pt.x, pt.y) + pt.b * 0.9);
-        ctx.fillStyle = pt.c;
-        ctx.beginPath(); ctx.arc(pt.x, pt.y, pt.r * (1 + pt.b * 1.6), 0, 6.283); ctx.fill();
+        const al = Math.min(1, dotAlpha * tw * torch(pt.x, pt.y) + pt.b * 0.9);
+        if (al < 0.02) continue;
+        const key = pt.c + "|" + Math.min(DOT_LV - 1, Math.floor(al * DOT_LV));
+        let arr = dotBatches.get(key);
+        if (!arr) { arr = []; dotBatches.set(key, arr); }
+        arr.push(pt.x, pt.y, pt.r * (1 + pt.b * 1.6));
         if (pt.b > 0.15) {
-          ctx.globalAlpha = pt.b * 0.25;
+          ctx.globalAlpha = pt.b * 0.25; ctx.fillStyle = pt.c;
           ctx.beginPath(); ctx.arc(pt.x, pt.y, pt.r * 6, 0, 6.283); ctx.fill();
         }
       }
+      dotBatches.forEach((arr, key) => {
+        const [color, lv] = key.split("|");
+        ctx.fillStyle = color; ctx.globalAlpha = (Number(lv) + 0.5) / DOT_LV;
+        ctx.beginPath();
+        for (let s = 0; s < arr.length; s += 3) { ctx.moveTo(arr[s] + arr[s + 2], arr[s + 1]); ctx.arc(arr[s], arr[s + 1], arr[s + 2], 0, 6.283); }
+        ctx.fill();
+      });
       /* pulse rings */
       ctx.strokeStyle = palette.pulse;
       for (const q of pulses) {

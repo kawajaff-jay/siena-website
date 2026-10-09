@@ -21,7 +21,8 @@
   stroke-dasharray: var(--len, 2400); stroke-dashoffset: calc(var(--len, 2400) * (1 - var(--in-trace)));
 }
 .trace { stroke-width: 3.5; opacity: calc(1 - clamp(0, (var(--p) - 0.78) * 10, 1)); }
-.traceGlow { stroke-width: 18; filter: blur(9px); opacity: calc(0.55 * (1 - clamp(0, (var(--p) - 0.78) * 10, 1)) + var(--charge) * 0.6 * var(--in-logo)); }
+/* soft glow without a blur filter (a filter would be re-rendered every frame as the line draws) */
+.traceGlow { stroke-width: 22; opacity: calc(0.22 * (1 - clamp(0, (var(--p) - 0.78) * 10, 1)) + var(--charge) * 0.3 * var(--in-logo)); }
 .blades path { opacity: calc(0.5 * var(--in-blades) * (1 - clamp(0, (var(--p) - 0.76) * 8, 1))); }
 .logoSymbol {
   opacity: var(--in-logo); transform-box: fill-box; transform-origin: 50% 40%;

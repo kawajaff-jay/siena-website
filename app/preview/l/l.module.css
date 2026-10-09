@@ -45,28 +45,33 @@
     radial-gradient(40% 30% at 30% 30%, rgba(51, 225, 255, 0.14), transparent 70%),
     radial-gradient(35% 30% at 72% 40%, rgba(255, 79, 216, 0.12), transparent 70%),
     radial-gradient(50% 40% at 50% 100%, rgba(122, 162, 255, 0.18), transparent 70%);
-  animation: hazeMove 16s ease-in-out infinite alternate;
+  animation: hazeMove 16s ease-in-out infinite alternate; will-change: transform;
 }
 @keyframes hazeMove { to { transform: translate(3%, -2%) scale(1.05); } }
 .floor { position: absolute; left: -50%; right: -50%; bottom: -10%; height: 55%; perspective: 420px; perspective-origin: 50% 0%; }
 .grid {
-  position: absolute; inset: 0; transform: rotateX(68deg); transform-origin: 50% 0;
-  background-image: linear-gradient(rgba(51, 225, 255, 0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(51, 225, 255, 0.35) 1px, transparent 1px);
-  background-size: 64px 64px;
+  position: absolute; inset: 0; transform: rotateX(68deg); transform-origin: 50% 0; overflow: hidden;
   -webkit-mask: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent);
   mask: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent);
-  animation: gridRun 3s linear infinite; opacity: calc(0.35 + var(--p) * 0.4);
+  opacity: calc(0.35 + var(--p) * 0.4);
 }
-@keyframes gridRun { to { background-position: 0 64px, 0 0; } }
+/* the lines move by transform (handled by the GPU) rather than by repainting the background every frame */
+.grid::before {
+  content: ""; position: absolute; left: 0; right: 0; top: -64px; bottom: 0; will-change: transform;
+  background-image: linear-gradient(rgba(51, 225, 255, 0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(51, 225, 255, 0.35) 1px, transparent 1px);
+  background-size: 64px 64px;
+  animation: gridRun 3s linear infinite;
+}
+@keyframes gridRun { to { transform: translateY(64px); } }
 .scan {
   position: absolute; inset: 0; opacity: 0.18;
   background: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px 3px);
 }
 .scan::after {
-  content: ""; position: absolute; left: 0; right: 0; height: 120px; top: -120px;
+  content: ""; position: absolute; left: 0; right: 0; height: 120px; top: -120px; will-change: transform;
   background: linear-gradient(180deg, transparent, rgba(51, 225, 255, 0.25), transparent); animation: sweep 6s linear infinite;
 }
-@keyframes sweep { to { top: 100%; } }
+@keyframes sweep { to { transform: translateY(calc(100svh + 120px)); } }
 .corner { position: absolute; width: 28px; height: 28px; border: 1px solid var(--cyan); opacity: 0.7; }
 .tl { left: var(--gutter); top: 72px; border-right: 0; border-bottom: 0; }
 .tr { right: var(--gutter); top: 72px; border-left: 0; border-bottom: 0; }
@@ -179,4 +184,4 @@
 .contactSymbol { width: 64px; filter: drop-shadow(0 0 20px var(--cyan)); }
 .foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin: 72px var(--gutter) 0; padding: 20px 0 96px; border-top: 1px solid var(--line); font: 500 0.72rem/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 
-@media (prefers-reduced-motion: reduce) { .haze, .grid, .scan::after, .glitch::before, .glitch::after, .status span, .cue span, .tabTimer, .view, .viewSteps li { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .haze, .grid::before, .scan::after, .glitch::before, .glitch::after, .status span, .cue span, .tabTimer, .view, .viewSteps li { animation: none !important; } }
