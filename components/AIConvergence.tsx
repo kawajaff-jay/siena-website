@@ -58,7 +58,7 @@ export function AIConvergence() {
       {/* forming fill (from the trace) — dissolves into the real logo */}
       <g data-blades>
         <path d={SIENA_BLADE_UPPER} fill="#2a6dff" opacity="0.55" />
-        <path d={SIENA_BLADE_LOWER} fill="#2a6dff" opacity="0.55" />
+        <path d={SIENA_BLADE_LOWER} fill="url(#ai-blade-tail)" opacity="0.6" />
       </g>
       <SienaLockup />
     </g>
@@ -80,15 +80,33 @@ export function SienaLockup() {
         >
           <title>SIENA — AI Solutions &amp; Systems</title>
         </image>
+        {/* the pink tail, as on the header and hero: a gradient cut to the official symbol's own shape */}
+        <rect x={LOCKUP.x} y={LOCKUP.y} width={LOCKUP.w} height={LOCKUP.h} fill="url(#ai-tail)" mask="url(#ai-tail-mask)" />
       </g>
     </g>
   );
 }
 
-/** Clip used to reveal the wordmark after the symbol has resolved. */
+/** Clip used to reveal the wordmark after the symbol has resolved, and the pink tail on the symbol. */
 export function LockupDefs() {
   return (
     <>
+      <linearGradient id="ai-tail" x1="835" y1="595" x2="1010" y2="330" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stopColor="#ff4fd8" />
+        <stop offset=".3" stopColor="#ff4fd8" stopOpacity=".9" />
+        <stop offset=".62" stopColor="#ff4fd8" stopOpacity="0" />
+      </linearGradient>
+      <linearGradient id="ai-blade-tail" x1="835" y1="595" x2="1010" y2="330" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stopColor="#ff4fd8" />
+        <stop offset=".35" stopColor="#c44cff" />
+        <stop offset=".65" stopColor="#2a6dff" />
+      </linearGradient>
+      <clipPath id="ai-sym">
+        <rect x={LOCKUP.x} y={LOCKUP.y} width={LOCKUP.w} height={LOCKUP.wordmarkTop - 8 - LOCKUP.y} />
+      </clipPath>
+      <mask id="ai-tail-mask" maskUnits="userSpaceOnUse" x={LOCKUP.x} y={LOCKUP.y} width={LOCKUP.w} height={LOCKUP.h} style={{ maskType: "alpha" }}>
+        <image href={asset("/brand/siena-lockup.webp")} x={LOCKUP.x} y={LOCKUP.y} width={LOCKUP.w} height={LOCKUP.h} clipPath="url(#ai-sym)" preserveAspectRatio="xMidYMid meet" />
+      </mask>
       <clipPath id="clip-lockup">
         <rect data-lockup-clip x={LOCKUP.x} y={LOCKUP.y} width={LOCKUP.w} height={LOCKUP.h} />
       </clipPath>

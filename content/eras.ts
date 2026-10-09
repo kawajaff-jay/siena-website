@@ -225,7 +225,7 @@ export const ERAS: Era[] = [
     title: "The AI Revolution",
     statement: "Software followed instructions.",
     beats: ["Intelligent systems understand the business."],
-    keywords: ["Finance", "Sales", "Customer Service", "Operations", "Marketing", "Data & Analytics"],
+    keywords: ["Apps", "Websites", "AI Agents & Assistants", "Automation & Integrations", "Systems", "Marketing"],
     weight: 3.2,
     beatAt: [0.42],
     yearFrom: 2026,
@@ -275,7 +275,8 @@ export const WORKFLOW_STEPS = [
 ];
 
 /** Labels for the six converging systems (order matches AI_NODES in lib/geometry.ts) */
-export const AI_SYSTEMS = ["Finance", "Sales", "Customer Service", "Operations", "Marketing", "Data & Analytics"];
+/** the six SIENA services, placed around the S in the 2026 chapter (order = AI_NODES: top-left, top-right, right, bottom-right, bottom-left, left) */
+export const AI_SYSTEMS = ["Apps", "Websites", "AI Agents & Assistants", "Systems", "Marketing", "Automation & Integrations"];
 
 /** App windows that clutter the 2020–25 desk before converging (order maps onto AI_SYSTEMS by index % 6) */
 export const APP_WINDOWS = [
