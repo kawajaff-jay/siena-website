@@ -229,8 +229,77 @@ export const WEBSITES = {
   uses: ["Company and brand websites", "Online booking and reservations", "Online stores", "AI assistants and smart search"],
 } as const;
 
-/** The solutions shown on the homepage (wheel, hero orbit, footer, contact form): Apps and Websites first; Finance and Sales removed. */
-export const SERVICES = [APPS, WEBSITES, ...SOLUTIONS.items.filter((i) => i.id !== "finance" && i.id !== "sales")];
+/** DRAFT copy — AI Agents & Assistants (homepage service 3). Edit freely. */
+export const AGENTS = {
+  id: "agents", title: "AI Agents & Assistants", visual: "service",
+  body: "Intelligent assistants that answer, book and support around the clock, for your customers and your team.",
+  overview: [
+    "SIENA builds AI agents that handle the conversations and tasks that fill your team’s day. Deployed on your website, WhatsApp, Instagram messages or internal tools, they understand natural language, draw on your own information and respond accurately at any hour.",
+    "For customers, that means instant answers to common questions, bookings and reservations taken in conversation, order updates on request, and enquiries qualified before they reach your team. For staff, it means an internal assistant that knows your policies, products and procedures, and can draft documents, summarise information and answer questions in seconds.",
+    "Every agent is designed around your business rules and tone of voice. Complex or sensitive matters are passed to the right person with the full context, so customers are never left without help and your team remains in control.",
+    "We train each agent on your own content, connect it to your systems so it can act rather than simply reply, and continue to improve it based on real conversations.",
+  ],
+  result: "Faster answers, fewer repetitive tasks and a team focused on what matters.",
+  related: ["automation", "systems", "websites"],
+  connects: ["Website chat", "WhatsApp", "Instagram messages", "CRM", "Booking systems", "Knowledge base"],
+  workflow: ["Define the tasks and tone", "Train on your business information", "Connect to your systems", "Test with real scenarios", "Launch on your channels", "Review and improve"],
+  uses: ["Customer support", "Bookings and reservations", "Lead qualification", "Internal knowledge assistant"],
+} as const;
+
+/** DRAFT copy — Automation & Integrations (homepage service 4). Edit freely. */
+export const AUTOMATE = {
+  id: "automation", title: "Automation & Integrations", visual: "automation",
+  body: "Your tools connected and your routine work automated, reliably and without double entry.",
+  overview: [
+    "Most businesses run on several separate tools: a booking system, a point of sale, accounting software, spreadsheets and messaging apps. SIENA connects them so information moves automatically between them, and the repetitive work in between is handled for you.",
+    "A new booking can update the calendar, notify the right member of staff and send the customer a confirmation. A completed sale can update stock, record the transaction in your accounts and trigger a follow-up message. Invoices, approvals, reports and reminders run on their own, on time, every time.",
+    "We begin by mapping how work currently flows through your business and where time is lost. We then design automations around those processes, with clear rules, approvals where they are needed and full visibility of every step.",
+    "Every automation is monitored and documented, so it remains dependable as your business grows and changes.",
+  ],
+  result: "Less manual work, fewer errors and processes that run themselves.",
+  related: ["systems", "agents", "apps"],
+  connects: ["Point of sale", "Accounting software", "Booking systems", "CRM", "Spreadsheets", "Email and messaging"],
+  workflow: ["Map how work flows today", "Identify what to automate", "Connect your tools", "Build the automations", "Test and launch", "Monitor and refine"],
+  uses: ["System-to-system integrations", "Booking and order workflows", "Invoicing and approvals", "Automated reports and reminders"],
+} as const;
+
+/** DRAFT copy — Systems (homepage service 5): custom business software such as POS. Edit freely. */
+export const SYSTEMS = {
+  id: "systems", title: "Systems", visual: "operations",
+  body: "Custom business software, from point-of-sale to complete management systems, built around the way you operate.",
+  overview: [
+    "Off-the-shelf software rarely fits a business perfectly. SIENA designs and develops custom systems that match your operations precisely, giving you tools your team can rely on every day.",
+    "We build point-of-sale systems for restaurants, cafés and retail stores, with menus or product catalogues, table and order management, payments, receipts and end-of-day reports. We also develop inventory and warehouse systems, booking and scheduling platforms, customer and membership management, staff and shift management, and management dashboards that bring every part of the business into one view.",
+    "Each system is designed around the people who use it: clear, fast screens for busy staff, role-based access for managers and owners, and reports that make performance easy to understand. Businesses with several branches can manage every location from one place.",
+    "Our systems connect with your apps, website, payment providers and accounting software, and are built to be secure, dependable and ready to grow with you. Where it brings real value, we add intelligence such as sales forecasting and stock predictions.",
+  ],
+  result: "Software that fits your business, not the other way around.",
+  related: ["automation", "apps", "agents"],
+  connects: ["Payments", "Accounting software", "Inventory", "Apps and website", "Kitchen and receipt printers", "Reporting"],
+  workflow: ["Understand your operations", "Design the system", "Build and test", "Connect payments and tools", "Train your team", "Support and improve"],
+  uses: ["Point-of-sale systems", "Inventory and warehouse management", "Booking and scheduling", "Staff and branch management"],
+} as const;
+
+/** DRAFT copy — Marketing (homepage service 6): social media management and paid campaigns. Edit freely. */
+export const MARKETING = {
+  id: "marketing", title: "Marketing", visual: "marketing",
+  body: "Social media management and advertising campaigns that keep your business visible and bring in new customers.",
+  overview: [
+    "Customers discover, compare and choose businesses on Instagram and Facebook every day. SIENA manages your social media presence and advertising so your business is seen consistently, looks its best and turns attention into real enquiries, bookings and sales.",
+    "We take care of your Instagram and Facebook accounts from end to end: a clear content plan, professionally designed posts, Reels and Stories, captions written in your brand’s voice, and regular publishing. We also manage messages and comments, so potential customers receive a prompt and professional response.",
+    "Alongside your content, we plan and run paid advertising campaigns on Instagram and Facebook, targeted to the right audience in the right area. Every campaign is monitored and refined, and you receive clear reports showing reach, engagement, leads and the return on your budget.",
+    "For restaurants and cafés, that means showcasing dishes, promoting offers and filling tables on quieter days. For beauty salons, spas and aesthetic clinics, it means before-and-after content and campaigns that fill the appointment calendar. Gyms and fitness studios attract new members with trainer videos and membership offers, while retailers and fashion boutiques promote new collections and seasonal sales.",
+    "The same approach serves real-estate agencies presenting new listings, hotels and holiday rentals building direct bookings, dental and medical practices reaching new patients, training centres promoting their courses, and professional firms building trust in their expertise. With AI-assisted content planning and audience insights, every campaign becomes sharper over time.",
+  ],
+  result: "A consistent, professional presence that brings in new customers.",
+  related: ["websites", "agents", "apps"],
+  connects: ["Instagram", "Facebook", "Meta Ads", "WhatsApp", "Website", "Booking systems"],
+  workflow: ["Understand your brand and audience", "Plan content and campaigns", "Create posts, Reels and Stories", "Launch targeted ads", "Manage messages and comments", "Report and refine"],
+  uses: ["Instagram and Facebook management", "Paid ad campaigns", "Content creation", "Monthly performance reports"],
+} as const;
+
+/** The six services shown on the homepage (wheel, hero orbit, footer, contact form). */
+export const SERVICES = [APPS, WEBSITES, AGENTS, AUTOMATE, SYSTEMS, MARKETING];
 
 export const CONTACT = {
   eyebrow: "Build your AI system",

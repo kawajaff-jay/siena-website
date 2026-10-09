@@ -150,7 +150,7 @@ export function Genesis({
       const chipPos: { x: number; y: number }[] = [];
       chips.current.forEach((el, i) => {
         if (!el) return;
-        const a = ((165 + i * 30 + sway) * Math.PI) / 180;
+        const a = ((165 + i * (210 / Math.max(1, ITEMS.length - 1)) + sway) * Math.PI) / 180;
         const x = scx + Math.cos(a) * Wb * sc * 0.62, y = scy + Math.sin(a) * Hb * sc * 0.5;
         chipPos[i] = { x, y };
         el.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%) scale(${0.6 + 0.4 * fin})`;
