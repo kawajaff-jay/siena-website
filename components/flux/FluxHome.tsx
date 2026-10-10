@@ -27,7 +27,7 @@ const PALETTE: GenesisPalette = {
  * The Genesis Flux homepage. `solutions` replaces the solutions section (used by design previews);
  * by default it is the Tide wheel (SolutionsTide). `core` is the visual after the About text (logo-interlude previews); by default it is the Light Sweep. Keep the section id "solutions" so the header and footer links work.
  */
-export function FluxHome({ solutions, core, cursor = "none" }: { solutions?: ReactNode; core?: ReactNode; cursor?: CursorStyle }) {
+export function FluxHome({ solutions, core, cursor = "glow" }: { solutions?: ReactNode; core?: ReactNode; cursor?: CursorStyle }) {
   return (
     <div className={s.page}>
       <SmoothScroll />
