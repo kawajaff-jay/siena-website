@@ -1,4 +1,4 @@
-import { TailLockup } from "./TailLockup";
+import { FooterReveal } from "./FooterReveal";
 import { CONTACT, SERVICES, SITE } from "@/content/site";
 import { asset } from "@/lib/asset";
 
@@ -7,10 +7,7 @@ export function FluxFooter({ s }: { s: Record<string, string> }) {
   return (
     <footer className={s.footer}>
       <div className={s.footTop}>
-        <div className={s.footBrand}>
-          <TailLockup alt="SIENA — AI Solutions & Systems" className={s.footLogo} sizes="320px" />
-          <p>From scattered data <em>to one intelligence.</em></p>
-        </div>
+        <FooterReveal className={s.footBrand} emClass={s.footEm} />
         <nav className={s.footCols} aria-label="Footer">
           <div>
             <h2>Navigate</h2>

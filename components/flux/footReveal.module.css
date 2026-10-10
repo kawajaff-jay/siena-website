@@ -1,0 +1,22 @@
+/* Footer Logo Reveal — the full logo wipes in behind a line of light, then the line follows. */
+.root { display: grid; gap: 22px; align-content: start; justify-items: start; }
+.logo { position: relative; display: block; width: clamp(170px, 16vw, 230px); }
+.logo > span { clip-path: inset(0 100% 0 0); filter: blur(4px); transition: clip-path 1.5s cubic-bezier(0.7, 0, 0.2, 1), filter 1.5s ease; }
+.root[data-in] .logo > span { clip-path: inset(0 0 0 0); filter: blur(0); }
+.logo::after {
+  content: ""; position: absolute; top: -6%; bottom: -6%; width: 2px; left: 0; opacity: 0; pointer-events: none;
+  background: linear-gradient(transparent, var(--cyan, #33e1ff), transparent); box-shadow: 0 0 18px var(--cyan, #33e1ff);
+}
+.root[data-in] .logo::after { animation: wipe 1.5s cubic-bezier(0.7, 0, 0.2, 1) both; }
+@keyframes wipe { 0% { left: 0; opacity: 1; } 90% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+
+.line { margin: 0; font: 600 1.1rem/1.3 var(--display); text-transform: uppercase; letter-spacing: -0.01em; }
+.line > * { display: inline; opacity: 0; transition: opacity 0.8s ease; }
+.line > :first-child { transition-delay: 1.2s; }
+.line > :last-child { transition-delay: 1.45s; }
+.root[data-in] .line > * { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .logo > span, .line > * { transition: none !important; }
+  .logo::after { animation: none !important; }
+}

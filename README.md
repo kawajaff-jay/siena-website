@@ -23,14 +23,12 @@ The homepage (`app/page.tsx`) is **Genesis Flux**: scrolling builds the SIENA sy
 | Solutions wheel (`#solution-<id>` opens a solution) | `components/flux/SolutionsTide.tsx` |
 | Header (section tracking, mobile menu), header logo with pink tail | `components/flux/FluxHeader.tsx`, `TailSymbol.tsx` |
 | About SIENA, then the Light Sweep logo interlude; Why SIENA (Without/With switch) | `components/flux/FluxWhat.tsx`, `LogoInterlude.tsx`, `FluxWhy.tsx` |
-| Contact form (opens a pre-filled email), footer | `components/flux/FluxContact.tsx`, `FluxFooter.tsx` |
+| Contact form (opens a pre-filled email), footer (Logo Reveal brand) | `components/flux/FluxContact.tsx`, `FluxFooter.tsx`, `FooterReveal.tsx` |
 | Colours, fonts, layout | `app/home.module.css` |
 
 All copy comes from `content/site.ts`.
 
 "Experience the Evolution" (any `#evolution` link, and `/story`) opens the full-screen Evolution story on top of the homepage (`components/StoryLayer.tsx`); its ending shows the logo and the six services. The previous homepage is kept at `/preview/classic`. Design explorations live under `/preview`; the logo interludes under `/preview-logo`.
-
-**To do:** use the **Logo Reveal** interlude (`<LogoInterlude variant="lockup" />`, preview `/preview-logo/lockup`) in the end section of the website.
 
 ## Where to edit
 
