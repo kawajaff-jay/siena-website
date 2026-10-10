@@ -34,10 +34,11 @@ const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 
 
 type Part = { tx: number; ty: number; sx: number; sy: number; d: number; r: number; c: string; ph: number; ox: number; oy: number; x: number; y: number; b: number };
 type Pulse = { x: number; y: number; t0: number };
+export type CursorStyle = "reticle" | "none" | "glow" | "dot" | "trail";
 type Flow = { x0: number; y0: number; t0: number; dur: number; bend: number };
 
 export function Genesis({
-  variant, palette, stages, intro, outro, backdrop, wordmarkDark = false, logoTail, coords = true,
+  variant, palette, stages, intro, outro, backdrop, wordmarkDark = false, logoTail, coords = true, cursor = "reticle",
 }: {
   variant: GenesisVariant;
   palette: GenesisPalette;
@@ -50,6 +51,8 @@ export function Genesis({
   logoTail?: string;
   /** show the X/Y readout beside the cursor reticle */
   coords?: boolean;
+  /** what follows the cursor over the hero: the targeting reticle, nothing, or a subtle glow / dot / trail */
+  cursor?: CursorStyle;
 }) {
   const track = useRef<HTMLElement>(null);
   const stageEl = useRef<HTMLDivElement>(null);
@@ -109,6 +112,11 @@ export function Genesis({
     const setData = (name: string, v: string) => { if (last["d" + name] !== v) { last["d" + name] = v; root.dataset[name] = v; } };
     const pct = root.querySelector<HTMLElement>("[data-pct]");
     const coords = root.querySelector<HTMLElement>("[data-coords]");
+    const fast = root.querySelector<HTMLElement>("[data-cursor-fast]");
+    /* the follower eases toward the pointer (glow and dot ring lag gently behind) */
+    const follow = cursor === "glow" ? 0.1 : cursor === "dot" ? 0.2 : 1;
+    let fcx = -1, fcy = -1;
+    const trail: { x: number; y: number; t: number }[] = [];
 
     const frame = (now: number) => {
       const dt = Math.min(50, now - lastT); lastT = now;
@@ -282,9 +290,25 @@ export function Genesis({
       }
       ctx.globalAlpha = 1;
 
+      /* subtle trail: a short, fading line behind the pointer */
+      if (cursor === "trail" && !reduce) {
+        if (m.in) { const lp = trail[trail.length - 1]; if (!lp || lp.x !== m.x || lp.y !== m.y) trail.push({ x: m.x, y: m.y, t: now }); }
+        while (trail.length && now - trail[0].t > 420) trail.shift();
+        ctx.lineCap = "round"; ctx.strokeStyle = palette.link;
+        for (let i = 1; i < trail.length; i++) {
+          const a = 1 - (now - trail[i].t) / 420;
+          ctx.globalAlpha = a * 0.45; ctx.lineWidth = 0.6 + a * 1.6;
+          ctx.beginPath(); ctx.moveTo(trail[i - 1].x, trail[i - 1].y); ctx.lineTo(trail[i].x, trail[i].y); ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+      }
+
       /* cursor */
+      if (fcx < 0 || !m.in) { fcx = m.x; fcy = m.y; }
+      fcx += (m.x - fcx) * follow; fcy += (m.y - fcy) * follow;
+      if (fast) { fast.style.transform = `translate(${m.x}px, ${m.y}px)`; fast.style.opacity = m.in && !reduce ? "1" : "0"; }
       if (cursorEl.current) {
-        cursorEl.current.style.transform = `translate(${m.x}px, ${m.y}px)`;
+        cursorEl.current.style.transform = `translate(${fcx.toFixed(1)}px, ${fcy.toFixed(1)}px)`;
         cursorEl.current.style.opacity = m.in && !reduce ? "1" : "0";
         if (coords && m.in) coords.textContent = `X ${(m.x / W).toFixed(3)}  Y ${(m.y / H).toFixed(3)}`;
       }
@@ -292,7 +316,7 @@ export function Genesis({
     };
     raf = requestAnimationFrame(frame);
     return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", resize); };
-  }, [palette, variant]);
+  }, [palette, variant, cursor]);
 
   const local = (e: React.PointerEvent) => {
     const rect = stageEl.current!.getBoundingClientRect();
@@ -356,10 +380,15 @@ export function Genesis({
           </svg>
         </div>
 
-        <div ref={cursorEl} className={g.cursor} aria-hidden="true">
-          <span className={g.cursorRing} />
-          {coords && <span className={g.cursorCoords} data-coords />}
-        </div>
+        {cursor !== "none" && cursor !== "trail" && (
+          <div ref={cursorEl} className={g.cursor} data-cursor={cursor} aria-hidden="true">
+            {cursor === "reticle" && <span className={g.cursorRing} />}
+            {cursor === "reticle" && coords && <span className={g.cursorCoords} data-coords />}
+            {cursor === "glow" && <span className={g.cGlow} />}
+            {cursor === "dot" && <span className={g.cRing} />}
+          </div>
+        )}
+        {cursor === "dot" && <div className={g.cursor} data-cursor-fast="" aria-hidden="true"><span className={g.cDot} /></div>}
 
         <div className={g.intro}>{intro}</div>
 

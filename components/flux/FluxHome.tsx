@@ -1,7 +1,7 @@
 import "@fontsource-variable/jetbrains-mono/wght.css";
 import type { ReactNode } from "react";
 import { HERO, WHAT } from "@/content/site";
-import { Genesis, type GenesisPalette } from "@/components/genesis/Genesis";
+import { Genesis, type CursorStyle, type GenesisPalette } from "@/components/genesis/Genesis";
 import { Spotlight } from "@/components/genesis/Spotlight";
 import { FluxHeader } from "@/components/flux/FluxHeader";
 import { FluxWhat } from "@/components/flux/FluxWhat";
@@ -27,7 +27,7 @@ const PALETTE: GenesisPalette = {
  * The Genesis Flux homepage. `solutions` replaces the solutions section (used by design previews);
  * by default it is the Tide wheel (SolutionsTide). `core` is the visual after the About text (logo-interlude previews); by default it is the Light Sweep. Keep the section id "solutions" so the header and footer links work.
  */
-export function FluxHome({ solutions, core }: { solutions?: ReactNode; core?: ReactNode }) {
+export function FluxHome({ solutions, core, cursor = "none" }: { solutions?: ReactNode; core?: ReactNode; cursor?: CursorStyle }) {
   return (
     <div className={s.page}>
       <SmoothScroll />
@@ -42,6 +42,7 @@ export function FluxHome({ solutions, core }: { solutions?: ReactNode; core?: Re
           palette={PALETTE}
           logoTail="#ff4fd8"
           coords={false}
+          cursor={cursor}
           stages={["Signals", "Connections", "Pattern", "Intelligence"]}
           backdrop={
             <div className={s.backdrop} aria-hidden="true">
