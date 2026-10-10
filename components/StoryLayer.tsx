@@ -220,6 +220,7 @@ export function StoryLayer({ plates }: { plates: AvailablePlate[] }) {
     <div
       ref={layerRef}
       className="story-layer"
+      data-lenis-prevent=""
       data-phase={phase}
       role="dialog"
       aria-modal="true"

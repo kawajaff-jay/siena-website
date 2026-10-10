@@ -11,6 +11,7 @@ import { FluxFooter } from "@/components/flux/FluxFooter";
 import { Counters, Reveal } from "@/components/flux/Reveal";
 import { SolutionsTide } from "@/components/flux/SolutionsTide";
 import { LogoInterlude } from "@/components/flux/LogoInterlude";
+import { SmoothScroll } from "@/components/flux/SmoothScroll";
 import s from "@/app/home.module.css";
 
 const PALETTE: GenesisPalette = {
@@ -29,6 +30,7 @@ const PALETTE: GenesisPalette = {
 export function FluxHome({ solutions, core }: { solutions?: ReactNode; core?: ReactNode }) {
   return (
     <div className={s.page}>
+      <SmoothScroll />
       <Reveal />
       <Counters />
       <Spotlight />

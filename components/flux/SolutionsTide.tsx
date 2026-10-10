@@ -147,7 +147,7 @@ export function SolutionsTide() {
 
       <div className={t.layout}>
         <div className={t.side}>
-          <div ref={wheel} className={t.wheel} role="tablist" aria-label="Solutions" aria-orientation="vertical" onKeyDown={onKey}>
+          <div ref={wheel} className={t.wheel} data-lenis-prevent="" role="tablist" aria-label="Solutions" aria-orientation="vertical" onKeyDown={onKey}>
             {ITEMS.map((m, i) => (
               <button
                 key={m.id}
