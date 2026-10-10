@@ -47,8 +47,6 @@ export function FluxHome({ solutions, core }: { solutions?: ReactNode; core?: Re
             <div className={s.backdrop} aria-hidden="true">
               <div className={s.haze} />
               <div className={s.scan} />
-              <span className={`${s.corner} ${s.tl}`} /><span className={`${s.corner} ${s.tr}`} />
-              <span className={`${s.corner} ${s.bl}`} /><span className={`${s.corner} ${s.br}`} />
             </div>
           }
           intro={
