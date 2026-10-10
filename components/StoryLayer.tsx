@@ -15,7 +15,6 @@ import { BrandLogo } from "./BrandLogo";
 import { TailSymbol } from "./flux/TailSymbol";
 import { ERAS } from "@/content/eras";
 import { SOLUTIONS_ARRIVE_EVENT, STORY_HASH, STORY_OPEN_EVENT, STORY_OPENED_EVENT, type FnChip } from "@/lib/story";
-import { REDUCED_QUERY } from "@/lib/mode";
 import { useChapterSettle } from "@/lib/useChapterSettle";
 import type { AvailablePlate } from "@/lib/plates.server";
 
@@ -152,14 +151,18 @@ export function StoryLayer({ plates }: { plates: AvailablePlate[] }) {
       setScroller(null);
       setApi(null);
       document.documentElement.classList.remove("story-open");
-      window.scrollTo({ top: savedY.current, behavior: "auto" });
       if ("scrollRestoration" in history) history.scrollRestoration = "auto";
-      const target = afterClose.current ? document.querySelector(afterClose.current) : null;
+      const target = afterClose.current ? document.querySelector<HTMLElement>(afterClose.current) : null;
       if (target) {
-        const reduced = window.matchMedia(REDUCED_QUERY).matches;
-        requestAnimationFrame(() => target.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" }));
-        (target as HTMLElement).focus?.({ preventScroll: true });
+        /* land directly on the section (the story fades away over it), rather than gliding through the page from where
+           the visitor opened the story; then re-check once, as phone browsers can restore the old position late */
+        const land = () => window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY, behavior: "auto" });
+        land();
+        requestAnimationFrame(land);
+        window.setTimeout(() => { if (Math.abs(target.getBoundingClientRect().top) > 4) land(); }, 350);
+        target.focus?.({ preventScroll: true });
       } else {
+        window.scrollTo({ top: savedY.current, behavior: "auto" });
         returnFocus.current?.focus?.({ preventScroll: true });
       }
     }, FADE_MS);
