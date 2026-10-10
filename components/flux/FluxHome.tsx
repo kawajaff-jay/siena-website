@@ -39,11 +39,11 @@ export function FluxHome({ solutions, core }: { solutions?: ReactNode; core?: Re
           variant="flux"
           palette={PALETTE}
           logoTail="#ff4fd8"
+          coords={false}
           stages={["Signals", "Connections", "Pattern", "Intelligence"]}
           backdrop={
             <div className={s.backdrop} aria-hidden="true">
               <div className={s.haze} />
-              <div className={s.floor}><div className={s.grid} /></div>
               <div className={s.scan} />
               <span className={`${s.corner} ${s.tl}`} /><span className={`${s.corner} ${s.tr}`} />
               <span className={`${s.corner} ${s.bl}`} /><span className={`${s.corner} ${s.br}`} />

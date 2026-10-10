@@ -37,7 +37,7 @@ type Pulse = { x: number; y: number; t0: number };
 type Flow = { x0: number; y0: number; t0: number; dur: number; bend: number };
 
 export function Genesis({
-  variant, palette, stages, intro, outro, backdrop, wordmarkDark = false, logoTail,
+  variant, palette, stages, intro, outro, backdrop, wordmarkDark = false, logoTail, coords = true,
 }: {
   variant: GenesisVariant;
   palette: GenesisPalette;
@@ -48,6 +48,8 @@ export function Genesis({
   wordmarkDark?: boolean;
   /** colour laid over the lower tail of the finished logo (as on the header symbol); omit for none */
   logoTail?: string;
+  /** show the X/Y readout beside the cursor reticle */
+  coords?: boolean;
 }) {
   const track = useRef<HTMLElement>(null);
   const stageEl = useRef<HTMLDivElement>(null);
@@ -356,7 +358,7 @@ export function Genesis({
 
         <div ref={cursorEl} className={g.cursor} aria-hidden="true">
           <span className={g.cursorRing} />
-          <span className={g.cursorCoords} data-coords />
+          {coords && <span className={g.cursorCoords} data-coords />}
         </div>
 
         <div className={g.intro}>{intro}</div>
